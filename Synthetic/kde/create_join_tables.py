@@ -10,7 +10,7 @@ def create_joins_script_generate(join_sample_dir, database):
             with open('{}/{}.csv'.format(join_sample_dir, key), 'r') as f:
                 head = f.readline().strip()
                 columns = [x.replace(':', '_') for x in head.split(',')]
-            sqls.append('CREATE TABLE IF NOT EXISTS {} ({});'.format(key, ','.join([x+' NUMERIC' for x in columns])))
+            sqls.append('CREATE TABLE IF NOT EXISTS {} ({});'.format(key, ','.join([x+' FLOAT' for x in columns])))
             sqls.append("\copy {} FROM '{}' CSV HEADER;".format(key, '{}/{}.csv'.format(join_sample_dir, key)))
     with open('script.sql', 'w') as f:
         for sql in sqls:

@@ -237,8 +237,8 @@ def gen_imdb_schema(csv_path):
 
 def gen_job_ranges_imdb_schema(csv_path, version):
     """
-    Just like the full IMDB schema but without tables that are not used in the job-light benchmark.
-    """
+    Write what you need schema here
+    
     schema = SchemaGraph()
 
     # tables
@@ -254,3 +254,4 @@ def gen_job_ranges_imdb_schema(csv_path, version):
                            table_size=100000))
 
     return schema
+    """

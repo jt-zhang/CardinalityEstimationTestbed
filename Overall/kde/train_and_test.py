@@ -8,11 +8,9 @@ import numpy as np
 from scipy import stats
 from tqdm import tqdm
 L = logging.getLogger(__name__)
-table2alias = {'cast_info':'ci', 'movie_companies':'mc', 'movie_info':'mi', 'movie_info_idx':'mi_idx', 'movie_keyword':'mk', 'title':'t'}
-alias2table = {'ci':'cast_info', 'mc':'movie_companies', 'mi':'movie_info', 'mi_idx':'movie_info_idx', 'mk':'movie_keyword', 't':'title'}
 
 class FeedbackKDE():
-    def __init__(self, database_conf, seed, sample_num, retrain, recollect, join_sample_dir, use_gpu):
+    def __init__(self, database_conf, seed, sample_num, retrain, recollect, use_gpu):
 
         self.conn = psycopg2.connect(host=database_conf['host'],
                                     database=database_conf['database'],
@@ -43,10 +41,6 @@ class FeedbackKDE():
         self.cursor.execute("SET kde_enable TO true;")
         self.cursor.execute("SET kde_collect_feedback TO true;")
 
-        import pickle
-        with open(f'{join_sample_dir}/pattern2totalnum.pkl', 'rb') as f:
-            self.pattern2totalnum = pickle.load(f)
-
         self.trained_table = set([])
 
 
@@ -72,17 +66,17 @@ class FeedbackKDE():
         cond = []
         if len(tables) > 1:
             for i in range(int(len(conditions) / 3)):
-                cond.append(alias2table[conditions[i*3].split('.')[0]]+'_'+conditions[i*3].split('.')[1]+conditions[i*3+1]+conditions[i*3+2])
+                cond.append(conditions[i*3].split('.')[0]+'_'+conditions[i*3].split('.')[1]+conditions[i*3+1]+conditions[i*3+2])
             self.trained_table.add('_'.join(sorted(alias)))
             return 'SELECT * FROM '+ '_'.join(sorted(alias)) + ' WHERE ' + ' AND '.join(cond) + ';'
         else:
             for i in range(int(len(conditions) / 3)):
                 cond.append(conditions[i*3].split('.')[1]+conditions[i*3+1]+conditions[i*3+2])
-            self.trained_table.add(alias2table[alias[0]])
-            return 'SELECT * FROM '+ alias2table[alias[0]] + ' WHERE ' + ' AND '.join(cond) + ';'
+            self.trained_table.add(alias[0])
+            return 'SELECT * FROM '+ tables[0] + ' WHERE ' + ' AND '.join(cond) + ';'  # alias[0]
 
 
-    def train_batch(self, queries, single_data_dir, join_sample_dir, retrain, recollect):
+    def train_batch(self, queries, single_data_dir, retrain, recollect):
         for i, query in tqdm(enumerate(queries)):
             if retrain:
                 self.transform(query)
@@ -95,22 +89,6 @@ class FeedbackKDE():
         self.cursor.execute("SET kde_collect_feedback TO false;") # We don't need further feedback collection.
         self.cursor.execute("SET kde_enable_bandwidth_optimization TO true;")
         self.cursor.execute(f"SET kde_optimization_feedback_window TO {len(queries)};")
-        
-
-        for f in listdir(join_sample_dir):
-            if f.endswith('.csv'):
-                table_name = f[:-4]
-                if table_name in self.trained_table:
-                    with open(f'{join_sample_dir}/{f}', 'r') as ff:
-                        columns = [x.replace(':', '_') for x in ff.readline().strip().split(',')]
-                    stat_cnt = 100
-                    for c in columns:
-                        self.cursor.execute(f"alter table {table_name} alter column {c} set statistics {stat_cnt};")
-                    self.cursor.execute(f"analyze {table_name}({','.join(columns)});")
-                    self.conn.commit()
-                    sample_file = f"/tmp/sample_{table_name}.csv"
-                    self.cursor.execute(f"SELECT kde_dump_sample('{table_name}', '{sample_file}');")
-
         
         for f in listdir(single_data_dir):
             if f.endswith('.csv'):
@@ -207,7 +185,6 @@ if __name__ == '__main__':
     parser.add_argument('--train-query-file', type=str)
     parser.add_argument('--test-query-file', type=str)
     parser.add_argument('--single-data-dir', type=str)
-    parser.add_argument('--join-sample-dir', type=str)
     parser.add_argument('--database', type=str)
     parser.add_argument('--sample-num', type=int)
     parser.add_argument('--train-num', type=int, default=10000)
@@ -225,11 +202,11 @@ if __name__ == '__main__':
         queries = queries[:min(args.train_num, len(queries))]
 
     L.info("construct postgres estimator...")
-    estimator = FeedbackKDE(database_conf, args.seed, args.sample_num, args.retrain, args.recollect, args.join_sample_dir, args.use_gpu)
+    estimator = FeedbackKDE(database_conf, args.seed, args.sample_num, args.retrain, args.recollect, args.use_gpu)
 
     L.info(f"start training with {len(queries)} queries...")
     start_stmp = time.time()
-    estimator.train_batch(queries, args.single_data_dir, args.join_sample_dir, args.retrain, args.recollect)
+    estimator.train_batch(queries, args.single_data_dir, args.retrain, args.recollect)
     dur_min = (time.time() - start_stmp) / 60
     L.info(f"built kde estimator: {estimator}, using {dur_min:1f} minutes")
 
@@ -239,11 +216,10 @@ if __name__ == '__main__':
         est_cards = []
         durs = []
         for query in test_queries:
-            # true_card = int(query.split(',')[-1].strip())
-            true_card, _ = estimator.oracle_query(query)
+            true_card = int(query.split(',')[-1].strip())
+            #true_card, _ = estimator.oracle_query(query)
             if true_card > 0:
                 est_card, dur_ms = estimator.query(query)
-                print (true_card, est_card)
                 true_cards.append(true_card)
                 est_cards.append(est_card)
                 durs.append(dur_ms)
