@@ -1,0 +1,1 @@
+python run.py --train-file /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/powertrain.sql --test-file /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/powertest.sql --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/power_min_max_vals.csv --model xgb --version power
