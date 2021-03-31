@@ -10,4 +10,5 @@ CardinalityEstimationTestbed
 
 ## Experiment of overall
 ### run
-- Data tables and queries paths need to be configured, and some methods need Schemafile to be written. Refer to run.sh in each method folder to execute the code and get the result.
+- Data tables and queries paths need to be configured, and some methods need Schemafile to be written.
+- Then refer to run.sh in each method folder to execute the code can get the result.
