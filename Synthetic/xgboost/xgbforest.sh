@@ -1,0 +1,1 @@
+python run.py --train-file /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/foresttrain.sql --test-file /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/foresttest.sql --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/forest_min_max_vals.csv --model nn --version forest
