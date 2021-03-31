@@ -9,6 +9,6 @@ CardinalityEstimationTestbed
 `python get_result.py`
 
 ## Experiment of overall
-### run
+### Run each experiment separately
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to run.sh in each method folder to execute the code can get the result.
