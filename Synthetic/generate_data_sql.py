@@ -1,9 +1,6 @@
-import random
-import logging
 import numpy as np
 import pandas as pd
 from scipy.stats import truncnorm, truncexpon, genpareto
-from typing import Dict, Any
 import os
 from numpy.random import choice
 import argparse
@@ -17,7 +14,7 @@ parser.add_argument('--skew', type=float, help='datasets_dir', default=5)
 
 args = parser.parse_args()
 
-dom = args.distinct
+distinct = args.distinct
 cols = args.cols
 corr = args.corr
 skew = args.skew
@@ -25,46 +22,41 @@ skew = args.skew
 version = 'cols_' + str(cols) + '_distinct_' + str(args.distinct) + '_corr_' + str(int(corr)) + '_skew_' + str(int(skew))
 
 corr = args.corr/10
-skew = args.skew/10  # 除10为了create table
+skew = args.skew/10  # create table
 
 path = '/home/zhangjintao/Benchmark3/csvdata_sql'
 csv_path = path+ '/' f"{version}.csv"
-csv_path2 = path+ '/' f"{version}_nohead.csv"
+csv_path2 = path+ '/' f"{version}_nohead.csv" # for deepdb
 seed = 2
-L = logging.getLogger(__name__)
 
 for i in range(cols-1):
     seed = seed + 1
     row_num = 100000  # 
-    col_num = 2
-
-    random.seed(seed)
     np.random.seed(seed)
-
-    # generate the first column according to skew
-    col0 = np.arange(dom) # make sure every domain value has at least 1 value
-    tmp = genpareto.rvs(skew-1, size=row_num-len(col0)) # c = skew - 1, so we can have c >= 0
-    tmp = ((tmp - tmp.min()) / (tmp.max() - tmp.min())) * dom # rescale generated data to the range of domain
-    col0 = np.concatenate((col0, np.clip(tmp.astype(int), 0, dom-1)))
-
-    # generate the second column according to the first
-    col1 = []
-    for c0 in col0:
-        col1.append(c0 if np.random.uniform(0, 1) <= corr else np.random.choice(dom))
+    # The first column is generated according to skew
+    skewfunc = genpareto.rvs(skew-1, size=row_num-distinct) # probability distribution function
+    skewfunc = ((skewfunc - skewfunc.min()) / (skewfunc.max() - skewfunc.min())) # normalization
+    skewfunc = skewfunc * distinct # Satisfies the unique value condition
+    intskewfunc = skewfunc.astype(int)
+    col0 = np.concatenate((np.arange(distinct), np.clip(intskewfunc, 0, distinct-1))) # Ensure that each field value has at least one value
+    colother = []
+    for n in col0:
+        if np.random.uniform(0, 1) <= corr:
+            colother.append(n)
+        else:
+            colother.append(np.random.choice(distinct)) # corr
     if i == 0:
-        df = pd.DataFrame(data={'col' + str(2*i): col0, 'col' + str(2*i+1): col1})
+        df['col' + str(2*i)] = col0
+        df['col' + str(2*i+1)] = colother
     else:
-        df['col' + str(i+1)] = col1
-    
-
-L.info(f"Dump as version {version} to disk")
+        df['col' + str(i+1)] = colother
 df.to_csv(csv_path, index=False)
-df.to_csv(csv_path2, index=False, header = False)
+df.to_csv(csv_path2, index=False, header = False) # using for deepdb
 
-ops = ['=', '<', '>']  #训练和测试均无 >=, <=
+ops = ['=', '<', '>']  # train and test all not contain >=, <=
 f2 = open('/home/zhangjintao/Benchmark3/csvdata_sql/'+ version + '.sql','w')
-for i in range(3600000):   # 尽可能多的sql
-    a = list(np.random.randint(0, dom, 1))[0]
+for i in range(3600000):   # as much as possible sqls
+    a = list(np.random.randint(0, distinct, 1))[0]
     sql = 'SELECT COUNT(*) FROM ' + version + ' cdcs WHERE '
     for i in range(cols):
         sql += 'cdcs.col' + str(i) + choice(ops) + str(a) + ' AND '
