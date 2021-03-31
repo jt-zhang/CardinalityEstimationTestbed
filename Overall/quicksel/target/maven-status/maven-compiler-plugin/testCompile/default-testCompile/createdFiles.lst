@@ -1,0 +1,14 @@
+edu/illinois/quicksel/experiments/PerAttAndSamplingTest.class
+edu/illinois/quicksel/experiments/DMVSpeedComparison.class
+edu/illinois/quicksel/basic/SyntheticDataGenerator.class
+edu/illinois/quicksel/experiments/SpeedComparison.class
+edu/illinois/quicksel/basic/TestQuickSel.class
+edu/illinois/quicksel/basic/VisualCheck.class
+edu/illinois/quicksel/basic/TestIsomer.class
+edu/illinois/quicksel/experiments/InstacartSpeedComparison.class
+edu/illinois/quicksel/basic/AssertionReader.class
+edu/illinois/quicksel/basic/HelloWorld.class
+edu/illinois/quicksel/experiments/JOBSpeedComparison.class
+edu/illinois/quicksel/basic/HeatmapTest$1.class
+edu/illinois/quicksel/basic/HeatmapTest.class
+edu/illinois/quicksel/basic/VisualCheck$1.class
