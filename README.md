@@ -23,7 +23,7 @@ CardinalityEstimationTestbed
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 #### Distinct
-- The data of the distinct is first generated and populated.\
+- First, the data of the distinct is generated and populated.\
 `cd CardinalityEstimationTestbed\Overall\imdb\distinct`\
 `python data_process.py`
 - Next, generate training test queries of different distinct.\
