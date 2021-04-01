@@ -10,6 +10,6 @@ CardinalityEstimationTestbed
 
 ## Experiment of overall
 ### Imdb
-- 首先将数据表中字符串类型
+- First, the string in the data table is converted to a number.
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to run.sh in each method folder to execute the code to get the result.
