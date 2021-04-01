@@ -68,10 +68,6 @@ os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcar
 os.system(train)
 os.system(test)
 
-import os
-import subprocess
-import argparse
-
 # parser.add_argument('--model', type=str, help='nn||xgb', default='nn')
 
 # model = args.model
