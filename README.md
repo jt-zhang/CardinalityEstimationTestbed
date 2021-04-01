@@ -10,6 +10,14 @@ CardinalityEstimationTestbed
 
 ## Experiment of overall
 ### Imdb
-- First, the string in the data table is converted to a number.
+- First, the strings in the data table should be converted to numbers.
+`python generate_data_sql.py --cols ' + str(cols) + ' --distinct ' + str(distinct) + ' --corr ' + str(corr) + ' --skew ' + str(skew)`
+#### Cols
+
+#### Distinct
+
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to run.sh in each method folder to execute the code to get the result.
+
+### Forest_&_power
+
