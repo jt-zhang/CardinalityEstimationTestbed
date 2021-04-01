@@ -9,6 +9,7 @@ CardinalityEstimationTestbed
 `python get_result.py`
 
 ## Experiment of overall
-### Run each experiment separately
+### Imdb
+- 首先将数据表中字符串类型
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to run.sh in each method folder to execute the code to get the result.
