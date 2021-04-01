@@ -162,7 +162,7 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         train_end = time.time()
 
         print("Training Time: {}s".format(train_end - train_start))
-        fmetric.write("Training Time: {}s".format(train_end - train_start)+ '\n')  # 写入训练时间
+        fmetric.write("Training Time: {}s".format(train_end - train_start)+ '\n')  # Write training time
         '''
         # Get final training and validation set predictions
         preds_train, t_total = predict(model, train_data_loader, cuda)

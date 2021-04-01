@@ -167,8 +167,8 @@ class JoinDataPreparator:
 
     def _get_null_value(self, table, attribute):
         null_value_index = self.table_meta_data[table]['relevant_attributes_full'] \
-            .index(attribute)  # 得到列索引
-        return self.table_meta_data[table]['null_values_column'][null_value_index] #得到空值
+            .index(attribute)  # Get the column index
+        return self.table_meta_data[table]['null_values_column'][null_value_index] # Get a null value
 
     def _sampling_rate(self, table_name):
         full_table_size = self.schema_graph.table_dictionary[table_name].table_size
@@ -296,7 +296,7 @@ class JoinDataPreparator:
                                                                              relationship_list=relationship_list,
                                                                              min_start_table_size=min_start_table_size,
                                                                              sample_rate=sample_rate,
-                                                                             drop_redundant_columns=drop_redundant_columns)  # 连接采样重点
+                                                                             drop_redundant_columns=drop_redundant_columns)  # Key points of connection sampling
 
         if len(df_full_samples) > sample_size:
             df_full_samples = df_full_samples.sample(sample_size)
@@ -333,14 +333,14 @@ class JoinDataPreparator:
         """
         Samples from FULL OUTER JOIN to provide training data for SPN.
         """
-        # drop_redundant_columns=False #超参数
+        # drop_redundant_columns=False # hyper-parameter
         assert single_table is None or relationship_list is None, "Either specify a single table or a set of relations"
         assert single_table is not None or relationship_list is not None, "Provide either table or set of relations"
 
         logging.debug(f"generate_join_sample(single_table={single_table}, relationship_list={relationship_list}, split_condition={split_condition})")
         if single_table is not None:
 
-            df_samples = self._get_table_data(self.table_meta_data[single_table]['hdf_path'], single_table)  #df.samples来源
+            df_samples = self._get_table_data(self.table_meta_data[single_table]['hdf_path'], single_table)  #df.samples source
             if sample_rate < 1:
                 df_samples = df_samples.sample(prob_round(len(df_samples) * sample_rate))
 
@@ -366,7 +366,7 @@ class JoinDataPreparator:
                         df_samples = df_samples.drop(columns=[id_attribute])
 
             # remove unnecessary fk id field
-            del_fk_cols = []  # 删数据？
+            del_fk_cols = []  # drop data
             for outgoing_relationship in table_obj.outgoing_relationships:
                 if outgoing_relationship.start_attr not in table_obj.keep_fk_attributes:
                     del_fk_cols.append(single_table + '.' + outgoing_relationship.start_attr)
@@ -376,7 +376,7 @@ class JoinDataPreparator:
             # Final null value imputation of other columns
             # build null value data structure
             # build data structure reflecting the meta types
-            meta_types = [] # meta_type来源
+            meta_types = [] # meta_type 
             null_values = []
             for column in df_samples.columns:
 
@@ -384,7 +384,7 @@ class JoinDataPreparator:
                 # does it belong to any table
                 if column in self.table_meta_data[single_table]['relevant_attributes_full']:
                     if self.table_meta_data[single_table]['categorical_columns_dict'].get(column) is not None:
-                        meta_types.append(MetaType.DISCRETE)  # 添加meta_type
+                        meta_types.append(MetaType.DISCRETE)  # add meta_type
                     else:
                         meta_types.append(MetaType.REAL)
 
@@ -392,7 +392,7 @@ class JoinDataPreparator:
                         null_values.append(None)
                     else:
                         null_value = self._get_null_value(single_table, column)
-                        print('Null value: ', null_value)  # null value是什么？
+                        print('Null value: ', null_value)  # null value is？
                         null_values.append(null_value)
 
                     matched = True
@@ -636,7 +636,7 @@ def prepare_sample_hdf(schema, hdf_path, max_table_data, sample_size, version):
     max_join_relationships, _ = create_random_join(schema, len(schema.relationships))
     start_table, _ = prep._find_start_table(max_join_relationships, 1)
     logger.debug(f"Creating sample for {start_table}")
-    start_table = version  # 赋值
+    start_table = version  # assignment
     print('start_table:', start_table)
     sampled_tables = {start_table}
     df_sample_cache = dict()

@@ -280,7 +280,7 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
         ensemble_path += version + '.sql.deepdb.model.pkl'
     else:
         # ensemble_path += f'/ensemble_join_{max_no_joins}_budget_{ensemble_budget_factor}_{spn_sample_size[0]}.pkl '
-        ensemble_path += version + '.sql.deepdb.model.pkl'   # ensemble_path已修改
+        ensemble_path += version + '.sql.deepdb.model.pkl'   # Ensemble_path modified
     logger.info(f"Saving ensemble to {ensemble_path}")
     spn_ensemble.save(ensemble_path)
 

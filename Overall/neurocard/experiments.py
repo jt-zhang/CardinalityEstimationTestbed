@@ -98,7 +98,7 @@ BASE_CONFIG = {
     'num_orderings': 1,
     'num_dmol': 0,
 }
-# 改这里
+# change here
 JOB_LIGHT_BASE = {
     'dataset': 'imdb',
     'join_tables': [
@@ -252,7 +252,7 @@ EXPERIMENT_CONFIGS = {
             'label_smoothing': tune.grid_search([0]),
             'word_size_bits': tune.grid_search([11]),
         }),
-    # JOB-light-ranges, NeuroCard base.     # 改这里！！！
+    # JOB-light-ranges, NeuroCard base.     # change here
     'job-light-ranges': dict(
         dict(dict(BASE_CONFIG, **JOB_LIGHT_BASE), **FACTORIZE),
         **{
@@ -499,7 +499,7 @@ TEST_CONFIGS['test-job-light-ranges'] = dict(
         },
     })
 
-# 改这里
+# change here
 TEST_CONFIGS['job-light-ranges-reload'] = dict(
     EXPERIMENT_CONFIGS['job-light-ranges'],
     **{

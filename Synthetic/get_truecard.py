@@ -20,12 +20,12 @@ schemasql = fschema.read()
 dropsql = 'DROP TABLE ' + version + ';'
 
 try:
-    db_connection.submit_query(dropsql)   # 清除当前名称的表
+    db_connection.submit_query(dropsql)   # Clear the table with the current name
 except Exception as e:
     pass
 
 try:
-    db_connection.submit_query(schemasql)  # 创建schema
+    db_connection.submit_query(schemasql)  # establish schema
 except Exception as e:
     pass
 
@@ -37,7 +37,7 @@ df = pd.read_csv('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '.csv',
 columns = tuple(df.columns)
 connection = psycopg2.connect(user='postgres', host="/var/run/postgresql", database='postgres')
 cur = connection.cursor()
-file = open('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '_nohead.csv','r')  # 读取无表头的文件
+file = open('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '_nohead.csv','r')  # Read a file without a header
 cur.copy_from(file, version , sep=',')
 connection.commit()
 

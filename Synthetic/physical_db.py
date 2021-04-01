@@ -55,7 +55,7 @@ class DBConnection:
                                       port=self.db_port,
                                       database=self.db)
         cursor = connection.cursor()
-        cursor.execute('set statement_timeout to 18000')  # 注释
+        cursor.execute('set statement_timeout to 18000')  # 
         cursor.execute(sql)
         record = cursor.fetchone()
         result = record[0]

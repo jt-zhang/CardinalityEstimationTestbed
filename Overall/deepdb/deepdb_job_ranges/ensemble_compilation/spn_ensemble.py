@@ -1040,8 +1040,8 @@ class SPNEnsemble:
         auxilary_query.table_where_condition_dict = query.table_where_condition_dict
 
         factors.append(first_spn.full_join_size)
-        conditions = first_spn.relevant_conditions(auxilary_query)  # 条件
-        multipliers = first_spn.compute_multipliers(auxilary_query)  # 修正（重要）
+        conditions = first_spn.relevant_conditions(auxilary_query)  # 
+        multipliers = first_spn.compute_multipliers(auxilary_query)  # 
 
         # E(1/multipliers * 1_{c_1 Λ… Λc_n})
         expectation = IndicatorExpectation(multipliers, conditions, spn=first_spn, table_set=auxilary_query.table_set)

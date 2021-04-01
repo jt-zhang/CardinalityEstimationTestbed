@@ -78,7 +78,7 @@ def prepare_samples(sql_path, samples):
                         else:
                             bool_array = bool_array & barray
                         # print('bool_array', bool_array)
-                        sample_bitmap.append(bool_array.astype(int).values)  # 只有单表col6,8要缩进
+                    sample_bitmap.append(bool_array.astype(int).values)  # Only single tables col6,8 are indented
                 except Exception as e:
                     # f2.write('Pass '+query+'\n')
                     pass

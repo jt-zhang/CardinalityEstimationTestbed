@@ -83,7 +83,7 @@ class JoinOrderBenchmark(object):
             'title.csv': ['id', 'production_year','phonetic_code' ,'series_years','kind_id'],
             'cast_info.csv': ['movie_id', 'role_id'],
             'movie_info': ['movie_id','info_type_id'],
-        })  # 修改这里
+        })  # Modified here
 
     JOB_M_PRED_COLS = collections.defaultdict(
         list, {
@@ -172,7 +172,7 @@ class JoinOrderBenchmark(object):
         if JoinOrderBenchmark._CONTENT_COLS is None:
             JoinOrderBenchmark._CONTENT_COLS = {
                 '{}.csv'.format(table_name):
-                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
+                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # here
                 for table_name, range_cols in
                 JoinOrderBenchmark.RANGE_COLUMNS.items()
             }
@@ -253,7 +253,7 @@ def LoadImdb(table=None,
         #elif use_cols == 'content':
         #    return JoinOrderBenchmark.ContentColumns().get(filepath, None)
         elif use_cols == 'content':
-            return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)  # 修改
+            return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)  # modification
         elif use_cols == 'multi':
             return JoinOrderBenchmark.JOB_M_PRED_COLS.get(filepath, None)
         elif use_cols == 'full':

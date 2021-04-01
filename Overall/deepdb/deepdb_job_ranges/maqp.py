@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser.add_argument('--generate_hdf', help='Prepare hdf5 files for single tables', action='store_true')
     parser.add_argument('--generate_sampled_hdfs', help='Prepare hdf5 files for single tables', action='store_true')
     parser.add_argument('--csv_seperator', default=',')
-    parser.add_argument('--csv_path', default='/home/zhangjintao/Benchmark3/csvdata_sql')  # 已修改 无表头
-    parser.add_argument('--version', default='cols_4_distinct_1000_corr_5_skew_5')  # 已修改 无表头
+    parser.add_argument('--csv_path', default='/home/zhangjintao/Benchmark3/csvdata_sql')  # No header has been modified
+    parser.add_argument('--version', default='cols_4_distinct_1000_corr_5_skew_5')  # No header has been modified
     parser.add_argument('--hdf_path', default='../imdb-benchmark/gen_single_light')
     parser.add_argument('--max_rows_per_hdf_file', type=int, default=100000000)
     parser.add_argument('--hdf_sample_size', type=int, default=10000)
@@ -78,16 +78,16 @@ if __name__ == '__main__':
     parser.add_argument('--ensemble_location', nargs='+',
                         default=['../ssb-benchmark/spn_ensembles/ensemble_single_ssb-500gb_10000000.pkl',
                                  '../ssb-benchmark/spn_ensembles/ensemble_relationships_ssb-500gb_10000000.pkl'])
-    parser.add_argument('--query_file_location', default='./benchmarks/ssb/sql/cardinality_queries.sql')  # 外部写入
+    parser.add_argument('--query_file_location', default='./benchmarks/ssb/sql/cardinality_queries.sql')  # External write
     parser.add_argument('--ground_truth_file_location',
-                        default='./benchmarks/ssb/sql/cardinality_true_cardinalities_100GB.csv')  # 外部写入
-    parser.add_argument('--database_name', default='postgres')  # 已修改
-    parser.add_argument('--target_path', default='../ssb-benchmark/results')  # 外部写入
-    parser.add_argument('--raw_folder', default='../ssb-benchmark/results')  # 外部写入
+                        default='./benchmarks/ssb/sql/cardinality_true_cardinalities_100GB.csv')  # External write
+    parser.add_argument('--database_name', default='postgres')  # modified
+    parser.add_argument('--target_path', default='../ssb-benchmark/results')  # External write
+    parser.add_argument('--raw_folder', default='../ssb-benchmark/results')  # External write
     parser.add_argument('--confidence_intervals', help='Compute confidence intervals', action='store_true')
     parser.add_argument('--max_variants', help='How many spn compilations should be computed for the cardinality '
                                                'estimation. Seeting this parameter to 1 means greedy strategy.',
-                        type=int, default=1)  # 外部写入
+                        type=int, default=1)  # External write
     parser.add_argument('--no_exploit_overlapping', action='store_true')
     parser.add_argument('--no_merge_indicator_exp', action='store_true')
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
     elif args.dataset == 'tpc-ds-1t':
         schema = gen_1t_tpc_ds_schema(table_csv_path)
     elif args.dataset == 'imdb-ranges':
-        schema = gen_job_ranges_imdb_schema(table_csv_path, version)  # 加一个参数
+        schema = gen_job_ranges_imdb_schema(table_csv_path, version)  # Add a parameter
           
     else:
         raise ValueError('Dataset unknown')
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     # Generate sampled HDF files for fast join calculations
     if args.generate_sampled_hdfs:
         logger.info(f"Generating sampled HDF files for tables in {args.csv_path} and store to path {args.hdf_path}")
-        prepare_sample_hdf(schema, args.hdf_path, args.max_rows_per_hdf_file, args.hdf_sample_size, version) # 加一个参数
+        prepare_sample_hdf(schema, args.hdf_path, args.max_rows_per_hdf_file, args.hdf_sample_size, version) # Add a parameter
         logger.info(f"Files successfully created")
         # Pretime
 
@@ -180,7 +180,7 @@ if __name__ == '__main__':
                                  args.post_sampling_factor, args.ensemble_budget_factor, args.ensemble_max_no_joins,
                                  args.rdc_threshold, args.pairwise_rdc_path,
                                  incremental_learning_rate=args.incremental_learning_rate,
-                                 incremental_condition=args.incremental_condition )  # 加一个参数
+                                 incremental_condition=args.incremental_condition )  # Add a parameter
         else:
             raise NotImplementedError
         # Traintime

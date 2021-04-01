@@ -4,7 +4,7 @@ export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_40/
 export PATH=$JAVA_HOME/bin:$PATH
 java -classpath target/test-classes:target/quickSel-0.1-jar-with-dependencies.jar -Xmx32g -Xms1g edu.illinois.quicksel.experiments.JOBSpeedComparison /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/JOB/power/ 5000
 
-# 要修改printerror的路�?
+# To modify the path of a Print Error
 
 cd /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/
 python print_errors.py --testpath ./power/

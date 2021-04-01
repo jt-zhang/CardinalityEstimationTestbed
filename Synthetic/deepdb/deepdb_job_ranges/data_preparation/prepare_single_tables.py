@@ -52,7 +52,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
     table_sample_rate = table_obj.sample_rate
 
     relevant_attributes = [x for x in table_obj.attributes if x not in table_obj.irrelevant_attributes]
-    # relevant_attributes = [x for x in table_obj.attributes if x not in table_obj.irrelevant_attributes]  # 删掉了不相关的列（重要）
+    # relevant_attributes = [x for x in table_obj.attributes if x not in table_obj.irrelevant_attributes]  # Removed irrelevant columns (important)
 
     table_meta_data['hdf_path'] = path
     table_meta_data['incoming_relationship_means'] = {}
@@ -67,7 +67,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
         if len(fd_children) > 0:
             for child in fd_children:
                 logger.info(f"Managing functional dependencies for {child}->{attribute}")
-                distinct_tuples = table_data.drop_duplicates([attribute, child])[[attribute, child]].values  # 整表去重
+                distinct_tuples = table_data.drop_duplicates([attribute, child])[[attribute, child]].values  # The whole table to heavy
                 reverse_dict = {}
                 for attribute_value, child_value in distinct_tuples:
                     if reverse_dict.get(attribute_value) is None:
@@ -78,7 +78,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
                 table_meta_data['fd_dict'][attribute][child] = reverse_dict
             # remove from dataframe and relevant attributes
             cols_to_be_dropped.append(attribute)
-            print('cols_to_be_dropped: ',cols_to_be_dropped ) # 去掉XX列
+            print('cols_to_be_dropped: ',cols_to_be_dropped ) # drop XX colunm
             relevant_attributes.remove(attribute_wo_table)
     table_data.drop(columns=cols_to_be_dropped, inplace=True)
 
@@ -139,7 +139,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
 
     # null value imputation and categorical value replacement
     logger.info("Preparing categorical values and null values for table {}".format(table))
-    table_meta_data['categorical_columns_dict'] = {}  # 判断 IN, NOT IN 等操作符的标志
+    table_meta_data['categorical_columns_dict'] = {}  # Determine the flag for the IN, NOT IN, and other operators
     table_meta_data['null_values_column'] = []
     del_cat_attributes = []
 
@@ -157,7 +157,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
             if len(distinct_vals) > max_distinct_vals:
                 del_cat_attributes.append(rel_attribute)
                 logger.info("Ignoring column {} for table {} because "
-                            "there are too many categorical values".format(rel_attribute, table))  # 扔掉dictinct value太多的列
+                            "there are too many categorical values".format(rel_attribute, table))  # Throw away the dictinct value too many columns
             # all values nan does not provide any information
             elif not table_data[attribute].notna().any():
                 del_cat_attributes.append(rel_attribute)
@@ -168,7 +168,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
                     val_dict[np.nan] = 0
                 else:
                     val_dict = dict(zip(distinct_vals, range(1, len(distinct_vals) + 1)))
-                    val_dict[np.nan] = 0  # 空值为0 , val_dict是对于特定属性 distinct_vals 映射至 1到len(distinct_vals) + 1   nan 映射至 0
+                    val_dict[np.nan] = 0  # NULL value is 0, val_dict is for a specific property distinct_vals maps to 1 to len(distinct_vals) + 1 NaN maps to 0
                 table_meta_data['categorical_columns_dict'][attribute] = val_dict  #将val_dict存入meta_data
 
                 table_data[attribute] = table_data[attribute].map(val_dict.get)

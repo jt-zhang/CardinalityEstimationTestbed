@@ -1037,10 +1037,10 @@ class NeuroCard(tune.Trainable):
             # MSE, MAPE
             if(estimators[0]==est):
                 met0.append(card)
-                mee0.append(est_card)  # 可以两个估计器
+                mee0.append(est_card)  # There are two estimators
             if(len(estimators)==2):
                 if(estimators[1]==est):  
-                    met1.append(card)   # 要再次判断，典型没有思考清楚逻辑的BUG
+                    met1.append(card)   # Again, a typical BUG that doesn't think logically
                     mee1.append(est_card)
         print()
 
@@ -1086,7 +1086,7 @@ class NeuroCard(tune.Trainable):
                     for est in estimators:
                         est.report()
 
-            # for est in estimators:  # 暂时注释
+            # for est in estimators:  # 
                 # MSE, MAPE, PCCs
             print('len0: ',len(mee0))
             print('len1: ',len(mee1))
@@ -1097,10 +1097,10 @@ class NeuroCard(tune.Trainable):
             mee0 = np.array(mee0)
             met1 = np.array(met1)
             mee1 = np.array(mee1)
-            PCCs0=sc.stats.pearsonr(mee0,met0) #皮尔逊相关系数
+            PCCs0=sc.stats.pearsonr(mee0,met0) #Pearson's correlation coefficient
             print('PCCs0:',PCCs0[0])
             if(len(mee1)!=0):
-                PCCs1=sc.stats.pearsonr(mee1,met1) #皮尔逊相关系数
+                PCCs1=sc.stats.pearsonr(mee1,met1) #Pearson's correlation coefficient
                 print('PCCs1:',PCCs1[0])
             # mse = sum(np.square(met - mee))/len(met)
             mape0 = sum(np.abs((met0 - mee0)/met0))/len(met0)*100

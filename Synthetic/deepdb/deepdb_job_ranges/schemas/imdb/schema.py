@@ -250,7 +250,7 @@ def gen_job_ranges_imdb_schema(csv_path, version):
     print('attributes:', attributes)
     tablenamecsv = version + '_nohead'
     schema.add_table(Table(tablename, attributes = attributes,
-                           csv_file_location=csv_path.format(tablenamecsv),  # debug的思路要正确 范围
+                           csv_file_location=csv_path.format(tablenamecsv),  # Debug should think in the right range
                            table_size=100000))
 
     return schema

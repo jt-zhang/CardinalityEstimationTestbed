@@ -369,7 +369,7 @@ class AQPSPN(CombineSPN, RSPN):
         """
         Translates string conditions to NumericRange and NominalRanges the SPN understands.
         """
-        # self.column_names.append('title.season_n') # 改
+        # self.column_names.append('title.season_n') # modify
         assert self.column_names is not None, "For probability evaluation column names have to be provided."
         group_by_columns_merged = None
         if group_by_columns is None or group_by_columns == []:
