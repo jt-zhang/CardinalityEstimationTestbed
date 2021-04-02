@@ -1,0 +1,2 @@
+# For experiments that require multiple table joins, you need to generate join_samples first with factorized_sampler.py
+python eval_model.py --test-file-path /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/test-2-num.sql --single-data-path /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/Distinct-Value-High --join-data-path /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/join_samples --join-num-path /home/sunji/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl --join-sample-size 1000000 --run-bn
