@@ -2,6 +2,7 @@
 CardinalityEstimationTestbed
 
 ## Experiment of synthetic
+### Deepdb, Mscn, Xgb, Localnn
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed\Synthetic`\
 `python generate_data_sql.py --cols ' + str(cols) + ' --distinct ' + str(distinct) + ' --corr ' + str(corr) + ' --skew ' + str(skew)`
@@ -9,6 +10,8 @@ CardinalityEstimationTestbed
 `python get_truecard.py --version cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew)`
 #### Get_result
 `python get_result.py`
+### Naru, Kde, Byesian
+- Refer to `run.sh` or `getresult.py` in each method folder to execute the code to get the result.
 
 ## Experiment of overall
 ### Real Datasets download
