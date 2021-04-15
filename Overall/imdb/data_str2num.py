@@ -3,7 +3,7 @@ import numpy as np
 from math import isnan
 from tqdm import tqdm
 
-df = pd.read_csv("/home/zhangjintao/Benchmark/Workload/celan-data/title_addhead.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False) 
+df = pd.read_csv("../train-test-data/imdbdataset-str/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False) 
 res=dict()
 df.head()
 
@@ -52,4 +52,4 @@ for i in tqdm(range(len(df['imdb_index']))):
     if(pd.notnull(df['imdb_index'][i])):
         df['imdb_index'][i] = res[df['imdb_index'][i]]
         
-df.to_csv("/home/zhangjintao/Benchmark/Workload/celan-data/title_num_addhead.csv", header=False, index=False)
+df.to_csv("../train-test-data/imdbdataset-num/title.csv", header=False, index=False)

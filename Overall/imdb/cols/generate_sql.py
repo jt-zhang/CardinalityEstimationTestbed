@@ -17,17 +17,17 @@ dict2 = {'title':['t', 'id', 'kind_id', 'production_year', 'phonetic_code', 'sea
          'movie_keyword': ['mk', 'movie_id', 'keyword_id'],
          'movie_companies': ['mc', 'movie_id', 'company_type_id']}  # 
 
-df_title = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/title_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
+df_title = pd.read_csv( '.../train-test-data/imdbdata-num/title.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
                        usecols = ['id', 'kind_id', 'production_year', 'phonetic_code', 'season_nr', 'episode_nr'])
-df_cast_info = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/cast_info_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False,
+df_cast_info = pd.read_csv( '.../train-test-data/imdbdata-num/cast_info.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False,
                            usecols =['movie_id', 'nr_order', 'role_id'])
-df_movie_companies = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/movie_companies_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
+df_movie_companies = pd.read_csv( '.../train-test-data/imdbdata-num/movie_companies.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
                                 usecols=['movie_id', 'company_type_id'])
-df_movie_info = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/movie_info_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
+df_movie_info = pd.read_csv( '.../train-test-data/imdbdata-num/movie_info.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
                            usecols = ['movie_id', 'info_type_id'])
-df_movie_info_idx = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/movie_info_idx_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
+df_movie_info_idx = pd.read_csv( '.../train-test-data/imdbdata-num/movie_info_idx.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
                                usecols = ['movie_id', 'info_type_id'])
-df_movie_keyword = pd.read_csv( '/home/zhangjintao/Benchmark/Workload/Data-distinctvalue/Distinct-Value-High/movie_keyword_addhead.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
+df_movie_keyword = pd.read_csv( '.../train-test-data/imdbdata-num/movie_keyword.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',
                               usecols=['movie_id', 'keyword_id'])
 
 df_title = df_title.dropna(axis=0, how='any', inplace=False)
@@ -63,7 +63,7 @@ for key, value in dict2.items():
 
 # Cols-4 production_year & phonetic_code & series_year & role_id
 
-f2 = open("/home/zhangjintao/Benchmark/Workload/newwwww/colssql/4/4-all-str.sql",'w')
+f2 = open("../train-test-data/imdb-cols-sql/4/4-all-str.sql",'w')
 # tnum = [2,3]  # 
 tables = ['cast_info']  # 
 ops = ['=', '<', '>']  #  >=, <=
@@ -127,7 +127,7 @@ f2.close()
 
 # Cols-6: production_year & phonetic_code & series_years & kind_id & role_id & info_type_id
 
-f2 = open("/home/zhangjintao/Benchmark/Workload/newwwww/colssql/6/6-all-num.sql",'w')
+f2 = open("../train-test-data/imdb-cols-sql/6/6-all-num.sql",'w')
 
 tables = ['movie_info', 'cast_info'] # 
 ops = ['=', '<', '>']  # >=, <=
@@ -192,7 +192,7 @@ f2.close()
 
 # Cols-8: production_year & phonetic_code & series_years & kind_id & role_id & info_type_id & nr_order & episode_nr
 
-f2 = open("/home/zhangjintao/Benchmark/Workload/newwwww/colssql/8/8-all-num.sql",'w')
+f2 = open("../train-test-data/imdb-cols-sql/8/8-all-num.sql",'w')
 
 tables = ['movie_info', 'cast_info']  #
 ops = ['=', '<', '>']  # >=, <=

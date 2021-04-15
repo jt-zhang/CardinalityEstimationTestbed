@@ -7,8 +7,8 @@ from numpy.random import choice
 dict2 = {'title':['t', 'id', 'production_year', 'phonetic_code', 'series_years'], 
          'cast_info': ['ci', 'movie_id', 'role_id']}
 
-df_title = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/high-populated/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
-df_cast_info = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/high-populated/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
+df_title = pd.read_csv( ".../train-test-data/imdb-distinct-data/high/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+df_cast_info = pd.read_csv( ".../train-test-data/imdb-distinct-data/high/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
       
 for key, value in dict2.items():
     for i in range(2, len(value)):
@@ -18,7 +18,7 @@ for key, value in dict2.items():
             if pd.isnull(j):
                 locals()[value[0] + '_' + value[i]].remove(j)
 
-f2 = open("/home/zhangjintao/Benchmark2/Data/high-populated/distincthigh.sql",'w')
+f2 = open(".../train-test-data/imdb-distinct-data/high/distincthigh.sql",'w')
 
 tables = ['cast_info']
 ops = ['=', '<', '>']  #
@@ -77,8 +77,8 @@ f2.close()
 dict2 = {'title':['t', 'id', 'production_year', 'phonetic_code', 'series_years'], 
          'cast_info': ['ci', 'movie_id', 'role_id']}
 
-df_title = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/mid-populated/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
-df_cast_info = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/mid-populated/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
+df_title = pd.read_csv( ".../train-test-data/imdb-distinct-data/mid/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+df_cast_info = pd.read_csv( ".../train-test-data/imdb-distinct-data/mid/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
 
 for key, value in dict2.items():
     for i in range(2, len(value)):
@@ -88,7 +88,7 @@ for key, value in dict2.items():
             if pd.isnull(j):
                 locals()[value[0] + '_' + value[i]].remove(j)
 
-f2 = open("/home/zhangjintao/Benchmark2/Data/mid-populated/distinctmid.sql",'w')
+f2 = open(".../train-test-data/imdb-distinct-data/mid/distinctmid.sql",'w')
 
 tables = ['cast_info']
 ops = ['=', '<', '>']  # >=, <=
@@ -147,8 +147,8 @@ f2.close()
 dict2 = {'title':['t', 'id', 'production_year', 'phonetic_code', 'series_years'], 
          'cast_info': ['ci', 'movie_id', 'role_id']}
 
-df_title = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/low-populated/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
-df_cast_info = pd.read_csv( "/home/zhangjintao/Benchmark2/Data/low-populated/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
+df_title = pd.read_csv( ".../train-test-data/imdb-distinct-data/low/title.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+df_cast_info = pd.read_csv( ".../train-test-data/imdb-distinct-data/low/cast_info.csv", sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"',error_bad_lines=False)
 
 for key, value in dict2.items():
     for i in range(2, len(value)):
@@ -158,7 +158,7 @@ for key, value in dict2.items():
             if pd.isnull(j):
                 locals()[value[0] + '_' + value[i]].remove(j)
 
-f2 = open("/home/zhangjintao/Benchmark2/Data/low-populated/distinctlow.sql",'w')
+f2 = open(".../train-test-data/imdb-distinct-data/low/distinctlow.sql",'w')
 
 tables = ['cast_info']
 ops = ['=', '<', '>']  # >=, <=
