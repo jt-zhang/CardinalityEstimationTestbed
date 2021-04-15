@@ -23,7 +23,6 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - Start by generating training and testing queries queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\imdb\cols`\
 `python generate_sql.py`
-- Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 #### Distinct
 - First, the data of the distinct is generated and populated.\
@@ -31,12 +30,10 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `python data_process.py`
 - Next, generate training and testing queries of different distinct.\
 `python sql_generate.py`
-- Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 
 ### Forest_&_power
 - Start by generating training and testing queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\forest_&_power`\
 `python generate_sql.py`
-- Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
 - Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
