@@ -12,7 +12,7 @@ CardinalityEstimationTestbed
 `python get_result.py`
 
 ### Naru, Kde, Byesian
-- Refer to `run.sh` or `getresult.py` in each method folder to execute the code to get results in batches.\
+- Refer to `run.sh` or `getresult.py` in each method folder to execute the code to get results in batches.  
 
 ## Experiment of overall
 ### Real Datasets download
