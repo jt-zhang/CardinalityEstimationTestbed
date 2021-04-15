@@ -1,3 +1,4 @@
+# Change the schema which in deepdb-imdb/deepdb_job_ranges/schemas/imdb/schema.py/def gen_job_ranges_imdb_schema first
 # Modify parameters for your own: ensemble_path, target_path, ensemble_location
 cd deepdb-forest&power/deepdb_job_ranges
 python3 maqp.py --generate_hdf --generate_sampled_hdfs --generate_ensemble --ensemble_path /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/ --version forest
