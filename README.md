@@ -28,7 +28,6 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - Start by generating training and testing queries queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\imdb\cols`\
 `python generate_sql.py`
-- deepdb, neuro need schemafile to be rewritten which is explained in the `run.sh`.
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 #### Distinct
 - First, the data of the distinct is generated and populated.\
@@ -36,7 +35,6 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `python data_process.py`
 - Next, generate training and testing queries of different distinct.\
 `python sql_generate.py`
-- deepdb, neuro need schemafile to be rewritten which is explained in the `run.sh`.
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 
 ### Forest_&_power
