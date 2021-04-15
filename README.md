@@ -39,4 +39,4 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `cd CardinalityEstimationTestbed\Overall\forest_&_power`\
 `python generate_sql.py`
 - Data tables and queries paths need to be configured, and some methods need Schemafile to be rewritten.
-- Then refer to `run.sh` in each method folder to execute the code to get the result.
+- Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
