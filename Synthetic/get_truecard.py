@@ -15,7 +15,7 @@ version = args.version
 
 db_connection = DBConnection(db='postgres',db_user='postgres',db_host="/var/run/postgresql")  # modify
 
-fschema = open('/home/zhangjintao/Benchmark3/csvdata_sql/schema_'+ version + '.sql')
+fschema = open('./csvdata_sql/schema_'+ version + '.sql')
 schemasql = fschema.read()
 dropsql = 'DROP TABLE ' + version + ';'
 
@@ -29,25 +29,25 @@ try:
 except Exception as e:
     pass
 
-# csvsql = r'\copy ' + version + ' from /home/zhangjintao/Benchmark3/csvdata_sql/' + version + '.csv with csv header;'
+# csvsql = r'\copy ' + version + ' from ./csvdata_sql/' + version + '.csv with csv header;'
 # db_connection.submit_query(csvsql)
 # os.system('psql -U postgres')
 # os.system(csvsql)
-df = pd.read_csv('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+df = pd.read_csv('./csvdata_sql/' + version + '.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
 columns = tuple(df.columns)
 connection = psycopg2.connect(user='postgres', host="/var/run/postgresql", database='postgres')
 cur = connection.cursor()
-file = open('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '_nohead.csv','r')  # Read a file without a header
+file = open('./csvdata_sql/' + version + '_nohead.csv','r')  # Read a file without a header
 cur.copy_from(file, version , sep=',')
 connection.commit()
 
 true_estimator = TrueCardinalityEstimator(db_connection)
 #
-f = open('/home/zhangjintao/Benchmark3/csvdata_sql/' + version + '.sql')
+f = open('./csvdata_sql/' + version + '.sql')
 queries = f.readlines() 
 i=0
-ftrain = open('/home/zhangjintao/Benchmark3/sql_truecard/' + version + 'train.sql','w')
-ftest = open('/home/zhangjintao/Benchmark3/sql_truecard/' + version + 'test.sql','w')
+ftrain = open('./sql_truecard/' + version + 'train.sql','w')
+ftest = open('./sql_truecard/' + version + 'test.sql','w')
 for query in tqdm(queries):
     try:
         cardinality_true = true_estimator.true_cardinality(query)

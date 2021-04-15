@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('--generate_hdf', help='Prepare hdf5 files for single tables', action='store_true')
     parser.add_argument('--generate_sampled_hdfs', help='Prepare hdf5 files for single tables', action='store_true')
     parser.add_argument('--csv_seperator', default=',')
-    parser.add_argument('--csv_path', default='/home/zhangjintao/Benchmark3/csvdata_sql')  # No header has been modified
+    parser.add_argument('--csv_path', default='../train-test-data/forest_&_power-data')  # No header has been modified
     parser.add_argument('--version', default='cols_4_distinct_1000_corr_5_skew_5')  # No header has been modified
     parser.add_argument('--hdf_path', default='../imdb-benchmark/gen_single_light')
     parser.add_argument('--max_rows_per_hdf_file', type=int, default=100000000)

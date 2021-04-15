@@ -1,6 +1,6 @@
 import os
 
-os.chdir('/home/zhangjintao/Benchmark3')
+# os.chdir('/home/zhangjintao/Benchmark3')
 # cols_4_distinct_1000_corr_5_skew_5
 import os
 
@@ -11,13 +11,13 @@ for cols in [2, 4, 6, 8]:
                 version = 'cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew)
 
                 # mscn
-                # os.system('python run_mscn.py --version ' + version)
+                os.system('python run_mscn.py --version ' + version)
 
                 # xgb
-                # os.system('python run_xgb_nn.py --version ' + version + ' --model xgb')
+                os.system('python run_xgb_nn.py --version ' + version + ' --model xgb')
 
                 # nn
-                # os.system('python run_xgb_nn.py --version ' + version + ' --model nn')
+                os.system('python run_xgb_nn.py --version ' + version + ' --model nn')
 
                 # deepdb
                 os.system('python run_deepdb.py --version ' + version)

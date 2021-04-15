@@ -24,7 +24,7 @@ version = 'cols_' + str(cols) + '_distinct_' + str(args.distinct) + '_corr_' + s
 corr = args.corr/10
 skew = args.skew/10  # create table
 
-path = '/home/zhangjintao/Benchmark3/csvdata_sql'
+path = './csvdata_sql'
 csv_path = path+ '/' f"{version}.csv"
 csv_path2 = path+ '/' f"{version}_nohead.csv" # for deepdb
 seed = 2
@@ -54,7 +54,7 @@ df.to_csv(csv_path, index=False)
 df.to_csv(csv_path2, index=False, header = False) # using for deepdb
 
 ops = ['=', '<', '>']  # train and test all not contain >=, <=
-f2 = open('/home/zhangjintao/Benchmark3/csvdata_sql/'+ version + '.sql','w')
+f2 = open('./csvdata_sql/'+ version + '.sql','w')
 for i in range(3600000):   # as much as possible sqls
     a = list(np.random.randint(0, distinct, 1))[0]
     sql = 'SELECT COUNT(*) FROM ' + version + ' cdcs WHERE '
@@ -65,7 +65,7 @@ for i in range(3600000):   # as much as possible sqls
     f2.write(sql)
 f2.close()
 
-f3 = open('/home/zhangjintao/Benchmark3/csvdata_sql/schema_'+ version + '.sql','w')
+f3 = open('./csvdata_sql/schema_'+ version + '.sql','w')
 sql = 'CREATE TABLE ' + version + '(\n'
 for i in range(cols):
     sql += '    col' + str(i) + ' integer NOT NULL,\n'

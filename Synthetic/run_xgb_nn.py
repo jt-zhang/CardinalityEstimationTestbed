@@ -10,7 +10,7 @@ args = parser.parse_args()
 version = args.version
 model = args.model
 
-run = 'python run.py --train-file /home/zhangjintao/Benchmark3/sql_truecard/' + version + 'train.sql' + ' --test-file /home/zhangjintao/Benchmark3/sql_truecard/' + version + 'test.sql' + \
+run = 'python run.py --train-file ./sql_truecard/' + version + 'train.sql' + ' --test-file ./sql_truecard/' + version + 'test.sql' + \
     ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--model ' + model + ' --version ' + version
 
 os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/xgboost')
