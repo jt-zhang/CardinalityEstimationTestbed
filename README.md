@@ -1,6 +1,9 @@
 # CardinalityEstimationTestbed
 CardinalityEstimationTestbed
 
+## Datasets download
+Download the IMDB data tables to: `../train-test-data/imdbdataset-str/`
+Download the [forest, power data tables](http://archive.ics.uci.edu/) to: `../train-test-data/forest_&_power-data/`
 ## Experiment of synthetic
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed\Synthetic`\
