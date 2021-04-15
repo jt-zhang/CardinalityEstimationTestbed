@@ -14,9 +14,10 @@ CardinalityEstimationTestbed
 ### Naru, Kde, Byesian
 - Refer to `run.sh` or `getresult.py` in each method folder to execute the code to get results in batches.   
 
+
 ## Experiment of overall
 ### Real Datasets download
-- Download the [IMDB](http://homepages.cwi.nl/~boncz/job/imdb.tgz) data tables to: `../train-test-data/imdbdataset-str/`\
+- Download the [IMDB](http://homepages.cwi.nl/~boncz/job/imdb.tgz) data tables to: `../train-test-data/imdbdataset-str/`
 - Download the [forest, power](http://archive.ics.uci.edu/) data tables to: `../train-test-data/forest_&_power-data-sql/`\
 Begin by doing a simple job on the table, removing some unused columns. For Forest We use ﬁrst 10 numeric attributes; For Power We used the 7 numeric attributes after the ﬁrst two attributes (date and time).
 ### Imdb
