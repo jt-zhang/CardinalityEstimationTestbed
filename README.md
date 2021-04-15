@@ -2,8 +2,9 @@
 CardinalityEstimationTestbed
 
 ## Datasets download
-Download the IMDB data tables to: `../train-test-data/imdbdataset-str/`
-Download the [forest, power data tables](http://archive.ics.uci.edu/) to: `../train-test-data/forest_&_power-data/`
+Download the [IMDB](http://homepages.cwi.nl/~boncz/job/imdb.tgz) data tables to: `../train-test-data/imdbdataset-str/`\
+Download the [forest, power](http://archive.ics.uci.edu/) data tables to: `../train-test-data/forest_&_power-data/`\
+Begin by doing a simple job on the table, removing some unused columns. For Forest We use ﬁrst 10 numeric attributes; For Power We used the 7 numeric attributes after the ﬁrst two attributes (date and time).
 ## Experiment of synthetic
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed\Synthetic`\
