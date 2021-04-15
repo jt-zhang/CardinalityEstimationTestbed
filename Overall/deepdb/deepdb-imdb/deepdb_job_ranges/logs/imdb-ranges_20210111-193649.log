@@ -1,0 +1,3 @@
+2021-01-11 19:36:49,137 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=./baselines/cardinality_estimation/results/deepDB-ranges/imdb_ranges_model_based_budget_5.csv)
+2021-01-11 19:36:49,160 [DEBUG]  Including SPN with table_set {'title', 'cast_info'} with sampling ratio(10000000 / 36244344)
+2021-01-11 19:36:49,160 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2011 AND t.phonetic_code<11942 AND t.series_years<296 AND ci.role_id>2;

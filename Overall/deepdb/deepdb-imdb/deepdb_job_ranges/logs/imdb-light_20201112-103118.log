@@ -1,0 +1,4 @@
+2020-11-12 10:31:18,634 [INFO ]  Generating HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2020-11-12 10:31:18,634 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2020-11-12 10:31:18,634 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2020-11-12 10:31:18,634 [INFO ]  Preparing hdf file for table title

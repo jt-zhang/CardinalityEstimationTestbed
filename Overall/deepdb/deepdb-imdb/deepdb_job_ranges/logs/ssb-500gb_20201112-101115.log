@@ -1,0 +1,3 @@
+2020-11-12 10:11:15,052 [INFO ]  Generating HDF files for tables in ../ssb-benchmark and store to path ../ssb-benchmark/gen_hdf
+2020-11-12 10:11:15,052 [INFO ]  Making target path ../ssb-benchmark/gen_hdf
+2020-11-12 10:11:15,053 [INFO ]  Preparing hdf file for table lineorder

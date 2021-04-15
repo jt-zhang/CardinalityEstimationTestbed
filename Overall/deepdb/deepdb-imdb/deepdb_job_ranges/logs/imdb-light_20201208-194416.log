@@ -1,0 +1,86 @@
+2020-12-08 19:44:16,481 [INFO ]  Generating HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2020-12-08 19:44:16,482 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2020-12-08 19:44:16,482 [INFO ]  Preparing hdf file for table title
+2020-12-08 19:44:24,212 [INFO ]  Managing functional dependencies for table title
+2020-12-08 19:44:24,234 [INFO ]  Preparing multipliers for table title
+2020-12-08 19:44:24,234 [INFO ]  Preparing multiplier movie_info_idx.movie_id = title.id for table title
+2020-12-08 19:44:28,789 [INFO ]  Note: NumExpr detected 40 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2020-12-08 19:44:28,789 [INFO ]  NumExpr defaulting to 8 threads.
+2020-12-08 19:44:29,165 [INFO ]  Preparing multiplier movie_info.movie_id = title.id for table title
+2020-12-08 19:44:52,146 [INFO ]  Preparing multiplier cast_info.movie_id = title.id for table title
+2020-12-08 19:46:15,892 [INFO ]  Preparing multiplier movie_keyword.movie_id = title.id for table title
+2020-12-08 19:46:21,966 [INFO ]  Preparing multiplier movie_companies.movie_id = title.id for table title
+2020-12-08 19:46:28,239 [INFO ]  Preparing categorical values and null values for table title
+2020-12-08 19:46:28,240 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:46:28,259 [DEBUG]  		Preparing numerical values for column kind_id
+2020-12-08 19:46:28,278 [DEBUG]  		Preparing numerical values for column production_year
+2020-12-08 19:46:28,310 [DEBUG]  		Preparing numerical values for column mul_movie_info_idx.movie_id
+2020-12-08 19:46:28,344 [DEBUG]  		Preparing numerical values for column mul_movie_info_idx.movie_id_nn
+2020-12-08 19:46:28,375 [DEBUG]  		Preparing numerical values for column mul_movie_info.movie_id
+2020-12-08 19:46:28,403 [DEBUG]  		Preparing numerical values for column mul_movie_info.movie_id_nn
+2020-12-08 19:46:28,431 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id
+2020-12-08 19:46:28,459 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id_nn
+2020-12-08 19:46:28,488 [DEBUG]  		Preparing numerical values for column mul_movie_keyword.movie_id
+2020-12-08 19:46:28,517 [DEBUG]  		Preparing numerical values for column mul_movie_keyword.movie_id_nn
+2020-12-08 19:46:28,543 [DEBUG]  		Preparing numerical values for column mul_movie_companies.movie_id
+2020-12-08 19:46:28,571 [DEBUG]  		Preparing numerical values for column mul_movie_companies.movie_id_nn
+2020-12-08 19:46:28,597 [INFO ]  Relevant attributes for table title are ['id', 'kind_id', 'production_year', 'mul_movie_info_idx.movie_id', 'mul_movie_info_idx.movie_id_nn', 'mul_movie_info.movie_id', 'mul_movie_info.movie_id_nn', 'mul_cast_info.movie_id', 'mul_cast_info.movie_id_nn', 'mul_movie_keyword.movie_id', 'mul_movie_keyword.movie_id_nn', 'mul_movie_companies.movie_id', 'mul_movie_companies.movie_id_nn']
+2020-12-08 19:46:28,597 [INFO ]  NULL values for table title are [1264156.5001, 4.943925366489578, 1992.7887619952553, 0.5459325554757483, 1.3640226487870168, 5.867935931641348, 5.89146427782647, 14.33549215096871, 14.413295444233148, 1.7894084397811663, 2.600826492616418, 1.032064804976601, 1.6020403459699595]
+2020-12-08 19:46:31,641 [INFO ]  Adding table parts without join partners for table title
+2020-12-08 19:46:31,641 [INFO ]  Adding table parts without join partners for table title and relationship movie_info_idx.movie_id = title.id
+2020-12-08 19:46:37,893 [INFO ]  Adding table parts without join partners for table title and relationship movie_info.movie_id = title.id
+2020-12-08 19:47:17,078 [INFO ]  Adding table parts without join partners for table title and relationship cast_info.movie_id = title.id
+2020-12-08 19:49:19,487 [INFO ]  Adding table parts without join partners for table title and relationship movie_keyword.movie_id = title.id
+2020-12-08 19:49:27,495 [INFO ]  Adding table parts without join partners for table title and relationship movie_companies.movie_id = title.id
+2020-12-08 19:49:34,502 [INFO ]  Preparing hdf file for table movie_info_idx
+2020-12-08 19:49:35,141 [INFO ]  Managing functional dependencies for table movie_info_idx
+2020-12-08 19:49:35,147 [INFO ]  Preparing multipliers for table movie_info_idx
+2020-12-08 19:49:35,149 [INFO ]  Preparing categorical values and null values for table movie_info_idx
+2020-12-08 19:49:35,150 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:49:35,162 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 19:49:35,173 [DEBUG]  		Preparing numerical values for column info_type_id
+2020-12-08 19:49:35,184 [INFO ]  Relevant attributes for table movie_info_idx are ['id', 'movie_id', 'info_type_id']
+2020-12-08 19:49:35,184 [INFO ]  NULL values for table movie_info_idx are [690018.0001, 1591796.733549514, 100.00236805841881]
+2020-12-08 19:49:36,022 [INFO ]  Adding table parts without join partners for table movie_info_idx
+2020-12-08 19:49:36,022 [INFO ]  Preparing hdf file for table movie_info
+2020-12-08 19:49:50,775 [INFO ]  Managing functional dependencies for table movie_info
+2020-12-08 19:49:50,957 [INFO ]  Preparing multipliers for table movie_info
+2020-12-08 19:49:50,977 [INFO ]  Preparing categorical values and null values for table movie_info
+2020-12-08 19:49:50,978 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:49:51,092 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 19:49:51,207 [DEBUG]  		Preparing numerical values for column info_type_id
+2020-12-08 19:49:51,320 [INFO ]  Relevant attributes for table movie_info are ['id', 'movie_id', 'info_type_id']
+2020-12-08 19:49:51,320 [INFO ]  NULL values for table movie_info are [7417860.5001, 1687757.525917082, 15.7390803123812]
+2020-12-08 19:49:59,416 [INFO ]  Adding table parts without join partners for table movie_info
+2020-12-08 19:49:59,418 [INFO ]  Preparing hdf file for table cast_info
+2020-12-08 19:50:26,237 [INFO ]  Managing functional dependencies for table cast_info
+2020-12-08 19:50:26,674 [INFO ]  Preparing multipliers for table cast_info
+2020-12-08 19:50:26,727 [INFO ]  Preparing categorical values and null values for table cast_info
+2020-12-08 19:50:26,727 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:50:27,099 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 19:50:27,470 [DEBUG]  		Preparing numerical values for column role_id
+2020-12-08 19:50:27,840 [INFO ]  Relevant attributes for table cast_info are ['id', 'movie_id', 'role_id']
+2020-12-08 19:50:27,840 [INFO ]  NULL values for table cast_info are [18122172.5001, 1303597.173158533, 3.635458140293559]
+2020-12-08 19:50:47,346 [INFO ]  Adding table parts without join partners for table cast_info
+2020-12-08 19:50:47,350 [INFO ]  Preparing hdf file for table movie_keyword
+2020-12-08 19:50:48,370 [INFO ]  Managing functional dependencies for table movie_keyword
+2020-12-08 19:50:48,387 [INFO ]  Preparing multipliers for table movie_keyword
+2020-12-08 19:50:48,398 [INFO ]  Preparing categorical values and null values for table movie_keyword
+2020-12-08 19:50:48,398 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:50:48,431 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 19:50:48,463 [DEBUG]  		Preparing numerical values for column keyword_id
+2020-12-08 19:50:48,506 [INFO ]  Relevant attributes for table movie_keyword are ['id', 'movie_id', 'keyword_id']
+2020-12-08 19:50:48,507 [INFO ]  NULL values for table movie_keyword are [2261965.5001, 1859996.4584161101, 13657.743575694805]
+2020-12-08 19:50:51,462 [INFO ]  Adding table parts without join partners for table movie_keyword
+2020-12-08 19:50:51,463 [INFO ]  Preparing hdf file for table movie_companies
+2020-12-08 19:50:52,703 [INFO ]  Managing functional dependencies for table movie_companies
+2020-12-08 19:50:52,715 [INFO ]  Preparing multipliers for table movie_companies
+2020-12-08 19:50:52,721 [INFO ]  Preparing categorical values and null values for table movie_companies
+2020-12-08 19:50:52,721 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 19:50:52,741 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 19:50:52,761 [DEBUG]  		Preparing numerical values for column company_id
+2020-12-08 19:50:52,781 [DEBUG]  		Preparing numerical values for column company_type_id
+2020-12-08 19:50:52,801 [INFO ]  Relevant attributes for table movie_companies are ['id', 'movie_id', 'company_id', 'company_type_id']
+2020-12-08 19:50:52,801 [INFO ]  NULL values for table movie_companies are [1304565.0001, 1650151.1771682862, 33739.30246105612, 1.5117201613641946]
+2020-12-08 19:50:54,555 [INFO ]  Adding table parts without join partners for table movie_companies
+2020-12-08 19:50:54,555 [INFO ]  Files successfully created

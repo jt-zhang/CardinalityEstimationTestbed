@@ -1,0 +1,30 @@
+Training on Join(['cast_info', 'movie_companies', 'movie_info', 'movie_keyword', 'title', 'movie_info_idx'])
+Loading cast_info
+Loading csv... *** Aborted at 1610542245 (unix time) try "date -d @1610542245" if you are using GNU date ***
+PC: @                0x0 (unknown)
+*** SIGABRT (@0x3ec00004e55) received by PID 20053 (TID 0x7f307c335740) from PID 20053; stack trace: ***
+    @     0x7f307bf17330 (unknown)
+    @     0x7f307bb74c37 gsignal
+    @     0x7f307bb78028 abort
+    @     0x7f307bbb12a4 (unknown)
+    @     0x7f307bbbd82e (unknown)
+    @     0x7f307a3dfbab ray::stats::MetricsAgentExporter::~MetricsAgentExporter()
+    @     0x7f307a0389d9 std::_Sp_counted_base<>::_M_release()
+    @     0x7f307a0d21bf ray::CoreWorkerProcess::~CoreWorkerProcess()
+    @     0x7f307a0deac1 ray::CoreWorkerProcess::RunTaskExecutionLoop()
+    @     0x7f3079fe3c06 __pyx_pw_3ray_7_raylet_10CoreWorker_5run_task_loop()
+    @     0x55be3baccb71 _PyMethodDef_RawFastCallKeywords
+    @     0x55be3bad3aef _PyMethodDescr_FastCallKeywords
+    @     0x55be3bb3837c _PyEval_EvalFrameDefault
+    @     0x55be3bacc20b _PyFunction_FastCallKeywords
+    @     0x55be3bb33e70 _PyEval_EvalFrameDefault
+    @     0x55be3ba7c2b9 _PyEval_EvalCodeWithName
+    @     0x55be3ba7d1d4 PyEval_EvalCodeEx
+    @     0x55be3ba7d1fc PyEval_EvalCode
+    @     0x55be3bb92f44 run_mod
+    @     0x55be3bb9d2b1 PyRun_FileExFlags
+    @     0x55be3bb9d4a3 PyRun_SimpleFileExFlags
+    @     0x55be3bb9e5d5 pymain_main
+    @     0x55be3bb9e6fc _Py_UnixMain
+    @     0x7f307bb5ff45 __libc_start_main
+    @     0x55be3bb433c0 (unknown)

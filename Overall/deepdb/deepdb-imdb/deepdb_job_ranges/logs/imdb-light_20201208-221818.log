@@ -1,0 +1,270 @@
+2020-12-08 22:18:18,947 [INFO ]  Generating HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2020-12-08 22:18:18,948 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2020-12-08 22:18:19,481 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2020-12-08 22:18:19,481 [INFO ]  Preparing hdf file for table title
+2020-12-08 22:18:27,441 [INFO ]  Managing functional dependencies for table title
+2020-12-08 22:18:27,453 [INFO ]  Preparing multipliers for table title
+2020-12-08 22:18:27,454 [INFO ]  Preparing multiplier movie_info_idx.movie_id = title.id for table title
+2020-12-08 22:18:31,684 [INFO ]  Note: NumExpr detected 40 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2020-12-08 22:18:31,684 [INFO ]  NumExpr defaulting to 8 threads.
+2020-12-08 22:18:32,057 [INFO ]  Preparing multiplier movie_info.movie_id = title.id for table title
+2020-12-08 22:18:53,983 [INFO ]  Preparing multiplier cast_info.movie_id = title.id for table title
+2020-12-08 22:19:47,979 [INFO ]  Preparing multiplier movie_keyword.movie_id = title.id for table title
+2020-12-08 22:19:53,670 [INFO ]  Preparing multiplier movie_companies.movie_id = title.id for table title
+2020-12-08 22:19:59,316 [INFO ]  Preparing categorical values and null values for table title
+2020-12-08 22:19:59,317 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:19:59,336 [DEBUG]  		Preparing numerical values for column kind_id
+2020-12-08 22:19:59,355 [DEBUG]  		Preparing numerical values for column production_year
+2020-12-08 22:19:59,382 [DEBUG]  		Preparing numerical values for column mul_movie_info_idx.movie_id
+2020-12-08 22:19:59,407 [DEBUG]  		Preparing numerical values for column mul_movie_info_idx.movie_id_nn
+2020-12-08 22:19:59,432 [DEBUG]  		Preparing numerical values for column mul_movie_info.movie_id
+2020-12-08 22:19:59,456 [DEBUG]  		Preparing numerical values for column mul_movie_info.movie_id_nn
+2020-12-08 22:19:59,482 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id
+2020-12-08 22:19:59,509 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id_nn
+2020-12-08 22:19:59,537 [DEBUG]  		Preparing numerical values for column mul_movie_keyword.movie_id
+2020-12-08 22:19:59,563 [DEBUG]  		Preparing numerical values for column mul_movie_keyword.movie_id_nn
+2020-12-08 22:19:59,592 [DEBUG]  		Preparing numerical values for column mul_movie_companies.movie_id
+2020-12-08 22:19:59,620 [DEBUG]  		Preparing numerical values for column mul_movie_companies.movie_id_nn
+2020-12-08 22:19:59,646 [INFO ]  Relevant attributes for table title are ['id', 'kind_id', 'production_year', 'mul_movie_info_idx.movie_id', 'mul_movie_info_idx.movie_id_nn', 'mul_movie_info.movie_id', 'mul_movie_info.movie_id_nn', 'mul_cast_info.movie_id', 'mul_cast_info.movie_id_nn', 'mul_movie_keyword.movie_id', 'mul_movie_keyword.movie_id_nn', 'mul_movie_companies.movie_id', 'mul_movie_companies.movie_id_nn']
+2020-12-08 22:19:59,646 [INFO ]  NULL values for table title are [1264156.5001, 4.943925366489578, 1992.7887619952553, 0.5459325554757483, 1.3640226487870168, 5.867935931641348, 5.89146427782647, 14.33549215096871, 14.413295444233148, 1.7894084397811663, 2.600826492616418, 1.032064804976601, 1.6020403459699595]
+2020-12-08 22:20:02,764 [INFO ]  Adding table parts without join partners for table title
+2020-12-08 22:20:02,765 [INFO ]  Adding table parts without join partners for table title and relationship movie_info_idx.movie_id = title.id
+2020-12-08 22:20:08,528 [INFO ]  Adding table parts without join partners for table title and relationship movie_info.movie_id = title.id
+2020-12-08 22:20:30,782 [INFO ]  Adding table parts without join partners for table title and relationship cast_info.movie_id = title.id
+2020-12-08 22:22:03,017 [INFO ]  Adding table parts without join partners for table title and relationship movie_keyword.movie_id = title.id
+2020-12-08 22:22:11,908 [INFO ]  Adding table parts without join partners for table title and relationship movie_companies.movie_id = title.id
+2020-12-08 22:22:19,052 [INFO ]  Preparing hdf file for table movie_info_idx
+2020-12-08 22:22:19,982 [INFO ]  Managing functional dependencies for table movie_info_idx
+2020-12-08 22:22:19,989 [INFO ]  Preparing multipliers for table movie_info_idx
+2020-12-08 22:22:19,992 [INFO ]  Preparing categorical values and null values for table movie_info_idx
+2020-12-08 22:22:19,994 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:22:20,006 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 22:22:20,020 [DEBUG]  		Preparing numerical values for column info_type_id
+2020-12-08 22:22:20,033 [INFO ]  Relevant attributes for table movie_info_idx are ['id', 'movie_id', 'info_type_id']
+2020-12-08 22:22:20,033 [INFO ]  NULL values for table movie_info_idx are [690018.0001, 1591796.733549514, 100.00236805841881]
+2020-12-08 22:22:21,078 [INFO ]  Adding table parts without join partners for table movie_info_idx
+2020-12-08 22:22:21,079 [INFO ]  Preparing hdf file for table movie_info
+2020-12-08 22:23:00,589 [INFO ]  Managing functional dependencies for table movie_info
+2020-12-08 22:23:00,728 [INFO ]  Preparing multipliers for table movie_info
+2020-12-08 22:23:00,751 [INFO ]  Preparing categorical values and null values for table movie_info
+2020-12-08 22:23:00,752 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:23:00,872 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 22:23:00,983 [DEBUG]  		Preparing numerical values for column info_type_id
+2020-12-08 22:23:01,087 [INFO ]  Relevant attributes for table movie_info are ['id', 'movie_id', 'info_type_id']
+2020-12-08 22:23:01,087 [INFO ]  NULL values for table movie_info are [7417860.5001, 1687757.525917082, 15.7390803123812]
+2020-12-08 22:23:10,833 [INFO ]  Adding table parts without join partners for table movie_info
+2020-12-08 22:23:10,834 [INFO ]  Preparing hdf file for table cast_info
+2020-12-08 22:23:47,494 [INFO ]  Managing functional dependencies for table cast_info
+2020-12-08 22:23:47,818 [INFO ]  Preparing multipliers for table cast_info
+2020-12-08 22:23:47,865 [INFO ]  Preparing categorical values and null values for table cast_info
+2020-12-08 22:23:47,865 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:23:48,196 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 22:23:48,567 [DEBUG]  		Preparing numerical values for column role_id
+2020-12-08 22:23:48,912 [INFO ]  Relevant attributes for table cast_info are ['id', 'movie_id', 'role_id']
+2020-12-08 22:23:48,912 [INFO ]  NULL values for table cast_info are [18122172.5001, 1303597.173158533, 3.635458140293559]
+2020-12-08 22:24:11,698 [INFO ]  Adding table parts without join partners for table cast_info
+2020-12-08 22:24:11,701 [INFO ]  Preparing hdf file for table movie_keyword
+2020-12-08 22:24:12,950 [INFO ]  Managing functional dependencies for table movie_keyword
+2020-12-08 22:24:12,965 [INFO ]  Preparing multipliers for table movie_keyword
+2020-12-08 22:24:12,972 [INFO ]  Preparing categorical values and null values for table movie_keyword
+2020-12-08 22:24:12,972 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:24:13,006 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 22:24:13,041 [DEBUG]  		Preparing numerical values for column keyword_id
+2020-12-08 22:24:13,073 [INFO ]  Relevant attributes for table movie_keyword are ['id', 'movie_id', 'keyword_id']
+2020-12-08 22:24:13,073 [INFO ]  NULL values for table movie_keyword are [2261965.5001, 1859996.4584161101, 13657.743575694805]
+2020-12-08 22:24:16,901 [INFO ]  Adding table parts without join partners for table movie_keyword
+2020-12-08 22:24:16,901 [INFO ]  Preparing hdf file for table movie_companies
+2020-12-08 22:24:18,622 [INFO ]  Managing functional dependencies for table movie_companies
+2020-12-08 22:24:18,635 [INFO ]  Preparing multipliers for table movie_companies
+2020-12-08 22:24:18,639 [INFO ]  Preparing categorical values and null values for table movie_companies
+2020-12-08 22:24:18,640 [DEBUG]  		Preparing numerical values for column id
+2020-12-08 22:24:18,663 [DEBUG]  		Preparing numerical values for column movie_id
+2020-12-08 22:24:18,684 [DEBUG]  		Preparing numerical values for column company_id
+2020-12-08 22:24:18,704 [DEBUG]  		Preparing numerical values for column company_type_id
+2020-12-08 22:24:18,725 [INFO ]  Relevant attributes for table movie_companies are ['id', 'movie_id', 'company_id', 'company_type_id']
+2020-12-08 22:24:18,725 [INFO ]  NULL values for table movie_companies are [1304565.0001, 1650151.1771682862, 33739.30246105612, 1.5117201613641946]
+2020-12-08 22:24:20,757 [INFO ]  Adding table parts without join partners for table movie_companies
+2020-12-08 22:24:20,758 [INFO ]  Files successfully created
+2020-12-08 22:24:20,758 [INFO ]  Generating sampled HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2020-12-08 22:24:20,759 [DEBUG]  Creating sample for title
+2020-12-08 22:24:20,759 [DEBUG]  generate_join_sample(single_table=title, relationship_list=None, split_condition=None)
+2020-12-08 22:24:21,693 [DEBUG]  Creating sample for movie_info_idx
+2020-12-08 22:24:21,869 [DEBUG]  Creating sample for movie_info
+2020-12-08 22:24:24,247 [DEBUG]  Creating sample for cast_info
+2020-12-08 22:24:32,939 [DEBUG]  Creating sample for movie_keyword
+2020-12-08 22:24:33,265 [DEBUG]  Creating sample for movie_companies
+2020-12-08 22:24:33,666 [INFO ]  Files successfully created
+2020-12-08 22:24:33,666 [INFO ]  maqp(generate_ensemble: ensemble_strategy=rdc_based, incremental_learning_rate=0, incremental_condition=None, ensemble_path=../imdb-benchmark/spn_ensembles)
+2020-12-08 22:24:33,667 [DEBUG]  Evaluating title and movie_info_idx
+2020-12-08 22:24:33,667 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:33,667 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:33,678 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:33,703 [DEBUG]  Final join size is 13748.
+2020-12-08 22:24:34,750 [DEBUG]  title.kind_id, movie_info_idx.info_type_id: 0
+2020-12-08 22:24:34,750 [DEBUG]  title.production_year, movie_info_idx.info_type_id: 0.10834333040693699
+2020-12-08 22:24:34,750 [DEBUG]  Max RDC between title and movie_info_idx: 0
+2020-12-08 22:24:34,750 [DEBUG]  Evaluating title and movie_info
+2020-12-08 22:24:34,751 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:34,751 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:34,780 [DEBUG]  Joining movie_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:34,866 [DEBUG]  Final join size is 15157.
+2020-12-08 22:24:35,051 [DEBUG]  title.kind_id, movie_info.info_type_id: 0.5724886498969859
+2020-12-08 22:24:35,051 [DEBUG]  title.production_year, movie_info.info_type_id: 0.30467010986895304
+2020-12-08 22:24:35,052 [DEBUG]  Max RDC between title and movie_info: 0.5724886498969859
+2020-12-08 22:24:35,052 [DEBUG]  Evaluating title and cast_info
+2020-12-08 22:24:35,052 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['cast_info.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:35,052 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:35,069 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:35,105 [DEBUG]  Final join size is 15217.
+2020-12-08 22:24:35,236 [DEBUG]  title.kind_id, cast_info.role_id: 0.13133221773331188
+2020-12-08 22:24:35,238 [DEBUG]  title.production_year, cast_info.role_id: 0.15929980456765072
+2020-12-08 22:24:35,238 [DEBUG]  Max RDC between title and cast_info: 0.15929980456765072
+2020-12-08 22:24:35,238 [DEBUG]  Evaluating title and movie_keyword
+2020-12-08 22:24:35,239 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_keyword.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:35,239 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:35,268 [DEBUG]  Joining movie_keyword.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:35,384 [DEBUG]  Final join size is 18495.
+2020-12-08 22:24:35,512 [DEBUG]  title.kind_id, movie_keyword.keyword_id: 0
+2020-12-08 22:24:35,512 [DEBUG]  title.production_year, movie_keyword.keyword_id: 0.20699002533101413
+2020-12-08 22:24:35,512 [DEBUG]  Max RDC between title and movie_keyword: 0
+2020-12-08 22:24:35,512 [DEBUG]  Evaluating title and movie_companies
+2020-12-08 22:24:35,513 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:35,513 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:35,531 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:35,598 [DEBUG]  Final join size is 15755.
+2020-12-08 22:24:35,808 [DEBUG]  title.kind_id, movie_companies.company_id: 0.6374581812550142
+2020-12-08 22:24:35,809 [DEBUG]  title.kind_id, movie_companies.company_type_id: 0
+2020-12-08 22:24:35,809 [DEBUG]  title.production_year, movie_companies.company_id: 0.3468331408646071
+2020-12-08 22:24:35,810 [DEBUG]  title.production_year, movie_companies.company_type_id: 0.26319872125874777
+2020-12-08 22:24:35,810 [DEBUG]  Max RDC between title and movie_companies: 0.6374581812550142
+2020-12-08 22:24:35,810 [DEBUG]  Evaluating movie_info_idx and movie_info
+2020-12-08 22:24:35,810 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'movie_info.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:35,811 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:35,833 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:35,859 [DEBUG]  Joining movie_info.movie_id = title.id. Current join size is 13748.
+2020-12-08 22:24:35,941 [DEBUG]  Final join size is 25237.
+2020-12-08 22:24:36,012 [DEBUG]  movie_info_idx.info_type_id, movie_info.info_type_id: 0.44961128827611896
+2020-12-08 22:24:36,013 [DEBUG]  Max RDC between movie_info_idx and movie_info: 0.44961128827611896
+2020-12-08 22:24:36,013 [DEBUG]  Evaluating movie_info_idx and cast_info
+2020-12-08 22:24:36,013 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'cast_info.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:36,014 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:36,061 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:36,135 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 13748.
+2020-12-08 22:24:36,184 [DEBUG]  Final join size is 23935.
+2020-12-08 22:24:36,235 [DEBUG]  movie_info_idx.info_type_id, cast_info.role_id: 0.34329722056999395
+2020-12-08 22:24:36,235 [DEBUG]  Max RDC between movie_info_idx and cast_info: 0.34329722056999395
+2020-12-08 22:24:36,235 [DEBUG]  Evaluating movie_info_idx and movie_keyword
+2020-12-08 22:24:36,235 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'movie_keyword.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:36,235 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:36,260 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:36,300 [DEBUG]  Joining movie_keyword.movie_id = title.id. Current join size is 13748.
+2020-12-08 22:24:36,425 [DEBUG]  Final join size is 36559.
+2020-12-08 22:24:36,567 [DEBUG]  movie_info_idx.info_type_id, movie_keyword.keyword_id: 0.555471924141494
+2020-12-08 22:24:36,570 [DEBUG]  Max RDC between movie_info_idx and movie_keyword: 0.555471924141494
+2020-12-08 22:24:36,571 [DEBUG]  Evaluating movie_info_idx and movie_companies
+2020-12-08 22:24:36,571 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:36,571 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:36,595 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:36,639 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 13748.
+2020-12-08 22:24:36,741 [DEBUG]  Final join size is 27157.
+2020-12-08 22:24:36,893 [DEBUG]  movie_info_idx.info_type_id, movie_companies.company_id: 0.45454795643701085
+2020-12-08 22:24:36,893 [DEBUG]  movie_info_idx.info_type_id, movie_companies.company_type_id: 0.5462158131028177
+2020-12-08 22:24:36,894 [DEBUG]  Max RDC between movie_info_idx and movie_companies: 0.5462158131028177
+2020-12-08 22:24:36,894 [DEBUG]  Evaluating movie_info and cast_info
+2020-12-08 22:24:36,894 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info.movie_id = title.id', 'cast_info.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:36,894 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:36,928 [DEBUG]  Joining movie_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:36,966 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 15157.
+2020-12-08 22:24:37,049 [DEBUG]  Final join size is 30843.
+2020-12-08 22:24:37,231 [DEBUG]  movie_info.info_type_id, cast_info.role_id: 0.2984923230519053
+2020-12-08 22:24:37,231 [DEBUG]  Max RDC between movie_info and cast_info: 0.2984923230519053
+2020-12-08 22:24:37,231 [DEBUG]  Evaluating movie_info and movie_keyword
+2020-12-08 22:24:37,232 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info.movie_id = title.id', 'movie_keyword.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:37,232 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:37,257 [DEBUG]  Joining movie_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:37,280 [DEBUG]  Joining movie_keyword.movie_id = title.id. Current join size is 15157.
+2020-12-08 22:24:37,366 [DEBUG]  Final join size is 99120.
+2020-12-08 22:24:37,593 [DEBUG]  movie_info.info_type_id, movie_keyword.keyword_id: 0.18484130772566967
+2020-12-08 22:24:37,596 [DEBUG]  Max RDC between movie_info and movie_keyword: 0.18484130772566967
+2020-12-08 22:24:37,598 [DEBUG]  Evaluating movie_info and movie_companies
+2020-12-08 22:24:37,599 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info.movie_id = title.id', 'movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:37,601 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:37,636 [DEBUG]  Joining movie_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:37,707 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 15157.
+2020-12-08 22:24:37,769 [DEBUG]  Final join size is 51063.
+2020-12-08 22:24:37,918 [DEBUG]  movie_info.info_type_id, movie_companies.company_id: 0
+2020-12-08 22:24:37,920 [DEBUG]  movie_info.info_type_id, movie_companies.company_type_id: 0
+2020-12-08 22:24:37,921 [DEBUG]  Max RDC between movie_info and movie_companies: 0
+2020-12-08 22:24:37,922 [DEBUG]  Evaluating cast_info and movie_keyword
+2020-12-08 22:24:37,922 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['cast_info.movie_id = title.id', 'movie_keyword.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:37,922 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:37,967 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:38,037 [DEBUG]  Joining movie_keyword.movie_id = title.id. Current join size is 15217.
+2020-12-08 22:24:38,120 [DEBUG]  Final join size is 49008.
+2020-12-08 22:24:38,219 [DEBUG]  cast_info.role_id, movie_keyword.keyword_id: 0.29409606442713737
+2020-12-08 22:24:38,220 [DEBUG]  Max RDC between cast_info and movie_keyword: 0.29409606442713737
+2020-12-08 22:24:38,220 [DEBUG]  Evaluating cast_info and movie_companies
+2020-12-08 22:24:38,220 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['cast_info.movie_id = title.id', 'movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:38,220 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:38,268 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:38,307 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 15217.
+2020-12-08 22:24:38,410 [DEBUG]  Final join size is 31656.
+2020-12-08 22:24:38,583 [DEBUG]  cast_info.role_id, movie_companies.company_id: 0.26480268672191426
+2020-12-08 22:24:38,585 [DEBUG]  cast_info.role_id, movie_companies.company_type_id: 0.31521088607606035
+2020-12-08 22:24:38,587 [DEBUG]  Max RDC between cast_info and movie_companies: 0.31521088607606035
+2020-12-08 22:24:38,589 [DEBUG]  Evaluating movie_keyword and movie_companies
+2020-12-08 22:24:38,591 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_keyword.movie_id = title.id', 'movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:38,593 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:38,636 [DEBUG]  Joining movie_keyword.movie_id = title.id. Current join size is 10000.
+2020-12-08 22:24:38,704 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 18495.
+2020-12-08 22:24:38,776 [DEBUG]  Final join size is 87665.
+2020-12-08 22:24:38,935 [DEBUG]  movie_keyword.keyword_id, movie_companies.company_id: 0.2519785914317832
+2020-12-08 22:24:38,937 [DEBUG]  movie_keyword.keyword_id, movie_companies.company_type_id: 0.4036817340525942
+2020-12-08 22:24:38,937 [DEBUG]  Max RDC between movie_keyword and movie_companies: 0.4036817340525942
+2020-12-08 22:24:38,938 [INFO ]  Computed 15 rdc values in 5.270708840340376 secs
+2020-12-08 22:24:41,223 [INFO ]  Computed optimal solution out of 10000 candidates in 2.2847781144082546 secs
+2020-12-08 22:24:41,224 [INFO ]  		movie_info_idx - movie_companies - title
+2020-12-08 22:24:41,224 [INFO ]  		movie_info - movie_companies - title
+2020-12-08 22:24:41,224 [INFO ]  		movie_info - title
+2020-12-08 22:24:41,224 [INFO ]  		movie_companies - title
+2020-12-08 22:24:41,224 [INFO ]  		cast_info - title
+2020-12-08 22:24:41,224 [INFO ]  		movie_keyword
+2020-12-08 22:24:41,225 [INFO ]  		movie_info_idx
+2020-12-08 22:24:41,225 [INFO ]  Learning SPN for frozenset({'movie_info_idx.movie_id = title.id', 'movie_companies.movie_id = title.id'}).
+2020-12-08 22:24:41,225 [DEBUG]  Using postsampling_factor 5.
+2020-12-08 22:24:41,225 [DEBUG]  Using spn_sample_size 1000000.
+2020-12-08 22:24:41,226 [DEBUG]  generate_n_samples_with_incremental_part(sample_size=1000000, single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'movie_companies.movie_id = title.id'], sample_size_estimate=5524166.33173042, incremental_learning_rate=0, incremental_condition=None)
+2020-12-08 22:24:41,226 [DEBUG]  to many samples, reduce number of samples with sample_rate=0.9051139483763105
+2020-12-08 22:24:41,226 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['movie_info_idx.movie_id = title.id', 'movie_companies.movie_id = title.id'], split_condition=None)
+2020-12-08 22:24:41,226 [DEBUG]  reading first table 'title'
+2020-12-08 22:24:42,570 [DEBUG]  Joining movie_info_idx.movie_id = title.id. Current join size is 2288410.
+2020-12-08 22:24:43,898 [DEBUG]  Joining movie_companies.movie_id = title.id. Current join size is 3121292.
+2020-12-08 22:24:49,367 [DEBUG]  Final join size is 6287206.
+2020-12-08 22:24:49,929 [INFO ]  split full sample dataset into parts: initial learning size: 1000000, incremental: 0
+2020-12-08 22:24:49,930 [INFO ]  Computed join for frozenset({'movie_info_idx.movie_id = title.id', 'movie_companies.movie_id = title.id'}), (tables: frozenset({'movie_info_idx', 'movie_companies', 'title'})) in 8.704558175057173 secs
+2020-12-08 22:24:49,930 [INFO ]  card(learning): 1000000, card(df_inc_samples): 0
+2020-12-08 22:24:53,373 [INFO ]  Computed full join size 4073078 in 3.4424271434545517 secs
+2020-12-08 22:24:53,373 [INFO ]  Predicted full join size of 5524166.33173042 but real join size was 4073078.
+2020-12-08 22:24:53,373 [DEBUG]  Using 1000000 samples.
+2020-12-08 22:24:53,373 [DEBUG]  Using min_instance_slice parameter 10000.0.
+2020-12-08 22:24:53,373 [INFO ]  SPN training phase with 1000000 samples
+2020-12-08 22:24:54,168 [DEBUG]  Built domains in 0.7580831460654736 sec
+2020-12-08 22:24:57,297 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (1000000, 12) (remaining tasks 0)
+2020-12-08 22:24:58,822 [DEBUG]  		found 2 row clusters (in 1.52425 secs)
+2020-12-08 22:24:58,998 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (829664, 12) (remaining tasks 1)
+2020-12-08 22:25:01,762 [DEBUG]  		found 1 col clusters (in 2.76298 secs)
+2020-12-08 22:25:01,790 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (170336, 12) (remaining tasks 1)
+2020-12-08 22:25:01,978 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (829664, 12) (remaining tasks 2)
+2020-12-08 22:25:03,982 [DEBUG]  		found 2 row clusters (in 2.00352 secs)
+2020-12-08 22:25:03,983 [DEBUG]  OP: Operation.CREATE_LEAF on slice (170336, 1) (remaining tasks 3)
+2020-12-08 22:25:03,995 [DEBUG]  		 created leaf Categorical for scope=[9] (in 0.01174 secs)
+2020-12-08 22:25:04,008 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (170336, 11) (remaining tasks 2)
+2020-12-08 22:25:06,591 [DEBUG]  		found 1 col clusters (in 2.58290 secs)
+2020-12-08 22:25:06,772 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (508095, 12) (remaining tasks 2)
+2020-12-08 22:25:06,918 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (321569, 12) (remaining tasks 3)
+2020-12-08 22:25:09,660 [DEBUG]  		found 1 col clusters (in 2.74141 secs)
+2020-12-08 22:25:09,680 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (170336, 11) (remaining tasks 3)
+2020-12-08 22:25:10,917 [DEBUG]  		found 2 row clusters (in 1.23331 secs)
+2020-12-08 22:25:10,918 [DEBUG]  OP: Operation.CREATE_LEAF on slice (508095, 1) (remaining tasks 4)
+2020-12-08 22:25:10,946 [DEBUG]  		 created leaf Categorical for scope=[9] (in 0.02834 secs)
+2020-12-08 22:25:10,985 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (508095, 11) (remaining tasks 3)

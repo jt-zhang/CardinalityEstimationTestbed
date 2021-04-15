@@ -1,0 +1,3 @@
+cd deepdb-forest&power/deepdb_job_ranges
+python3 maqp.py --generate_hdf --generate_sampled_hdfs --generate_ensemble --ensemble_path /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/ --version forest
+python3 maqp.py --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --pairwise_rdc_path ../imdb-benchmark/spn_ensembles/pairwise_rdc.pkl --dataset imdb-ranges --target_path /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/foresttest.sql.deepdb.results.csv --ensemble_location /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/forest.sql.deepdb.model.pkl --query_file_location /home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/foresttest.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv --version forest

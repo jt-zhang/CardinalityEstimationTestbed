@@ -1,0 +1,7 @@
+2020-12-17 23:54:53,749 [INFO ]  Generating HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2020-12-17 23:54:53,749 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2020-12-17 23:54:54,138 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2020-12-17 23:54:54,138 [INFO ]  Preparing hdf file for table title
+2020-12-17 23:55:00,473 [INFO ]  Managing functional dependencies for table title
+2020-12-17 23:55:00,636 [INFO ]  Preparing multipliers for table title
+2020-12-17 23:55:00,637 [INFO ]  Preparing multiplier movie_info_idx.movie_id = title.id for table title

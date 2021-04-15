@@ -1,0 +1,8 @@
+2020-12-10 01:35:59,061 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=../ssb-benchmark/results)
+2020-12-10 01:35:59,274 [DEBUG]  Including SPN with table_set {'title'} with sampling ratio(2528312 / 2528312.0)
+2020-12-10 01:35:59,274 [DEBUG]  Including SPN with table_set {'movie_info_idx'} with sampling ratio(1380035 / 1380035.0)
+2020-12-10 01:35:59,274 [DEBUG]  Including SPN with table_set {'movie_info'} with sampling ratio(10000000 / 14835720.0)
+2020-12-10 01:35:59,274 [DEBUG]  Including SPN with table_set {'cast_info'} with sampling ratio(10000000 / 36244344.0)
+2020-12-10 01:35:59,275 [DEBUG]  Including SPN with table_set {'movie_keyword'} with sampling ratio(4523930 / 4523930.0)
+2020-12-10 01:35:59,275 [DEBUG]  Including SPN with table_set {'movie_companies'} with sampling ratio(2609129 / 2609129.0)
+2020-12-10 01:35:59,275 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM movie_companies mc, movie_info_idx mi_idx, title t WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=99 AND mc.company_type_id=1 AND t.season_nr<=1.0;

@@ -1,0 +1,308 @@
+2021-01-11 19:40:52,584 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=./baselines/cardinality_estimation/results/deepDB-ranges/imdb_ranges_model_based_budget_5.csv)
+2021-01-11 19:40:52,608 [DEBUG]  Including SPN with table_set {'title', 'cast_info'} with sampling ratio(10000000 / 36244344)
+2021-01-11 19:40:52,608 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2011 AND t.phonetic_code<11942 AND t.series_years<296 AND ci.role_id>2;
+2021-01-11 19:40:52,616 [DEBUG]  		Latency: 1.76ms
+2021-01-11 19:40:52,616 [DEBUG]  		True: 2727
+2021-01-11 19:40:52,616 [DEBUG]  		Predicted: 3293.745776684689
+2021-01-11 19:40:52,616 [DEBUG]  Q-Error was: 1.20782756754114
+2021-01-11 19:40:52,616 [DEBUG]  Predicting cardinality for query 1: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=20682 AND t.production_year>1993 AND t.series_years>644 AND ci.role_id=1;
+2021-01-11 19:40:52,624 [DEBUG]  		Latency: 1.65ms
+2021-01-11 19:40:52,624 [DEBUG]  		True: 4
+2021-01-11 19:40:52,624 [DEBUG]  		Predicted: 20.876044171260805
+2021-01-11 19:40:52,624 [DEBUG]  Q-Error was: 5.219011042815201
+2021-01-11 19:40:52,624 [DEBUG]  Predicting cardinality for query 2: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<11364 AND t.series_years<428 AND t.production_year=2009 AND ci.role_id<4;
+2021-01-11 19:40:52,631 [DEBUG]  		Latency: 1.57ms
+2021-01-11 19:40:52,631 [DEBUG]  		True: 29
+2021-01-11 19:40:52,631 [DEBUG]  		Predicted: 476.92458187624925
+2021-01-11 19:40:52,631 [DEBUG]  Q-Error was: 16.44567523711204
+2021-01-11 19:40:52,631 [DEBUG]  Predicting cardinality for query 3: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>850 AND t.production_year>2011 AND t.series_years>346 AND ci.role_id<2;
+2021-01-11 19:40:52,638 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:52,639 [DEBUG]  		True: 12036
+2021-01-11 19:40:52,639 [DEBUG]  		Predicted: 22147.269987416083
+2021-01-11 19:40:52,639 [DEBUG]  Q-Error was: 1.8400855755579995
+2021-01-11 19:40:52,639 [DEBUG]  Predicting cardinality for query 4: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>17321 AND t.production_year=1964 AND t.series_years<767 AND ci.role_id>2;
+2021-01-11 19:40:52,646 [DEBUG]  		Latency: 1.53ms
+2021-01-11 19:40:52,646 [DEBUG]  		True: 1566
+2021-01-11 19:40:52,646 [DEBUG]  		Predicted: 13.90517825111085
+2021-01-11 19:40:52,646 [DEBUG]  Q-Error was: 112.61991552498769
+2021-01-11 19:40:52,646 [DEBUG]  Predicting cardinality for query 5: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<474 AND t.production_year>1956 AND t.phonetic_code>14786 AND ci.role_id=2;
+2021-01-11 19:40:52,653 [DEBUG]  		Latency: 1.58ms
+2021-01-11 19:40:52,653 [DEBUG]  		True: 1010
+2021-01-11 19:40:52,653 [DEBUG]  		Predicted: 1010.6090142127453
+2021-01-11 19:40:52,653 [DEBUG]  Q-Error was: 1.0006029843690547
+2021-01-11 19:40:52,653 [DEBUG]  Predicting cardinality for query 6: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=10311 AND t.production_year<2008 AND t.series_years<988 AND ci.role_id>1;
+2021-01-11 19:40:52,660 [DEBUG]  		Latency: 1.54ms
+2021-01-11 19:40:52,660 [DEBUG]  		True: 34
+2021-01-11 19:40:52,660 [DEBUG]  		Predicted: 10.10149614335113
+2021-01-11 19:40:52,660 [DEBUG]  Q-Error was: 3.3658380419596576
+2021-01-11 19:40:52,661 [DEBUG]  Predicting cardinality for query 7: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2013 AND t.series_years<842 AND t.phonetic_code=348 AND ci.role_id>1;
+2021-01-11 19:40:52,667 [DEBUG]  		Latency: 1.62ms
+2021-01-11 19:40:52,668 [DEBUG]  		True: 5
+2021-01-11 19:40:52,668 [DEBUG]  		Predicted: 15.250632972755305
+2021-01-11 19:40:52,668 [DEBUG]  Q-Error was: 3.050126594551061
+2021-01-11 19:40:52,668 [DEBUG]  Predicting cardinality for query 8: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2012 AND t.phonetic_code>14188 AND t.series_years=116 AND ci.role_id<2;
+2021-01-11 19:40:52,674 [DEBUG]  		Latency: 1.47ms
+2021-01-11 19:40:52,674 [DEBUG]  		True: 11
+2021-01-11 19:40:52,674 [DEBUG]  		Predicted: 1.3880606179844652
+2021-01-11 19:40:52,674 [DEBUG]  Q-Error was: 7.924725950349748
+2021-01-11 19:40:52,675 [DEBUG]  Predicting cardinality for query 9: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years=1109 AND t.phonetic_code<18964 AND t.production_year<2011 AND ci.role_id>1;
+2021-01-11 19:40:52,681 [DEBUG]  		Latency: 1.51ms
+2021-01-11 19:40:52,681 [DEBUG]  		True: 104
+2021-01-11 19:40:52,681 [DEBUG]  		Predicted: 58.697354206789875
+2021-01-11 19:40:52,681 [DEBUG]  Q-Error was: 1.7718004738954605
+2021-01-11 19:40:52,681 [DEBUG]  Predicting cardinality for query 10: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=16804 AND t.series_years<351 AND t.production_year<2011 AND ci.role_id>1;
+2021-01-11 19:40:52,688 [DEBUG]  		Latency: 1.39ms
+2021-01-11 19:40:52,688 [DEBUG]  		True: 3
+2021-01-11 19:40:52,688 [DEBUG]  		Predicted: 2.8776994149516044
+2021-01-11 19:40:52,688 [DEBUG]  Q-Error was: 1.0424994300700625
+2021-01-11 19:40:52,688 [DEBUG]  Predicting cardinality for query 11: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=15862 AND t.series_years>1108 AND t.production_year<2001 AND ci.role_id>2;
+2021-01-11 19:40:52,695 [DEBUG]  		Latency: 1.47ms
+2021-01-11 19:40:52,695 [DEBUG]  		True: 2
+2021-01-11 19:40:52,695 [DEBUG]  		Predicted: 11.67370723552406
+2021-01-11 19:40:52,695 [DEBUG]  Q-Error was: 5.83685361776203
+2021-01-11 19:40:52,695 [DEBUG]  Predicting cardinality for query 12: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<16641 AND t.production_year<1969 AND t.series_years>105 AND ci.role_id=2;
+2021-01-11 19:40:52,701 [DEBUG]  		Latency: 1.53ms
+2021-01-11 19:40:52,701 [DEBUG]  		True: 9913
+2021-01-11 19:40:52,701 [DEBUG]  		Predicted: 12859.521988059056
+2021-01-11 19:40:52,702 [DEBUG]  Q-Error was: 1.297238170892672
+2021-01-11 19:40:52,702 [DEBUG]  Predicting cardinality for query 13: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<1974 AND t.phonetic_code<4570 AND t.series_years<554 AND ci.role_id>1;
+2021-01-11 19:40:52,708 [DEBUG]  		Latency: 1.59ms
+2021-01-11 19:40:52,708 [DEBUG]  		True: 7999
+2021-01-11 19:40:52,708 [DEBUG]  		Predicted: 1337.7391015699911
+2021-01-11 19:40:52,708 [DEBUG]  Q-Error was: 5.979491808688444
+2021-01-11 19:40:52,709 [DEBUG]  Predicting cardinality for query 14: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<17498 AND t.production_year<2010 AND t.series_years>726 AND ci.role_id<4;
+2021-01-11 19:40:52,715 [DEBUG]  		Latency: 1.54ms
+2021-01-11 19:40:52,715 [DEBUG]  		True: 378740
+2021-01-11 19:40:52,715 [DEBUG]  		Predicted: 292387.39934425766
+2021-01-11 19:40:52,715 [DEBUG]  Q-Error was: 1.2953362588449668
+2021-01-11 19:40:52,715 [DEBUG]  Predicting cardinality for query 15: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<16960 AND t.series_years>367 AND t.production_year<2009 AND ci.role_id<2;
+2021-01-11 19:40:52,722 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:52,722 [DEBUG]  		True: 192087
+2021-01-11 19:40:52,722 [DEBUG]  		Predicted: 145891.03048017487
+2021-01-11 19:40:52,722 [DEBUG]  Q-Error was: 1.316647084935785
+2021-01-11 19:40:52,722 [DEBUG]  Predicting cardinality for query 16: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>920 AND t.phonetic_code<22160 AND t.production_year=2011 AND ci.role_id>1;
+2021-01-11 19:40:52,729 [DEBUG]  		Latency: 1.59ms
+2021-01-11 19:40:52,730 [DEBUG]  		True: 24519
+2021-01-11 19:40:52,730 [DEBUG]  		Predicted: 26981.009075631242
+2021-01-11 19:40:52,730 [DEBUG]  Q-Error was: 1.1004122955924485
+2021-01-11 19:40:52,730 [DEBUG]  Predicting cardinality for query 17: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>1259 AND t.production_year>2012 AND t.phonetic_code>9675 AND ci.role_id=1;
+2021-01-11 19:40:52,736 [DEBUG]  		Latency: 1.57ms
+2021-01-11 19:40:52,737 [DEBUG]  		True: 1982
+2021-01-11 19:40:52,737 [DEBUG]  		Predicted: 1753.032191618839
+2021-01-11 19:40:52,737 [DEBUG]  Q-Error was: 1.1306124379665388
+2021-01-11 19:40:52,737 [DEBUG]  Predicting cardinality for query 18: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years=1082 AND t.production_year<2000 AND t.phonetic_code>12684 AND ci.role_id>1;
+2021-01-11 19:40:52,743 [DEBUG]  		Latency: 1.45ms
+2021-01-11 19:40:52,743 [DEBUG]  		True: 8
+2021-01-11 19:40:52,743 [DEBUG]  		Predicted: 2.6840051803937253
+2021-01-11 19:40:52,744 [DEBUG]  Q-Error was: 2.980620178544683
+2021-01-11 19:40:52,744 [DEBUG]  Predicting cardinality for query 19: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<1971 AND t.phonetic_code>16805 AND t.series_years<686 AND ci.role_id=2;
+2021-01-11 19:40:52,751 [DEBUG]  		Latency: 1.70ms
+2021-01-11 19:40:52,751 [DEBUG]  		True: 2494
+2021-01-11 19:40:52,751 [DEBUG]  		Predicted: 209.5230650015585
+2021-01-11 19:40:52,751 [DEBUG]  Q-Error was: 11.90322411511806
+2021-01-11 19:40:52,751 [DEBUG]  Predicting cardinality for query 20: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>2005 AND t.phonetic_code>13138 AND t.series_years<448 AND ci.role_id=1;
+2021-01-11 19:40:52,757 [DEBUG]  		Latency: 1.44ms
+2021-01-11 19:40:52,757 [DEBUG]  		True: 70
+2021-01-11 19:40:52,757 [DEBUG]  		Predicted: 904.1685843193999
+2021-01-11 19:40:52,757 [DEBUG]  Q-Error was: 12.916694061705712
+2021-01-11 19:40:52,758 [DEBUG]  Predicting cardinality for query 21: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>1949 AND t.phonetic_code<4840 AND t.series_years>593 AND ci.role_id>1;
+2021-01-11 19:40:52,764 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:52,764 [DEBUG]  		True: 163419
+2021-01-11 19:40:52,764 [DEBUG]  		Predicted: 143727.04497608365
+2021-01-11 19:40:52,764 [DEBUG]  Q-Error was: 1.1370093918454465
+2021-01-11 19:40:52,764 [DEBUG]  Predicting cardinality for query 22: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=13420 AND t.production_year<2009 AND t.series_years>364 AND ci.role_id>4;
+2021-01-11 19:40:52,771 [DEBUG]  		Latency: 1.38ms
+2021-01-11 19:40:52,771 [DEBUG]  		True: 6
+2021-01-11 19:40:52,771 [DEBUG]  		Predicted: 2.5326771380776623
+2021-01-11 19:40:52,771 [DEBUG]  Q-Error was: 2.3690346905228057
+2021-01-11 19:40:52,771 [DEBUG]  Predicting cardinality for query 23: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<17810 AND t.production_year<2009 AND t.series_years>671 AND ci.role_id>2;
+2021-01-11 19:40:52,778 [DEBUG]  		Latency: 1.42ms
+2021-01-11 19:40:52,778 [DEBUG]  		True: 284050
+2021-01-11 19:40:52,778 [DEBUG]  		Predicted: 193737.69778149764
+2021-01-11 19:40:52,778 [DEBUG]  Q-Error was: 1.4661576102775769
+2021-01-11 19:40:52,778 [DEBUG]  Predicting cardinality for query 24: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>340 AND t.phonetic_code>1758 AND t.production_year<2012 AND ci.role_id=2;
+2021-01-11 19:40:52,785 [DEBUG]  		Latency: 1.51ms
+2021-01-11 19:40:52,785 [DEBUG]  		True: 148269
+2021-01-11 19:40:52,785 [DEBUG]  		Predicted: 111020.68605279687
+2021-01-11 19:40:52,785 [DEBUG]  Q-Error was: 1.3355078703935352
+2021-01-11 19:40:52,785 [DEBUG]  Predicting cardinality for query 25: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>663 AND t.production_year<1998 AND t.phonetic_code<1460 AND ci.role_id>2;
+2021-01-11 19:40:52,792 [DEBUG]  		Latency: 1.61ms
+2021-01-11 19:40:52,792 [DEBUG]  		True: 11327
+2021-01-11 19:40:52,792 [DEBUG]  		Predicted: 13744.59082461772
+2021-01-11 19:40:52,792 [DEBUG]  Q-Error was: 1.2134361105868916
+2021-01-11 19:40:52,792 [DEBUG]  Predicting cardinality for query 26: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>1965 AND t.series_years<294 AND t.phonetic_code>18065 AND ci.role_id>1;
+2021-01-11 19:40:52,798 [DEBUG]  		Latency: 1.38ms
+2021-01-11 19:40:52,799 [DEBUG]  		True: 17
+2021-01-11 19:40:52,799 [DEBUG]  		Predicted: 549.8601356013914
+2021-01-11 19:40:52,799 [DEBUG]  Q-Error was: 32.34471385890538
+2021-01-11 19:40:52,799 [DEBUG]  Predicting cardinality for query 27: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>2007 AND t.series_years>328 AND t.phonetic_code>11932 AND ci.role_id=2;
+2021-01-11 19:40:52,805 [DEBUG]  		Latency: 1.52ms
+2021-01-11 19:40:52,805 [DEBUG]  		True: 11485
+2021-01-11 19:40:52,805 [DEBUG]  		Predicted: 18839.755368484242
+2021-01-11 19:40:52,806 [DEBUG]  Q-Error was: 1.6403792223321065
+2021-01-11 19:40:52,806 [DEBUG]  Predicting cardinality for query 28: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<9598 AND t.series_years<545 AND t.production_year=2012 AND ci.role_id=1;
+2021-01-11 19:40:52,812 [DEBUG]  		Latency: 1.37ms
+2021-01-11 19:40:52,812 [DEBUG]  		True: 112
+2021-01-11 19:40:52,812 [DEBUG]  		Predicted: 475.71745224219177
+2021-01-11 19:40:52,812 [DEBUG]  Q-Error was: 4.247477252162427
+2021-01-11 19:40:52,812 [DEBUG]  Predicting cardinality for query 29: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year=2012 AND t.series_years<249 AND t.phonetic_code>17138 AND ci.role_id>1;
+2021-01-11 19:40:52,819 [DEBUG]  		Latency: 1.39ms
+2021-01-11 19:40:52,819 [DEBUG]  		True: 10
+2021-01-11 19:40:52,819 [DEBUG]  		Predicted: 48.62098330224019
+2021-01-11 19:40:52,819 [DEBUG]  Q-Error was: 4.862098330224019
+2021-01-11 19:40:52,819 [DEBUG]  Predicting cardinality for query 30: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>1006 AND t.phonetic_code<20390 AND t.production_year<2010 AND ci.role_id=1;
+2021-01-11 19:40:52,825 [DEBUG]  		Latency: 1.58ms
+2021-01-11 19:40:52,825 [DEBUG]  		True: 169800
+2021-01-11 19:40:52,826 [DEBUG]  		Predicted: 148595.08378799597
+2021-01-11 19:40:52,826 [DEBUG]  Q-Error was: 1.1427026767740014
+2021-01-11 19:40:52,826 [DEBUG]  Predicting cardinality for query 31: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<17612 AND t.series_years>704 AND t.production_year<1988 AND ci.role_id<2;
+2021-01-11 19:40:52,832 [DEBUG]  		Latency: 1.65ms
+2021-01-11 19:40:52,833 [DEBUG]  		True: 43754
+2021-01-11 19:40:52,833 [DEBUG]  		Predicted: 47301.10465966529
+2021-01-11 19:40:52,833 [DEBUG]  Q-Error was: 1.0810692658880396
+2021-01-11 19:40:52,833 [DEBUG]  Predicting cardinality for query 32: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>159 AND t.production_year<2012 AND t.phonetic_code<14735 AND ci.role_id>1;
+2021-01-11 19:40:52,839 [DEBUG]  		Latency: 1.38ms
+2021-01-11 19:40:52,839 [DEBUG]  		True: 396249
+2021-01-11 19:40:52,839 [DEBUG]  		Predicted: 318053.48686390766
+2021-01-11 19:40:52,839 [DEBUG]  Q-Error was: 1.2458564875584952
+2021-01-11 19:40:52,839 [DEBUG]  Predicting cardinality for query 33: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<16524 AND t.production_year=2001 AND t.series_years>1228 AND ci.role_id=1;
+2021-01-11 19:40:52,846 [DEBUG]  		Latency: 1.49ms
+2021-01-11 19:40:52,846 [DEBUG]  		True: 7500
+2021-01-11 19:40:52,846 [DEBUG]  		Predicted: 2916.511365946535
+2021-01-11 19:40:52,846 [DEBUG]  Q-Error was: 2.571565496905212
+2021-01-11 19:40:52,846 [DEBUG]  Predicting cardinality for query 34: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code=5580 AND t.production_year<2003 AND t.series_years>603 AND ci.role_id=2;
+2021-01-11 19:40:52,853 [DEBUG]  		Latency: 1.52ms
+2021-01-11 19:40:52,853 [DEBUG]  		True: 34
+2021-01-11 19:40:52,853 [DEBUG]  		Predicted: 5.938504953930021
+2021-01-11 19:40:52,853 [DEBUG]  Q-Error was: 5.725346743627664
+2021-01-11 19:40:52,853 [DEBUG]  Predicting cardinality for query 35: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<480 AND t.production_year>2001 AND t.phonetic_code<12968 AND ci.role_id=4;
+2021-01-11 19:40:52,860 [DEBUG]  		Latency: 1.45ms
+2021-01-11 19:40:52,860 [DEBUG]  		True: 2
+2021-01-11 19:40:52,860 [DEBUG]  		Predicted: 721.9770983843638
+2021-01-11 19:40:52,860 [DEBUG]  Q-Error was: 360.9885491921819
+2021-01-11 19:40:52,860 [DEBUG]  Predicting cardinality for query 36: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>2001 AND t.series_years>451 AND t.phonetic_code>15754 AND ci.role_id<2;
+2021-01-11 19:40:52,867 [DEBUG]  		Latency: 1.47ms
+2021-01-11 19:40:52,867 [DEBUG]  		True: 29507
+2021-01-11 19:40:52,867 [DEBUG]  		Predicted: 34269.20638977526
+2021-01-11 19:40:52,867 [DEBUG]  Q-Error was: 1.1613924285686534
+2021-01-11 19:40:52,867 [DEBUG]  Predicting cardinality for query 37: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years>426 AND t.production_year>2012 AND t.phonetic_code<348 AND ci.role_id>1;
+2021-01-11 19:40:52,874 [DEBUG]  		Latency: 1.65ms
+2021-01-11 19:40:52,874 [DEBUG]  		True: 234
+2021-01-11 19:40:52,874 [DEBUG]  		Predicted: 387.68421680121656
+2021-01-11 19:40:52,874 [DEBUG]  Q-Error was: 1.6567701572701563
+2021-01-11 19:40:52,874 [DEBUG]  Predicting cardinality for query 38: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2005 AND t.series_years>1145 AND t.phonetic_code>10256 AND ci.role_id>2;
+2021-01-11 19:40:52,881 [DEBUG]  		Latency: 1.49ms
+2021-01-11 19:40:52,881 [DEBUG]  		True: 90509
+2021-01-11 19:40:52,881 [DEBUG]  		Predicted: 47732.59149071601
+2021-01-11 19:40:52,881 [DEBUG]  Q-Error was: 1.8961677372493801
+2021-01-11 19:40:52,881 [DEBUG]  Predicting cardinality for query 39: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>10256 AND t.series_years=523 AND t.production_year<2003 AND ci.role_id=2;
+2021-01-11 19:40:52,888 [DEBUG]  		Latency: 1.45ms
+2021-01-11 19:40:52,888 [DEBUG]  		True: 14
+2021-01-11 19:40:52,888 [DEBUG]  		Predicted: 2.0901467981972064
+2021-01-11 19:40:52,888 [DEBUG]  Q-Error was: 6.698094130075113
+2021-01-11 19:40:52,888 [DEBUG]  Predicting cardinality for query 40: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<20698 AND t.production_year<2010 AND t.series_years>1088 AND ci.role_id=2;
+2021-01-11 19:40:52,895 [DEBUG]  		Latency: 1.52ms
+2021-01-11 19:40:52,895 [DEBUG]  		True: 104186
+2021-01-11 19:40:52,895 [DEBUG]  		Predicted: 81300.45742147007
+2021-01-11 19:40:52,895 [DEBUG]  Q-Error was: 1.281493404888104
+2021-01-11 19:40:52,895 [DEBUG]  Predicting cardinality for query 41: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<11964 AND t.production_year=2004 AND t.series_years>762 AND ci.role_id=2;
+2021-01-11 19:40:52,902 [DEBUG]  		Latency: 1.45ms
+2021-01-11 19:40:52,902 [DEBUG]  		True: 4424
+2021-01-11 19:40:52,902 [DEBUG]  		Predicted: 2533.3288561407358
+2021-01-11 19:40:52,902 [DEBUG]  Q-Error was: 1.7463188757655042
+2021-01-11 19:40:52,902 [DEBUG]  Predicting cardinality for query 42: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<20345 AND t.production_year>1961 AND t.series_years<579 AND ci.role_id=2;
+2021-01-11 19:40:52,909 [DEBUG]  		Latency: 1.52ms
+2021-01-11 19:40:52,909 [DEBUG]  		True: 7414
+2021-01-11 19:40:52,909 [DEBUG]  		Predicted: 6777.562438222277
+2021-01-11 19:40:52,909 [DEBUG]  Q-Error was: 1.0939036073188368
+2021-01-11 19:40:52,909 [DEBUG]  Predicting cardinality for query 43: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>3486 AND t.production_year<2006 AND t.series_years<690 AND ci.role_id=1;
+2021-01-11 19:40:52,916 [DEBUG]  		Latency: 1.69ms
+2021-01-11 19:40:52,916 [DEBUG]  		True: 23256
+2021-01-11 19:40:52,916 [DEBUG]  		Predicted: 7654.414157113703
+2021-01-11 19:40:52,916 [DEBUG]  Q-Error was: 3.038246889004146
+2021-01-11 19:40:52,916 [DEBUG]  Predicting cardinality for query 44: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>3222 AND t.series_years>1221 AND t.production_year<2006 AND ci.role_id=1;
+2021-01-11 19:40:52,923 [DEBUG]  		Latency: 1.46ms
+2021-01-11 19:40:52,923 [DEBUG]  		True: 66742
+2021-01-11 19:40:52,923 [DEBUG]  		Predicted: 65041.7569542238
+2021-01-11 19:40:52,923 [DEBUG]  Q-Error was: 1.0261407920910381
+2021-01-11 19:40:52,923 [DEBUG]  Predicting cardinality for query 45: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>298 AND t.series_years<1078 AND t.production_year>2009 AND ci.role_id>1;
+2021-01-11 19:40:52,931 [DEBUG]  		Latency: 1.61ms
+2021-01-11 19:40:52,931 [DEBUG]  		True: 25
+2021-01-11 19:40:52,931 [DEBUG]  		Predicted: 24075.35253623794
+2021-01-11 19:40:52,931 [DEBUG]  Q-Error was: 963.0141014495176
+2021-01-11 19:40:52,931 [DEBUG]  Predicting cardinality for query 46: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<14735 AND t.production_year>1997 AND t.series_years>709 AND ci.role_id=1;
+2021-01-11 19:40:52,938 [DEBUG]  		Latency: 1.54ms
+2021-01-11 19:40:52,938 [DEBUG]  		True: 98239
+2021-01-11 19:40:52,938 [DEBUG]  		Predicted: 108527.5390985447
+2021-01-11 19:40:52,938 [DEBUG]  Q-Error was: 1.1047296806619031
+2021-01-11 19:40:52,938 [DEBUG]  Predicting cardinality for query 47: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<6092 AND t.series_years>613 AND t.production_year=2006 AND ci.role_id>1;
+2021-01-11 19:40:52,946 [DEBUG]  		Latency: 1.71ms
+2021-01-11 19:40:52,946 [DEBUG]  		True: 9232
+2021-01-11 19:40:52,946 [DEBUG]  		Predicted: 7630.708289610151
+2021-01-11 19:40:52,946 [DEBUG]  Q-Error was: 1.2098483718176125
+2021-01-11 19:40:52,946 [DEBUG]  Predicting cardinality for query 48: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<11790 AND t.production_year<2002 AND t.series_years>503 AND ci.role_id=1;
+2021-01-11 19:40:52,953 [DEBUG]  		Latency: 1.66ms
+2021-01-11 19:40:52,954 [DEBUG]  		True: 89134
+2021-01-11 19:40:52,954 [DEBUG]  		Predicted: 68705.65638015128
+2021-01-11 19:40:52,954 [DEBUG]  Q-Error was: 1.2973313217010523
+2021-01-11 19:40:52,954 [DEBUG]  Predicting cardinality for query 49: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<939 AND t.phonetic_code<11652 AND t.production_year>2002 AND ci.role_id<4;
+2021-01-11 19:40:52,961 [DEBUG]  		Latency: 1.79ms
+2021-01-11 19:40:52,961 [DEBUG]  		True: 158
+2021-01-11 19:40:52,961 [DEBUG]  		Predicted: 26634.64020430353
+2021-01-11 19:40:52,961 [DEBUG]  Q-Error was: 168.57367217913628
+2021-01-11 19:40:52,961 [DEBUG]  Predicting cardinality for query 50: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<2007 AND t.phonetic_code>7311 AND t.series_years=1014 AND ci.role_id>1;
+2021-01-11 19:40:52,968 [DEBUG]  		Latency: 1.57ms
+2021-01-11 19:40:52,968 [DEBUG]  		True: 53
+2021-01-11 19:40:52,968 [DEBUG]  		Predicted: 24.793892443833776
+2021-01-11 19:40:52,969 [DEBUG]  Q-Error was: 2.137623211847927
+2021-01-11 19:40:52,969 [DEBUG]  Predicting cardinality for query 51: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<1993 AND t.phonetic_code>14208 AND t.series_years=214 AND ci.role_id=1;
+2021-01-11 19:40:52,975 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:52,976 [DEBUG]  		True: 2
+2021-01-11 19:40:52,976 [DEBUG]  		Predicted: 1.0
+2021-01-11 19:40:52,976 [DEBUG]  Q-Error was: 2.0
+2021-01-11 19:40:52,976 [DEBUG]  Predicting cardinality for query 52: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year<1957 AND t.series_years<764 AND t.phonetic_code<2692 AND ci.role_id=1;
+2021-01-11 19:40:52,983 [DEBUG]  		Latency: 1.53ms
+2021-01-11 19:40:52,983 [DEBUG]  		True: 1287
+2021-01-11 19:40:52,983 [DEBUG]  		Predicted: 398.0162854301943
+2021-01-11 19:40:52,983 [DEBUG]  Q-Error was: 3.2335360313434194
+2021-01-11 19:40:52,983 [DEBUG]  Predicting cardinality for query 53: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<1008 AND t.phonetic_code>6855 AND t.production_year<2012 AND ci.role_id<2;
+2021-01-11 19:40:52,990 [DEBUG]  		Latency: 1.53ms
+2021-01-11 19:40:52,990 [DEBUG]  		True: 46789
+2021-01-11 19:40:52,990 [DEBUG]  		Predicted: 24021.840720101685
+2021-01-11 19:40:52,990 [DEBUG]  Q-Error was: 1.9477691383094784
+2021-01-11 19:40:52,991 [DEBUG]  Predicting cardinality for query 54: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<3900 AND t.production_year<2008 AND t.series_years<235 AND ci.role_id>1;
+2021-01-11 19:40:52,998 [DEBUG]  		Latency: 1.60ms
+2021-01-11 19:40:52,998 [DEBUG]  		True: 1165
+2021-01-11 19:40:52,998 [DEBUG]  		Predicted: 1041.9691826159858
+2021-01-11 19:40:52,998 [DEBUG]  Q-Error was: 1.118075293815438
+2021-01-11 19:40:52,998 [DEBUG]  Predicting cardinality for query 55: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years=1288 AND t.production_year<2006 AND t.phonetic_code<9645 AND ci.role_id>1;
+2021-01-11 19:40:53,005 [DEBUG]  		Latency: 1.72ms
+2021-01-11 19:40:53,005 [DEBUG]  		True: 35
+2021-01-11 19:40:53,005 [DEBUG]  		Predicted: 26.900779160672162
+2021-01-11 19:40:53,005 [DEBUG]  Q-Error was: 1.301077555819222
+2021-01-11 19:40:53,006 [DEBUG]  Predicting cardinality for query 56: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<910 AND t.phonetic_code=17060 AND t.production_year<2011 AND ci.role_id=1;
+2021-01-11 19:40:53,012 [DEBUG]  		Latency: 1.53ms
+2021-01-11 19:40:53,012 [DEBUG]  		True: 14
+2021-01-11 19:40:53,013 [DEBUG]  		Predicted: 1.0
+2021-01-11 19:40:53,013 [DEBUG]  Q-Error was: 14.0
+2021-01-11 19:40:53,013 [DEBUG]  Predicting cardinality for query 57: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code>10389 AND t.series_years>524 AND t.production_year>1965 AND ci.role_id>2;
+2021-01-11 19:40:53,020 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:53,020 [DEBUG]  		True: 208320
+2021-01-11 19:40:53,020 [DEBUG]  		Predicted: 113262.68909868106
+2021-01-11 19:40:53,020 [DEBUG]  Q-Error was: 1.8392641182878808
+2021-01-11 19:40:53,020 [DEBUG]  Predicting cardinality for query 58: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years=1291 AND t.phonetic_code<2966 AND t.production_year>1957 AND ci.role_id=1;
+2021-01-11 19:40:53,027 [DEBUG]  		Latency: 1.50ms
+2021-01-11 19:40:53,027 [DEBUG]  		True: 2
+2021-01-11 19:40:53,027 [DEBUG]  		Predicted: 1.0
+2021-01-11 19:40:53,027 [DEBUG]  Q-Error was: 2.0
+2021-01-11 19:40:53,027 [DEBUG]  Predicting cardinality for query 59: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.phonetic_code<16025 AND t.series_years>303 AND t.production_year>1970 AND ci.role_id>4;
+2021-01-11 19:40:53,034 [DEBUG]  		Latency: 1.49ms
+2021-01-11 19:40:53,034 [DEBUG]  		True: 165208
+2021-01-11 19:40:53,034 [DEBUG]  		Predicted: 131263.36560056228
+2021-01-11 19:40:53,034 [DEBUG]  Q-Error was: 1.2585994519044414
+2021-01-11 19:40:53,034 [DEBUG]  Predicting cardinality for query 60: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.production_year>2005 AND t.series_years>965 AND t.phonetic_code<10521 AND ci.role_id=2;
+2021-01-11 19:40:53,041 [DEBUG]  		Latency: 1.47ms
+2021-01-11 19:40:53,041 [DEBUG]  		True: 21189
+2021-01-11 19:40:53,041 [DEBUG]  		Predicted: 27445.81979043224
+2021-01-11 19:40:53,041 [DEBUG]  Q-Error was: 1.295286223532599
+2021-01-11 19:40:53,041 [DEBUG]  Predicting cardinality for query 61: SELECT COUNT(*) FROM cast_info ci, title t WHERE t.id=ci.movie_id AND t.series_years<'1974-tete' AND t.phonetic_code>18118 AND t.production_year<2008 AND ci.role_id>2;

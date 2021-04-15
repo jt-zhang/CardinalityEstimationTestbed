@@ -1,0 +1,13 @@
+2020-12-11 03:27:33,613 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=../ssb-benchmark/results)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'title'} with sampling ratio(2528312 / 2528312.0)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'movie_info_idx'} with sampling ratio(1380035 / 1380035.0)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'movie_info'} with sampling ratio(10000000 / 14835720.0)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'cast_info'} with sampling ratio(10000000 / 36244344.0)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'movie_keyword'} with sampling ratio(4523930 / 4523930.0)
+2020-12-11 03:27:33,779 [DEBUG]  Including SPN with table_set {'movie_companies'} with sampling ratio(2609129 / 2609129.0)
+2020-12-11 03:27:33,780 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM movie_companies mc, movie_info_idx mi_idx, title t WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND t.production_year>=1956.0 AND mc.company_type_id=2 AND mi_idx.info_type_id=101 AND t.kind_id=1;
+2020-12-11 03:27:33,790 [DEBUG]  		Latency: 3.69ms
+2020-12-11 03:27:33,790 [DEBUG]  		True: 11637
+2020-12-11 03:27:33,790 [DEBUG]  		Predicted: 129324.02702593042
+2020-12-11 03:27:33,790 [DEBUG]  Q-Error was: 11.1131758207382
+2020-12-11 03:27:33,790 [DEBUG]  Predicting cardinality for query 1: SELECT COUNT(*) FROM movie_companies mc, movie_info_idx mi_idx, title t WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=99 AND mc.company_type_id=1 AND t.season_nr<1.0;

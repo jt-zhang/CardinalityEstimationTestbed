@@ -1,0 +1,367 @@
+2020-12-10 20:52:23,476 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=./baselines/cardinality_estimation/results/deepDB/imdb_light_model_based_budget_5.csv)
+2020-12-10 20:52:23,870 [DEBUG]  Including SPN with table_set {'title', 'movie_companies', 'movie_info'} with sampling ratio(1000000 / 67371414)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'title', 'movie_companies', 'movie_info_idx'} with sampling ratio(1000000 / 4073078)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'title', 'movie_companies'} with sampling ratio(4050205 / 2609129)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'title', 'cast_info'} with sampling ratio(10000000 / 36244344)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'title', 'movie_info'} with sampling ratio(10000000 / 14835720)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'movie_keyword'} with sampling ratio(4523930 / 4523930)
+2020-12-10 20:52:23,871 [DEBUG]  Including SPN with table_set {'movie_info_idx'} with sampling ratio(1380035 / 1380035)
+2020-12-10 20:52:23,871 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM movie_companies mc,title t,movie_info_idx mi_idx WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=112 AND mc.company_type_id=2;
+2020-12-10 20:52:23,887 [DEBUG]  		Latency: 9.20ms
+2020-12-10 20:52:23,887 [DEBUG]  		True: 715
+2020-12-10 20:52:23,887 [DEBUG]  		Predicted: 1532.777274179234
+2020-12-10 20:52:23,887 [DEBUG]  Q-Error was: 2.143744439411516
+2020-12-10 20:52:23,887 [DEBUG]  Predicting cardinality for query 1: SELECT COUNT(*) FROM movie_companies mc,title t,movie_info_idx mi_idx WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=113 AND mc.company_type_id=2 AND t.production_year>2005 AND t.production_year<2010;
+2020-12-10 20:52:23,903 [DEBUG]  		Latency: 10.17ms
+2020-12-10 20:52:23,903 [DEBUG]  		True: 9
+2020-12-10 20:52:23,903 [DEBUG]  		Predicted: 3.724107793828566
+2020-12-10 20:52:23,903 [DEBUG]  Q-Error was: 2.41668622345315
+2020-12-10 20:52:23,903 [DEBUG]  Predicting cardinality for query 2: SELECT COUNT(*) FROM movie_companies mc,title t,movie_info_idx mi_idx WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=112 AND mc.company_type_id=2 AND t.production_year>2010;
+2020-12-10 20:52:23,919 [DEBUG]  		Latency: 10.35ms
+2020-12-10 20:52:23,919 [DEBUG]  		True: 47
+2020-12-10 20:52:23,919 [DEBUG]  		Predicted: 137.62498752169859
+2020-12-10 20:52:23,919 [DEBUG]  Q-Error was: 2.9281912238659276
+2020-12-10 20:52:23,919 [DEBUG]  Predicting cardinality for query 3: SELECT COUNT(*) FROM movie_companies mc,title t,movie_info_idx mi_idx WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=113 AND mc.company_type_id=2 AND t.production_year>2000;
+2020-12-10 20:52:23,934 [DEBUG]  		Latency: 9.72ms
+2020-12-10 20:52:23,934 [DEBUG]  		True: 16
+2020-12-10 20:52:23,934 [DEBUG]  		Predicted: 10.21723544802766
+2020-12-10 20:52:23,934 [DEBUG]  Q-Error was: 1.5659813343235276
+2020-12-10 20:52:23,934 [DEBUG]  Predicting cardinality for query 4: SELECT COUNT(*) FROM movie_companies mc,title t,movie_keyword mk WHERE t.id=mc.movie_id AND t.id=mk.movie_id AND mk.keyword_id=117;
+2020-12-10 20:52:23,944 [DEBUG]  		Latency: 5.24ms
+2020-12-10 20:52:23,944 [DEBUG]  		True: 148552
+2020-12-10 20:52:23,944 [DEBUG]  		Predicted: 41074.14567832492
+2020-12-10 20:52:23,944 [DEBUG]  Q-Error was: 3.616678997133513
+2020-12-10 20:52:23,944 [DEBUG]  Predicting cardinality for query 5: SELECT COUNT(*) FROM title t,movie_info mi,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.production_year>2005;
+2020-12-10 20:52:23,952 [DEBUG]  		Latency: 3.18ms
+2020-12-10 20:52:23,952 [DEBUG]  		True: 62682311
+2020-12-10 20:52:23,952 [DEBUG]  		Predicted: 62339845.775364585
+2020-12-10 20:52:23,952 [DEBUG]  Q-Error was: 1.0054935205625861
+2020-12-10 20:52:23,952 [DEBUG]  Predicting cardinality for query 6: SELECT COUNT(*) FROM title t,movie_info mi,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.production_year>2010;
+2020-12-10 20:52:23,959 [DEBUG]  		Latency: 2.59ms
+2020-12-10 20:52:23,960 [DEBUG]  		True: 11990578
+2020-12-10 20:52:23,960 [DEBUG]  		Predicted: 15805133.095790416
+2020-12-10 20:52:23,960 [DEBUG]  Q-Error was: 1.3181293758975101
+2020-12-10 20:52:23,960 [DEBUG]  Predicting cardinality for query 7: SELECT COUNT(*) FROM title t,movie_info mi,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.production_year>1990;
+2020-12-10 20:52:23,967 [DEBUG]  		Latency: 2.61ms
+2020-12-10 20:52:23,967 [DEBUG]  		True: 157041640
+2020-12-10 20:52:23,967 [DEBUG]  		Predicted: 158374074.0773966
+2020-12-10 20:52:23,967 [DEBUG]  Q-Error was: 1.0084845909492324
+2020-12-10 20:52:23,967 [DEBUG]  Predicting cardinality for query 8: SELECT COUNT(*) FROM title t,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi_idx.movie_id AND t.id=mk.movie_id AND t.production_year>2005 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:23,984 [DEBUG]  		Latency: 11.60ms
+2020-12-10 20:52:23,984 [DEBUG]  		True: 850677
+2020-12-10 20:52:23,984 [DEBUG]  		Predicted: 787575.0755597674
+2020-12-10 20:52:23,984 [DEBUG]  Q-Error was: 1.0801217895263928
+2020-12-10 20:52:23,984 [DEBUG]  Predicting cardinality for query 9: SELECT COUNT(*) FROM title t,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi_idx.movie_id AND t.id=mk.movie_id AND t.production_year>2010 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,000 [DEBUG]  		Latency: 11.57ms
+2020-12-10 20:52:24,000 [DEBUG]  		True: 179616
+2020-12-10 20:52:24,001 [DEBUG]  		Predicted: 256578.37997311918
+2020-12-10 20:52:24,001 [DEBUG]  Q-Error was: 1.428482874427218
+2020-12-10 20:52:24,001 [DEBUG]  Predicting cardinality for query 10: SELECT COUNT(*) FROM title t,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi_idx.movie_id AND t.id=mk.movie_id AND t.production_year>1990 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,017 [DEBUG]  		Latency: 11.49ms
+2020-12-10 20:52:24,017 [DEBUG]  		True: 2031666
+2020-12-10 20:52:24,017 [DEBUG]  		Predicted: 1517970.5261032241
+2020-12-10 20:52:24,017 [DEBUG]  Q-Error was: 1.3384093861265418
+2020-12-10 20:52:24,017 [DEBUG]  Predicting cardinality for query 11: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.production_year>2005 AND mc.company_type_id=2;
+2020-12-10 20:52:24,029 [DEBUG]  		Latency: 6.76ms
+2020-12-10 20:52:24,029 [DEBUG]  		True: 6333736
+2020-12-10 20:52:24,029 [DEBUG]  		Predicted: 6167762.876537002
+2020-12-10 20:52:24,029 [DEBUG]  Q-Error was: 1.0269097769783566
+2020-12-10 20:52:24,029 [DEBUG]  Predicting cardinality for query 12: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.production_year>2010 AND mc.company_type_id=2;
+2020-12-10 20:52:24,040 [DEBUG]  		Latency: 6.35ms
+2020-12-10 20:52:24,041 [DEBUG]  		True: 1931628
+2020-12-10 20:52:24,041 [DEBUG]  		Predicted: 1931224.8658721996
+2020-12-10 20:52:24,041 [DEBUG]  Q-Error was: 1.000208745307149
+2020-12-10 20:52:24,041 [DEBUG]  Predicting cardinality for query 13: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.production_year>1990 AND mc.company_type_id=2;
+2020-12-10 20:52:24,052 [DEBUG]  		Latency: 6.33ms
+2020-12-10 20:52:24,052 [DEBUG]  		True: 12738520
+2020-12-10 20:52:24,052 [DEBUG]  		Predicted: 12183839.86875614
+2020-12-10 20:52:24,052 [DEBUG]  Q-Error was: 1.045525888161602
+2020-12-10 20:52:24,052 [DEBUG]  Predicting cardinality for query 14: SELECT COUNT(*) FROM movie_keyword mk,title t,cast_info ci WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2010 AND mk.keyword_id=8200;
+2020-12-10 20:52:24,060 [DEBUG]  		Latency: 2.46ms
+2020-12-10 20:52:24,060 [DEBUG]  		True: 1224
+2020-12-10 20:52:24,060 [DEBUG]  		Predicted: 80.21776732839191
+2020-12-10 20:52:24,060 [DEBUG]  Q-Error was: 15.258465060355562
+2020-12-10 20:52:24,060 [DEBUG]  Predicting cardinality for query 15: SELECT COUNT(*) FROM movie_keyword mk,title t,cast_info ci WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2014;
+2020-12-10 20:52:24,066 [DEBUG]  		Latency: 1.67ms
+2020-12-10 20:52:24,066 [DEBUG]  		True: 13221
+2020-12-10 20:52:24,067 [DEBUG]  		Predicted: 4867.858726427464
+2020-12-10 20:52:24,067 [DEBUG]  Q-Error was: 2.715978573540677
+2020-12-10 20:52:24,067 [DEBUG]  Predicting cardinality for query 16: SELECT COUNT(*) FROM movie_keyword mk,title t,cast_info ci WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2014 AND mk.keyword_id=8200;
+2020-12-10 20:52:24,072 [DEBUG]  		Latency: 0.27ms
+2020-12-10 20:52:24,072 [DEBUG]  		True: 33
+2020-12-10 20:52:24,072 [DEBUG]  		Predicted: 0.015064340555827897
+2020-12-10 20:52:24,072 [DEBUG]  Q-Error was: 2190.603689401684
+2020-12-10 20:52:24,072 [DEBUG]  Predicting cardinality for query 17: SELECT COUNT(*) FROM movie_keyword mk,title t,cast_info ci WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2000 AND mk.keyword_id=8200;
+2020-12-10 20:52:24,079 [DEBUG]  		Latency: 1.80ms
+2020-12-10 20:52:24,079 [DEBUG]  		True: 1224
+2020-12-10 20:52:24,079 [DEBUG]  		Predicted: 367.1232623821341
+2020-12-10 20:52:24,079 [DEBUG]  Q-Error was: 3.334030080409215
+2020-12-10 20:52:24,079 [DEBUG]  Predicting cardinality for query 18: SELECT COUNT(*) FROM movie_keyword mk,title t,cast_info ci WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2000;
+2020-12-10 20:52:24,084 [DEBUG]  		Latency: 0.26ms
+2020-12-10 20:52:24,084 [DEBUG]  		True: 114182642
+2020-12-10 20:52:24,084 [DEBUG]  		Predicted: 118631424.31216608
+2020-12-10 20:52:24,084 [DEBUG]  Q-Error was: 1.0389619843633158
+2020-12-10 20:52:24,084 [DEBUG]  Predicting cardinality for query 19: SELECT COUNT(*) FROM cast_info ci,title t WHERE t.id=ci.movie_id AND t.production_year>1980 AND t.production_year<1995;
+2020-12-10 20:52:24,089 [DEBUG]  		Latency: 1.18ms
+2020-12-10 20:52:24,089 [DEBUG]  		True: 4533382
+2020-12-10 20:52:24,090 [DEBUG]  		Predicted: 4496410.592850903
+2020-12-10 20:52:24,090 [DEBUG]  Q-Error was: 1.0082224268415076
+2020-12-10 20:52:24,090 [DEBUG]  Predicting cardinality for query 20: SELECT COUNT(*) FROM cast_info ci,title t WHERE t.id=ci.movie_id AND t.production_year>1980 AND t.production_year<1984;
+2020-12-10 20:52:24,095 [DEBUG]  		Latency: 1.17ms
+2020-12-10 20:52:24,095 [DEBUG]  		True: 695701
+2020-12-10 20:52:24,095 [DEBUG]  		Predicted: 689716.2351881701
+2020-12-10 20:52:24,095 [DEBUG]  Q-Error was: 1.008677140694241
+2020-12-10 20:52:24,095 [DEBUG]  Predicting cardinality for query 21: SELECT COUNT(*) FROM cast_info ci,title t WHERE t.id=ci.movie_id AND t.production_year>1980 AND t.production_year<2010;
+2020-12-10 20:52:24,101 [DEBUG]  		Latency: 1.19ms
+2020-12-10 20:52:24,101 [DEBUG]  		True: 21454165
+2020-12-10 20:52:24,101 [DEBUG]  		Predicted: 21313319.542563763
+2020-12-10 20:52:24,101 [DEBUG]  Q-Error was: 1.0066083303989772
+2020-12-10 20:52:24,101 [DEBUG]  Predicting cardinality for query 22: SELECT COUNT(*) FROM cast_info ci,title t,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mc.movie_id AND ci.role_id=2;
+2020-12-10 20:52:24,108 [DEBUG]  		Latency: 2.25ms
+2020-12-10 20:52:24,108 [DEBUG]  		True: 13355828
+2020-12-10 20:52:24,108 [DEBUG]  		Predicted: 15406183.887880795
+2020-12-10 20:52:24,108 [DEBUG]  Q-Error was: 1.1535176918930667
+2020-12-10 20:52:24,108 [DEBUG]  Predicting cardinality for query 23: SELECT COUNT(*) FROM cast_info ci,title t,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mc.movie_id AND ci.role_id=4;
+2020-12-10 20:52:24,114 [DEBUG]  		Latency: 1.35ms
+2020-12-10 20:52:24,114 [DEBUG]  		True: 4450853
+2020-12-10 20:52:24,114 [DEBUG]  		Predicted: 5132520.285844548
+2020-12-10 20:52:24,114 [DEBUG]  Q-Error was: 1.1531543022976827
+2020-12-10 20:52:24,114 [DEBUG]  Predicting cardinality for query 24: SELECT COUNT(*) FROM cast_info ci,title t,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mc.movie_id AND ci.role_id=7;
+2020-12-10 20:52:24,120 [DEBUG]  		Latency: 1.50ms
+2020-12-10 20:52:24,121 [DEBUG]  		True: 794591
+2020-12-10 20:52:24,121 [DEBUG]  		Predicted: 592157.805838424
+2020-12-10 20:52:24,121 [DEBUG]  Q-Error was: 1.3418568364136567
+2020-12-10 20:52:24,121 [DEBUG]  Predicting cardinality for query 25: SELECT COUNT(*) FROM cast_info ci,title t,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mc.movie_id AND t.production_year>2005 AND t.production_year<2015 AND ci.role_id=2;
+2020-12-10 20:52:24,134 [DEBUG]  		Latency: 7.84ms
+2020-12-10 20:52:24,134 [DEBUG]  		True: 4893440
+2020-12-10 20:52:24,134 [DEBUG]  		Predicted: 6132405.419452885
+2020-12-10 20:52:24,134 [DEBUG]  Q-Error was: 1.2531890489007498
+2020-12-10 20:52:24,134 [DEBUG]  Predicting cardinality for query 26: SELECT COUNT(*) FROM cast_info ci,title t,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mc.movie_id AND t.production_year>2007 AND t.production_year<2010 AND ci.role_id=2;
+2020-12-10 20:52:24,147 [DEBUG]  		Latency: 7.95ms
+2020-12-10 20:52:24,147 [DEBUG]  		True: 1381288
+2020-12-10 20:52:24,147 [DEBUG]  		Predicted: 1648691.1091904934
+2020-12-10 20:52:24,147 [DEBUG]  Q-Error was: 1.1935896852723642
+2020-12-10 20:52:24,147 [DEBUG]  Predicting cardinality for query 27: SELECT COUNT(*) FROM title t,cast_info ci,movie_companies mc WHERE t.id=mc.movie_id AND t.id=ci.movie_id AND t.production_year>2005 AND ci.role_id=1;
+2020-12-10 20:52:24,159 [DEBUG]  		Latency: 7.03ms
+2020-12-10 20:52:24,159 [DEBUG]  		True: 8720023
+2020-12-10 20:52:24,159 [DEBUG]  		Predicted: 10866136.074149437
+2020-12-10 20:52:24,159 [DEBUG]  Q-Error was: 1.2461132354982822
+2020-12-10 20:52:24,159 [DEBUG]  Predicting cardinality for query 28: SELECT COUNT(*) FROM title t,cast_info ci,movie_companies mc WHERE t.id=mc.movie_id AND t.id=ci.movie_id AND t.production_year>2010 AND ci.role_id=1;
+2020-12-10 20:52:24,171 [DEBUG]  		Latency: 7.00ms
+2020-12-10 20:52:24,171 [DEBUG]  		True: 2873214
+2020-12-10 20:52:24,171 [DEBUG]  		Predicted: 3818259.9635335333
+2020-12-10 20:52:24,171 [DEBUG]  Q-Error was: 1.3289159678094056
+2020-12-10 20:52:24,171 [DEBUG]  Predicting cardinality for query 29: SELECT COUNT(*) FROM title t,cast_info ci,movie_companies mc WHERE t.id=mc.movie_id AND t.id=ci.movie_id AND t.production_year>1990;
+2020-12-10 20:52:24,182 [DEBUG]  		Latency: 5.79ms
+2020-12-10 20:52:24,182 [DEBUG]  		True: 56965403
+2020-12-10 20:52:24,182 [DEBUG]  		Predicted: 34558473.52128386
+2020-12-10 20:52:24,182 [DEBUG]  Q-Error was: 1.6483772920385553
+2020-12-10 20:52:24,182 [DEBUG]  Predicting cardinality for query 30: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2 AND t.production_year>1950 AND t.production_year<2000;
+2020-12-10 20:52:24,193 [DEBUG]  		Latency: 5.95ms
+2020-12-10 20:52:24,193 [DEBUG]  		True: 7153
+2020-12-10 20:52:24,194 [DEBUG]  		Predicted: 8388.55109701641
+2020-12-10 20:52:24,194 [DEBUG]  Q-Error was: 1.172731874320762
+2020-12-10 20:52:24,194 [DEBUG]  Predicting cardinality for query 31: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2;
+2020-12-10 20:52:24,201 [DEBUG]  		Latency: 2.94ms
+2020-12-10 20:52:24,201 [DEBUG]  		True: 14102
+2020-12-10 20:52:24,201 [DEBUG]  		Predicted: 22101.942101182194
+2020-12-10 20:52:24,202 [DEBUG]  Q-Error was: 1.5672913133727269
+2020-12-10 20:52:24,202 [DEBUG]  Predicting cardinality for query 32: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND t.production_year>1950;
+2020-12-10 20:52:24,210 [DEBUG]  		Latency: 4.18ms
+2020-12-10 20:52:24,210 [DEBUG]  		True: 31339132
+2020-12-10 20:52:24,211 [DEBUG]  		Predicted: 19329873.272631902
+2020-12-10 20:52:24,211 [DEBUG]  Q-Error was: 1.621279744465337
+2020-12-10 20:52:24,211 [DEBUG]  Predicting cardinality for query 33: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND mi_idx.info_type_id=101 AND mi.info_type_id=3 AND t.production_year>2005 AND t.production_year<2008 AND mc.company_type_id=2;
+2020-12-10 20:52:24,244 [DEBUG]  		Latency: 27.03ms
+2020-12-10 20:52:24,244 [DEBUG]  		True: 75440
+2020-12-10 20:52:24,244 [DEBUG]  		Predicted: 69268.13112158568
+2020-12-10 20:52:24,244 [DEBUG]  Q-Error was: 1.089101131768387
+2020-12-10 20:52:24,244 [DEBUG]  Predicting cardinality for query 34: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND mi_idx.info_type_id=113 AND mi.info_type_id=105;
+2020-12-10 20:52:24,266 [DEBUG]  		Latency: 16.30ms
+2020-12-10 20:52:24,266 [DEBUG]  		True: 72
+2020-12-10 20:52:24,266 [DEBUG]  		Predicted: 17.03990164319456
+2020-12-10 20:52:24,266 [DEBUG]  Q-Error was: 4.225376502026673
+2020-12-10 20:52:24,266 [DEBUG]  Predicting cardinality for query 35: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND mi_idx.info_type_id=101 AND mi.info_type_id=3 AND t.production_year>2000 AND t.production_year<2010 AND mc.company_type_id=2;
+2020-12-10 20:52:24,300 [DEBUG]  		Latency: 27.47ms
+2020-12-10 20:52:24,300 [DEBUG]  		True: 305691
+2020-12-10 20:52:24,300 [DEBUG]  		Predicted: 274378.95922581403
+2020-12-10 20:52:24,300 [DEBUG]  Q-Error was: 1.1141196863729486
+2020-12-10 20:52:24,300 [DEBUG]  Predicting cardinality for query 36: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,movie_info_idx mi_idx WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=mi_idx.movie_id AND t.kind_id=1 AND mc.company_type_id=2 AND mi_idx.info_type_id=101 AND mi.info_type_id=16;
+2020-12-10 20:52:24,334 [DEBUG]  		Latency: 27.32ms
+2020-12-10 20:52:24,334 [DEBUG]  		True: 1919495
+2020-12-10 20:52:24,334 [DEBUG]  		Predicted: 1715137.8757723372
+2020-12-10 20:52:24,334 [DEBUG]  Q-Error was: 1.11914909414244
+2020-12-10 20:52:24,334 [DEBUG]  Predicting cardinality for query 37: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.production_year>2010 AND t.kind_id=1 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,368 [DEBUG]  		Latency: 27.98ms
+2020-12-10 20:52:24,368 [DEBUG]  		True: 150780
+2020-12-10 20:52:24,368 [DEBUG]  		Predicted: 212350.656623382
+2020-12-10 20:52:24,368 [DEBUG]  Q-Error was: 1.408347636446359
+2020-12-10 20:52:24,368 [DEBUG]  Predicting cardinality for query 38: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.kind_id=1 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,397 [DEBUG]  		Latency: 23.22ms
+2020-12-10 20:52:24,397 [DEBUG]  		True: 3243247
+2020-12-10 20:52:24,397 [DEBUG]  		Predicted: 2930684.1691382807
+2020-12-10 20:52:24,398 [DEBUG]  Q-Error was: 1.106651830365475
+2020-12-10 20:52:24,398 [DEBUG]  Predicting cardinality for query 39: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.production_year>2005 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,424 [DEBUG]  		Latency: 20.66ms
+2020-12-10 20:52:24,424 [DEBUG]  		True: 1043763
+2020-12-10 20:52:24,424 [DEBUG]  		Predicted: 1004293.7482098336
+2020-12-10 20:52:24,424 [DEBUG]  Q-Error was: 1.039300505315821
+2020-12-10 20:52:24,424 [DEBUG]  Predicting cardinality for query 40: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mc.movie_id AND mi.info_type_id=16 AND t.production_year>2000;
+2020-12-10 20:52:24,439 [DEBUG]  		Latency: 8.78ms
+2020-12-10 20:52:24,439 [DEBUG]  		True: 512575801
+2020-12-10 20:52:24,439 [DEBUG]  		Predicted: 343438917.6191939
+2020-12-10 20:52:24,439 [DEBUG]  Q-Error was: 1.4924802481713664
+2020-12-10 20:52:24,439 [DEBUG]  Predicting cardinality for query 41: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mc.movie_id AND mi.info_type_id=16 AND t.production_year>2005 AND t.production_year<2010;
+2020-12-10 20:52:24,454 [DEBUG]  		Latency: 9.20ms
+2020-12-10 20:52:24,454 [DEBUG]  		True: 206778521
+2020-12-10 20:52:24,454 [DEBUG]  		Predicted: 131702706.13555814
+2020-12-10 20:52:24,454 [DEBUG]  Q-Error was: 1.5700400323374395
+2020-12-10 20:52:24,454 [DEBUG]  Predicting cardinality for query 42: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mc.movie_id AND mi.info_type_id=16 AND t.production_year>1990;
+2020-12-10 20:52:24,469 [DEBUG]  		Latency: 9.00ms
+2020-12-10 20:52:24,469 [DEBUG]  		True: 625302823
+2020-12-10 20:52:24,469 [DEBUG]  		Predicted: 493747294.8688389
+2020-12-10 20:52:24,469 [DEBUG]  Q-Error was: 1.2664430357357361
+2020-12-10 20:52:24,469 [DEBUG]  Predicting cardinality for query 43: SELECT COUNT(*) FROM cast_info ci,title t,movie_keyword mk,movie_companies mc WHERE t.id=ci.movie_id AND t.id=mk.movie_id AND t.id=mc.movie_id AND mk.keyword_id=117;
+2020-12-10 20:52:24,477 [DEBUG]  		Latency: 3.37ms
+2020-12-10 20:52:24,478 [DEBUG]  		True: 7796926
+2020-12-10 20:52:24,478 [DEBUG]  		Predicted: 3179685.1110036043
+2020-12-10 20:52:24,478 [DEBUG]  Q-Error was: 2.4521063337429205
+2020-12-10 20:52:24,478 [DEBUG]  Predicting cardinality for query 44: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND mi.info_type_id=105 AND mi_idx.info_type_id=100;
+2020-12-10 20:52:24,499 [DEBUG]  		Latency: 15.88ms
+2020-12-10 20:52:24,499 [DEBUG]  		True: 1831108
+2020-12-10 20:52:24,499 [DEBUG]  		Predicted: 1686072.5715891027
+2020-12-10 20:52:24,499 [DEBUG]  Q-Error was: 1.0860196831706972
+2020-12-10 20:52:24,499 [DEBUG]  Predicting cardinality for query 45: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND mi.info_type_id=3 AND mi_idx.info_type_id=101 AND t.production_year>2008 AND t.production_year<2014;
+2020-12-10 20:52:24,528 [DEBUG]  		Latency: 22.76ms
+2020-12-10 20:52:24,528 [DEBUG]  		True: 2936093
+2020-12-10 20:52:24,528 [DEBUG]  		Predicted: 3035811.835258484
+2020-12-10 20:52:24,528 [DEBUG]  Q-Error was: 1.0339631051395457
+2020-12-10 20:52:24,528 [DEBUG]  Predicting cardinality for query 46: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND mi.info_type_id=3 AND mi_idx.info_type_id=100;
+2020-12-10 20:52:24,537 [DEBUG]  		Latency: 3.16ms
+2020-12-10 20:52:24,537 [DEBUG]  		True: 16461908
+2020-12-10 20:52:24,537 [DEBUG]  		Predicted: 14173325.55882972
+2020-12-10 20:52:24,537 [DEBUG]  Q-Error was: 1.1614710980617062
+2020-12-10 20:52:24,537 [DEBUG]  Predicting cardinality for query 47: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2005 AND t.production_year<2009;
+2020-12-10 20:52:24,554 [DEBUG]  		Latency: 11.27ms
+2020-12-10 20:52:24,554 [DEBUG]  		True: 24675801
+2020-12-10 20:52:24,554 [DEBUG]  		Predicted: 25650257.201170582
+2020-12-10 20:52:24,554 [DEBUG]  Q-Error was: 1.039490357422261
+2020-12-10 20:52:24,554 [DEBUG]  Predicting cardinality for query 48: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND ci.role_id=2 AND mi.info_type_id=16;
+2020-12-10 20:52:24,566 [DEBUG]  		Latency: 6.26ms
+2020-12-10 20:52:24,566 [DEBUG]  		True: 132317651
+2020-12-10 20:52:24,566 [DEBUG]  		Predicted: 169906785.24718243
+2020-12-10 20:52:24,566 [DEBUG]  Q-Error was: 1.2840825389742025
+2020-12-10 20:52:24,566 [DEBUG]  Predicting cardinality for query 49: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2000;
+2020-12-10 20:52:24,582 [DEBUG]  		Latency: 10.48ms
+2020-12-10 20:52:24,582 [DEBUG]  		True: 90649862
+2020-12-10 20:52:24,582 [DEBUG]  		Predicted: 91154806.81326988
+2020-12-10 20:52:24,582 [DEBUG]  Q-Error was: 1.005570276690216
+2020-12-10 20:52:24,582 [DEBUG]  Predicting cardinality for query 50: SELECT COUNT(*) FROM title t,cast_info ci,movie_keyword mk WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>1950 AND t.kind_id=1;
+2020-12-10 20:52:24,589 [DEBUG]  		Latency: 2.43ms
+2020-12-10 20:52:24,589 [DEBUG]  		True: 151179813
+2020-12-10 20:52:24,589 [DEBUG]  		Predicted: 154864809.61363646
+2020-12-10 20:52:24,589 [DEBUG]  Q-Error was: 1.0243749250677832
+2020-12-10 20:52:24,589 [DEBUG]  Predicting cardinality for query 51: SELECT COUNT(*) FROM title t,cast_info ci,movie_keyword mk WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.production_year>2000 AND t.kind_id=1;
+2020-12-10 20:52:24,606 [DEBUG]  		Latency: 4.17ms
+2020-12-10 20:52:24,606 [DEBUG]  		True: 84217062
+2020-12-10 20:52:24,606 [DEBUG]  		Predicted: 91700412.2509546
+2020-12-10 20:52:24,606 [DEBUG]  Q-Error was: 1.0888578878583368
+2020-12-10 20:52:24,606 [DEBUG]  Predicting cardinality for query 52: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc,movie_info mi WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND t.id=mi.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2 AND t.production_year>1950 AND t.production_year<2000;
+2020-12-10 20:52:24,624 [DEBUG]  		Latency: 11.61ms
+2020-12-10 20:52:24,624 [DEBUG]  		True: 333474
+2020-12-10 20:52:24,624 [DEBUG]  		Predicted: 728449.6802938781
+2020-12-10 20:52:24,624 [DEBUG]  Q-Error was: 2.184427212597918
+2020-12-10 20:52:24,624 [DEBUG]  Predicting cardinality for query 53: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc,movie_info mi WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND t.id=mi.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2 AND t.production_year>2000 AND t.production_year<2010;
+2020-12-10 20:52:24,639 [DEBUG]  		Latency: 8.81ms
+2020-12-10 20:52:24,639 [DEBUG]  		True: 307213
+2020-12-10 20:52:24,639 [DEBUG]  		Predicted: 797899.7193293222
+2020-12-10 20:52:24,639 [DEBUG]  Q-Error was: 2.59721990713063
+2020-12-10 20:52:24,639 [DEBUG]  Predicting cardinality for query 54: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc,movie_info mi WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND t.id=mi.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2 AND t.production_year>1950 AND t.production_year<2010;
+2020-12-10 20:52:24,654 [DEBUG]  		Latency: 8.75ms
+2020-12-10 20:52:24,654 [DEBUG]  		True: 658557
+2020-12-10 20:52:24,654 [DEBUG]  		Predicted: 1589571.044691959
+2020-12-10 20:52:24,654 [DEBUG]  Q-Error was: 2.4137182426000465
+2020-12-10 20:52:24,654 [DEBUG]  Predicting cardinality for query 55: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND t.production_year>2008 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,687 [DEBUG]  		Latency: 26.71ms
+2020-12-10 20:52:24,687 [DEBUG]  		True: 8275169
+2020-12-10 20:52:24,687 [DEBUG]  		Predicted: 8178255.6742823245
+2020-12-10 20:52:24,687 [DEBUG]  Q-Error was: 1.0118501217836016
+2020-12-10 20:52:24,687 [DEBUG]  Predicting cardinality for query 56: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND t.production_year>2009 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,717 [DEBUG]  		Latency: 24.35ms
+2020-12-10 20:52:24,717 [DEBUG]  		True: 5060606
+2020-12-10 20:52:24,717 [DEBUG]  		Predicted: 5749473.909623161
+2020-12-10 20:52:24,718 [DEBUG]  Q-Error was: 1.1361236005377935
+2020-12-10 20:52:24,718 [DEBUG]  Predicting cardinality for query 57: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2010;
+2020-12-10 20:52:24,736 [DEBUG]  		Latency: 12.19ms
+2020-12-10 20:52:24,736 [DEBUG]  		True: 1352809555
+2020-12-10 20:52:24,736 [DEBUG]  		Predicted: 1376104301.3371134
+2020-12-10 20:52:24,736 [DEBUG]  Q-Error was: 1.0172195311978804
+2020-12-10 20:52:24,736 [DEBUG]  Predicting cardinality for query 58: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2010 AND mc.company_id=22956;
+2020-12-10 20:52:24,754 [DEBUG]  		Latency: 11.61ms
+2020-12-10 20:52:24,754 [DEBUG]  		True: 191935
+2020-12-10 20:52:24,754 [DEBUG]  		Predicted: 174696.2510446149
+2020-12-10 20:52:24,754 [DEBUG]  Q-Error was: 1.0986784138314598
+2020-12-10 20:52:24,754 [DEBUG]  Predicting cardinality for query 59: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2000;
+2020-12-10 20:52:24,771 [DEBUG]  		Latency: 10.39ms
+2020-12-10 20:52:24,771 [DEBUG]  		True: 9537310863
+2020-12-10 20:52:24,771 [DEBUG]  		Predicted: 9469602218.9167
+2020-12-10 20:52:24,771 [DEBUG]  Q-Error was: 1.0071501043568698
+2020-12-10 20:52:24,771 [DEBUG]  Predicting cardinality for query 60: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND mi.info_type_id=3 AND mi_idx.info_type_id=100;
+2020-12-10 20:52:24,781 [DEBUG]  		Latency: 4.72ms
+2020-12-10 20:52:24,782 [DEBUG]  		True: 492943940
+2020-12-10 20:52:24,782 [DEBUG]  		Predicted: 413267816.21720165
+2020-12-10 20:52:24,782 [DEBUG]  Q-Error was: 1.192795375435001
+2020-12-10 20:52:24,782 [DEBUG]  Predicting cardinality for query 61: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND mi.info_type_id=3 AND mi_idx.info_type_id=100 AND t.production_year>2010;
+2020-12-10 20:52:24,811 [DEBUG]  		Latency: 22.69ms
+2020-12-10 20:52:24,811 [DEBUG]  		True: 32355583
+2020-12-10 20:52:24,811 [DEBUG]  		Predicted: 34712723.30663515
+2020-12-10 20:52:24,811 [DEBUG]  Q-Error was: 1.0728511152661087
+2020-12-10 20:52:24,811 [DEBUG]  Predicting cardinality for query 62: SELECT COUNT(*) FROM title t,cast_info ci,movie_keyword mk,movie_info_idx mi_idx WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.id=mi_idx.movie_id AND t.production_year>2000 AND t.kind_id=1 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,840 [DEBUG]  		Latency: 23.97ms
+2020-12-10 20:52:24,841 [DEBUG]  		True: 81495003
+2020-12-10 20:52:24,841 [DEBUG]  		Predicted: 78547799.17461067
+2020-12-10 20:52:24,841 [DEBUG]  Q-Error was: 1.037521150896128
+2020-12-10 20:52:24,841 [DEBUG]  Predicting cardinality for query 63: SELECT COUNT(*) FROM title t,cast_info ci,movie_keyword mk,movie_info_idx mi_idx WHERE t.id=mk.movie_id AND t.id=ci.movie_id AND t.id=mi_idx.movie_id AND t.production_year>2005 AND t.kind_id=1 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,870 [DEBUG]  		Latency: 23.68ms
+2020-12-10 20:52:24,870 [DEBUG]  		True: 51282842
+2020-12-10 20:52:24,870 [DEBUG]  		Predicted: 51465218.30077164
+2020-12-10 20:52:24,870 [DEBUG]  Q-Error was: 1.003556283030719
+2020-12-10 20:52:24,870 [DEBUG]  Predicting cardinality for query 64: SELECT COUNT(*) FROM title t,movie_keyword mk,movie_companies mc,movie_info mi WHERE t.id=mk.movie_id AND t.id=mc.movie_id AND t.id=mi.movie_id AND mk.keyword_id=398 AND mc.company_type_id=2 AND t.production_year=1998;
+2020-12-10 20:52:24,884 [DEBUG]  		Latency: 8.15ms
+2020-12-10 20:52:24,884 [DEBUG]  		True: 19006
+2020-12-10 20:52:24,884 [DEBUG]  		Predicted: 54843.54180397641
+2020-12-10 20:52:24,884 [DEBUG]  Q-Error was: 2.885590960958456
+2020-12-10 20:52:24,884 [DEBUG]  Predicting cardinality for query 65: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND t.production_year>2000 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,914 [DEBUG]  		Latency: 23.72ms
+2020-12-10 20:52:24,914 [DEBUG]  		True: 26718423
+2020-12-10 20:52:24,914 [DEBUG]  		Predicted: 23230888.840203006
+2020-12-10 20:52:24,914 [DEBUG]  Q-Error was: 1.1501248696847761
+2020-12-10 20:52:24,914 [DEBUG]  Predicting cardinality for query 66: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,movie_keyword mk,movie_companies mc WHERE t.id=mi.movie_id AND t.id=mk.movie_id AND t.id=mi_idx.movie_id AND t.id=mc.movie_id AND t.production_year>2005 AND mi.info_type_id=8 AND mi_idx.info_type_id=101;
+2020-12-10 20:52:24,944 [DEBUG]  		Latency: 23.75ms
+2020-12-10 20:52:24,944 [DEBUG]  		True: 15813608
+2020-12-10 20:52:24,944 [DEBUG]  		Predicted: 14630607.104149008
+2020-12-10 20:52:24,944 [DEBUG]  Q-Error was: 1.0808579498738307
+2020-12-10 20:52:24,944 [DEBUG]  Predicting cardinality for query 67: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2000 AND t.production_year<2010 AND mk.keyword_id=7084;
+2020-12-10 20:52:24,964 [DEBUG]  		Latency: 13.59ms
+2020-12-10 20:52:24,964 [DEBUG]  		True: 1067496
+2020-12-10 20:52:24,964 [DEBUG]  		Predicted: 685989.7397254311
+2020-12-10 20:52:24,965 [DEBUG]  Q-Error was: 1.5561398927442671
+2020-12-10 20:52:24,965 [DEBUG]  Predicting cardinality for query 68: SELECT COUNT(*) FROM title t,movie_info mi,movie_companies mc,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mc.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND ci.role_id=2 AND mi.info_type_id=16 AND t.production_year>2000 AND t.production_year<2005 AND mk.keyword_id=7084;
+2020-12-10 20:52:24,983 [DEBUG]  		Latency: 12.33ms
+2020-12-10 20:52:24,984 [DEBUG]  		True: 268172
+2020-12-10 20:52:24,984 [DEBUG]  		Predicted: 284729.67777266464
+2020-12-10 20:52:24,984 [DEBUG]  Q-Error was: 1.0617427538022786
+2020-12-10 20:52:24,984 [DEBUG]  Predicting cardinality for query 69: SELECT COUNT(*) FROM title t,movie_info mi,movie_info_idx mi_idx,cast_info ci,movie_keyword mk WHERE t.id=mi.movie_id AND t.id=mi_idx.movie_id AND t.id=ci.movie_id AND t.id=mk.movie_id AND mi.info_type_id=3 AND mi_idx.info_type_id=100 AND t.production_year>2000;
+2020-12-10 20:52:25,011 [DEBUG]  		Latency: 21.64ms
+2020-12-10 20:52:25,012 [DEBUG]  		True: 258385218
+2020-12-10 20:52:25,012 [DEBUG]  		Predicted: 210918347.40094984
+2020-12-10 20:52:25,012 [DEBUG]  Q-Error was: 1.2250485611326025
+2020-12-10 20:52:25,012 [INFO ]  [   2.45210633    2.59721991    2.71597857    2.88559096    2.92819122
+    3.33403008    3.616679      4.2253765    15.25846506 2190.6036894 ]
+2020-12-10 20:52:25,013 [INFO ]  Q-Error 50%-Percentile: 1.167101486191234 (vs. MCSN: 3.82 and IBJS: 1.59)
+2020-12-10 20:52:25,013 [INFO ]  Q-Error 90%-Percentile: 2.732939812282455 (vs. MCSN: 78.4 and IBJS: 150)
+2020-12-10 20:52:25,013 [INFO ]  Q-Error 95%-Percentile: 3.489486984607578 (vs. MCSN: 362 and IBJS: 3198)
+2020-12-10 20:52:25,013 [INFO ]  Q-Error 99%-Percentile: 689.6154846061722 (vs. MCSN: 927 and IBJS: 14309)
+2020-12-10 20:52:25,013 [INFO ]  Q-Mean wo inf 32.94167514446235 (vs. MCSN: 57.9 and IBJS: 590)
+2020-12-10 20:52:25,013 [INFO ]  Latency avg: 10.58ms
+2020-12-10 20:52:25,014 [INFO ]  Saving results to ./baselines/cardinality_estimation/results/deepDB/imdb_light_model_based_budget_5.csv

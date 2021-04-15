@@ -1,0 +1,3 @@
+Training on Join(['title', 'cast_info', 'movie_companies', 'movie_info', 'movie_keyword', 'movie_info_idx'])
+Loading title
+Loading csv... 

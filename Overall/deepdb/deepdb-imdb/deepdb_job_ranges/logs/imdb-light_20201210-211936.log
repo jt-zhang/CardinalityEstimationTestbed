@@ -1,0 +1,9 @@
+2020-12-10 21:19:36,514 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=./baselines/cardinality_estimation/results/deepDB/imdb_light_model_based_budget_5.csv)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_companies', 'title', 'movie_info'} with sampling ratio(1000000 / 67371414)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_info_idx', 'movie_companies', 'title'} with sampling ratio(1000000 / 4073078)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_companies', 'title'} with sampling ratio(4050205 / 2609129)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'cast_info', 'title'} with sampling ratio(10000000 / 36244344)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_info', 'title'} with sampling ratio(10000000 / 14835720)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_keyword'} with sampling ratio(4523930 / 4523930)
+2020-12-10 21:19:36,902 [DEBUG]  Including SPN with table_set {'movie_info_idx'} with sampling ratio(1380035 / 1380035)
+2020-12-10 21:19:36,903 [DEBUG]  Predicting cardinality for query 0: SELECT COUNT(*) FROM movie_companies mc, movie_info_idx mi_idx, title t WHERE t.id=mc.movie_id AND t.id=mi_idx.movie_id AND mi_idx.info_type_id=99 AND mc.company_type_id=1 AND t.season_nr<1.0;

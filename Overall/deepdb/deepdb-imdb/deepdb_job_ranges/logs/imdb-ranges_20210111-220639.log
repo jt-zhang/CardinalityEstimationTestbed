@@ -1,0 +1,154 @@
+2021-01-11 22:06:39,304 [INFO ]  Generating HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2021-01-11 22:06:39,304 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2021-01-11 22:06:39,446 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2021-01-11 22:06:39,446 [INFO ]  Preparing hdf file for table title
+2021-01-11 22:06:44,405 [INFO ]  Managing functional dependencies for table title
+2021-01-11 22:06:44,461 [INFO ]  Preparing multipliers for table title
+2021-01-11 22:06:44,461 [INFO ]  Preparing multiplier cast_info.movie_id = title.id for table title
+2021-01-11 22:07:16,733 [INFO ]  Note: NumExpr detected 40 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2021-01-11 22:07:16,734 [INFO ]  NumExpr defaulting to 8 threads.
+2021-01-11 22:07:17,124 [INFO ]  Preparing categorical values and null values for table title
+2021-01-11 22:07:17,124 [DEBUG]  		Preparing numerical values for column id
+2021-01-11 22:07:17,141 [DEBUG]  		Preparing numerical values for column production_year
+2021-01-11 22:07:17,163 [DEBUG]  		Preparing numerical values for column phonetic_code
+2021-01-11 22:07:17,195 [DEBUG]  		Preparing numerical values for column series_years
+2021-01-11 22:07:17,217 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id
+2021-01-11 22:07:17,236 [DEBUG]  		Preparing numerical values for column mul_cast_info.movie_id_nn
+2021-01-11 22:07:17,255 [INFO ]  Relevant attributes for table title are ['id', 'production_year', 'phonetic_code', 'series_years', 'mul_cast_info.movie_id', 'mul_cast_info.movie_id_nn']
+2021-01-11 22:07:17,255 [INFO ]  NULL values for table title are [1264156.5001, 1992.7887619952553, 10095.077607773428, 1177.8927119107354, 14.33549215096871, 14.413295444233148]
+2021-01-11 22:07:19,309 [INFO ]  Adding table parts without join partners for table title
+2021-01-11 22:07:19,310 [INFO ]  Adding table parts without join partners for table title and relationship cast_info.movie_id = title.id
+2021-01-11 22:07:51,040 [INFO ]  Preparing hdf file for table cast_info
+2021-01-11 22:08:08,103 [INFO ]  Managing functional dependencies for table cast_info
+2021-01-11 22:08:08,201 [INFO ]  Preparing multipliers for table cast_info
+2021-01-11 22:08:08,258 [INFO ]  Preparing categorical values and null values for table cast_info
+2021-01-11 22:08:08,258 [DEBUG]  		Preparing numerical values for column id
+2021-01-11 22:08:08,602 [DEBUG]  		Preparing numerical values for column movie_id
+2021-01-11 22:08:08,945 [DEBUG]  		Preparing numerical values for column role_id
+2021-01-11 22:08:09,289 [INFO ]  Relevant attributes for table cast_info are ['id', 'movie_id', 'role_id']
+2021-01-11 22:08:09,289 [INFO ]  NULL values for table cast_info are [18122172.5001, 1303597.173158533, 3.635458140293559]
+2021-01-11 22:08:24,086 [INFO ]  Adding table parts without join partners for table cast_info
+2021-01-11 22:08:24,089 [INFO ]  Files successfully created
+2021-01-11 22:08:24,090 [INFO ]  Generating sampled HDF files for tables in ../imdb-benchmark and store to path ../imdb-benchmark/gen_single_light
+2021-01-11 22:08:24,090 [DEBUG]  Creating sample for title
+2021-01-11 22:08:24,090 [DEBUG]  generate_join_sample(single_table=title, relationship_list=None, split_condition=None)
+2021-01-11 22:08:24,481 [DEBUG]  Creating sample for cast_info
+2021-01-11 22:08:31,074 [INFO ]  Files successfully created
+2021-01-11 22:08:31,075 [INFO ]  maqp(generate_ensemble: ensemble_strategy=rdc_based, incremental_learning_rate=0, incremental_condition=None, ensemble_path=../imdb-benchmark/spn_ensembles)
+2021-01-11 22:08:31,075 [DEBUG]  Evaluating title and cast_info
+2021-01-11 22:08:31,075 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['cast_info.movie_id = title.id'], split_condition=None)
+2021-01-11 22:08:31,075 [DEBUG]  reading first table 'title'
+2021-01-11 22:08:31,084 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 10000.
+2021-01-11 22:08:31,104 [DEBUG]  Final join size is 15250.
+2021-01-11 22:08:31,219 [DEBUG]  title.production_year, cast_info.role_id: 0.16864267940363067
+2021-01-11 22:08:31,219 [DEBUG]  title.phonetic_code, cast_info.role_id: 0.15208533257829768
+2021-01-11 22:08:31,219 [DEBUG]  title.series_years, cast_info.role_id: 0
+2021-01-11 22:08:31,219 [DEBUG]  Max RDC between title and cast_info: 0.16864267940363067
+2021-01-11 22:08:31,220 [INFO ]  Computed 1 rdc values in 0.14471304789185524 secs
+2021-01-11 22:08:31,922 [INFO ]  Computed optimal solution out of 10000 candidates in 0.7019959352910519 secs
+2021-01-11 22:08:31,923 [INFO ]  		title - cast_info
+2021-01-11 22:08:31,923 [INFO ]  Learning SPN for frozenset({'cast_info.movie_id = title.id'}).
+2021-01-11 22:08:31,923 [DEBUG]  Using postsampling_factor 10.
+2021-01-11 22:08:31,923 [DEBUG]  Using spn_sample_size 10000000.
+2021-01-11 22:08:31,923 [DEBUG]  generate_n_samples_with_incremental_part(sample_size=10000000, single_table=None, relationship_list=['cast_info.movie_id = title.id'], sample_size_estimate=36441055.0, incremental_learning_rate=0, incremental_condition=None)
+2021-01-11 22:08:31,923 [DEBUG]  to many samples, reduce number of samples with sample_rate=1.0
+2021-01-11 22:08:31,923 [DEBUG]  generate_join_sample(single_table=None, relationship_list=['cast_info.movie_id = title.id'], split_condition=None)
+2021-01-11 22:08:31,923 [DEBUG]  reading first table 'title'
+2021-01-11 22:08:32,119 [DEBUG]  Joining cast_info.movie_id = title.id. Current join size is 2528312.
+2021-01-11 22:08:48,155 [DEBUG]  Final join size is 36441055.
+2021-01-11 22:08:50,738 [INFO ]  split full sample dataset into parts: initial learning size: 10000000, incremental: 0
+2021-01-11 22:08:50,738 [INFO ]  Computed join for frozenset({'cast_info.movie_id = title.id'}), (tables: frozenset({'title', 'cast_info'})) in 18.815333899110556 secs
+2021-01-11 22:08:50,738 [INFO ]  card(learning): 10000000, card(df_inc_samples): 0
+2021-01-11 22:08:58,938 [INFO ]  Computed full join size 36244344 in 8.199736960232258 secs
+2021-01-11 22:08:58,939 [INFO ]  Predicted full join size of 36441055.0 but real join size was 36244344.
+2021-01-11 22:08:58,939 [DEBUG]  Using 10000000 samples.
+2021-01-11 22:08:58,939 [DEBUG]  Using min_instance_slice parameter 100000.0.
+2021-01-11 22:08:58,939 [INFO ]  SPN training phase with 10000000 samples
+2021-01-11 22:09:01,482 [DEBUG]  Built domains in 2.541921865195036 sec
+2021-01-11 22:09:03,774 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (10000000, 6) (remaining tasks 0)
+2021-01-11 22:09:05,897 [DEBUG]  		found 2 row clusters (in 2.12254 secs)
+2021-01-11 22:09:06,420 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (6481808, 6) (remaining tasks 1)
+2021-01-11 22:09:06,989 [DEBUG]  		found 5 col clusters (in 0.56841 secs)
+2021-01-11 22:09:07,202 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (3518192, 6) (remaining tasks 5)
+2021-01-11 22:09:07,795 [DEBUG]  		found 4 col clusters (in 0.59275 secs)
+2021-01-11 22:09:07,795 [DEBUG]  OP: Operation.CREATE_LEAF on slice (6481808, 1) (remaining tasks 8)
+2021-01-11 22:09:08,088 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[0] (in 0.29315 secs)
+2021-01-11 22:09:08,089 [DEBUG]  OP: Operation.CREATE_LEAF on slice (6481808, 1) (remaining tasks 7)
+2021-01-11 22:09:08,540 [DEBUG]  		Due to histograms leaf size was reduced by 30.86%
+2021-01-11 22:09:08,543 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[1] (in 0.45446 secs)
+2021-01-11 22:09:08,543 [DEBUG]  OP: Operation.CREATE_LEAF on slice (6481808, 1) (remaining tasks 6)
+2021-01-11 22:09:08,697 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[2] (in 0.15356 secs)
+2021-01-11 22:09:08,763 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (6481808, 2) (remaining tasks 5)
+2021-01-11 22:09:08,866 [DEBUG]  		found 1 col clusters (in 0.10298 secs)
+2021-01-11 22:09:08,866 [DEBUG]  OP: Operation.CREATE_LEAF on slice (6481808, 1) (remaining tasks 5)
+2021-01-11 22:09:09,142 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[5] (in 0.26673 secs)
+2021-01-11 22:09:09,143 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3518192, 1) (remaining tasks 4)
+2021-01-11 22:09:09,308 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[0] (in 0.16510 secs)
+2021-01-11 22:09:09,308 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3518192, 1) (remaining tasks 3)
+2021-01-11 22:09:09,550 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[1] (in 0.24120 secs)
+2021-01-11 22:09:09,550 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3518192, 1) (remaining tasks 2)
+2021-01-11 22:09:09,630 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[2] (in 0.07975 secs)
+2021-01-11 22:09:09,694 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (3518192, 3) (remaining tasks 1)
+2021-01-11 22:09:09,819 [DEBUG]  		found 1 col clusters (in 0.12488 secs)
+2021-01-11 22:09:09,954 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (6481808, 2) (remaining tasks 1)
+2021-01-11 22:09:11,759 [DEBUG]  		found 2 row clusters (in 1.80515 secs)
+2021-01-11 22:09:11,825 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (3518192, 3) (remaining tasks 2)
+2021-01-11 22:09:13,164 [DEBUG]  		found 2 row clusters (in 1.33846 secs)
+2021-01-11 22:09:13,413 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (6100968, 2) (remaining tasks 3)
+2021-01-11 22:09:13,534 [DEBUG]  		found 1 col clusters (in 0.12130 secs)
+2021-01-11 22:09:13,561 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (380840, 2) (remaining tasks 3)
+2021-01-11 22:09:13,574 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (164337, 3) (remaining tasks 4)
+2021-01-11 22:09:13,820 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (3353855, 3) (remaining tasks 5)
+2021-01-11 22:09:13,936 [DEBUG]  		found 3 col clusters (in 0.11586 secs)
+2021-01-11 22:09:14,200 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (6100968, 2) (remaining tasks 7)
+2021-01-11 22:09:15,455 [DEBUG]  		found 2 row clusters (in 1.25435 secs)
+2021-01-11 22:09:15,455 [DEBUG]  OP: Operation.CREATE_LEAF on slice (380840, 1) (remaining tasks 8)
+2021-01-11 22:09:15,462 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.00695 secs)
+2021-01-11 22:09:15,462 [DEBUG]  OP: Operation.CREATE_LEAF on slice (380840, 1) (remaining tasks 7)
+2021-01-11 22:09:15,480 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.01749 secs)
+2021-01-11 22:09:15,480 [DEBUG]  OP: Operation.CREATE_LEAF on slice (164337, 1) (remaining tasks 6)
+2021-01-11 22:09:15,483 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.00301 secs)
+2021-01-11 22:09:15,484 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (164337, 2) (remaining tasks 5)
+2021-01-11 22:09:15,540 [DEBUG]  		found 2 col clusters (in 0.05613 secs)
+2021-01-11 22:09:15,543 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3353855, 1) (remaining tasks 6)
+2021-01-11 22:09:15,764 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.22137 secs)
+2021-01-11 22:09:15,765 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3353855, 1) (remaining tasks 5)
+2021-01-11 22:09:15,833 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.06844 secs)
+2021-01-11 22:09:15,833 [DEBUG]  OP: Operation.CREATE_LEAF on slice (3353855, 1) (remaining tasks 4)
+2021-01-11 22:09:15,944 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[5] (in 0.10997 secs)
+2021-01-11 22:09:16,093 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (4147181, 2) (remaining tasks 3)
+2021-01-11 22:09:16,189 [DEBUG]  		found 1 col clusters (in 0.09658 secs)
+2021-01-11 22:09:16,331 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (1953787, 2) (remaining tasks 3)
+2021-01-11 22:09:16,331 [DEBUG]  OP: Operation.CREATE_LEAF on slice (164337, 1) (remaining tasks 4)
+2021-01-11 22:09:16,339 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.00755 secs)
+2021-01-11 22:09:16,339 [DEBUG]  OP: Operation.CREATE_LEAF on slice (164337, 1) (remaining tasks 3)
+2021-01-11 22:09:16,344 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[5] (in 0.00455 secs)
+2021-01-11 22:09:16,492 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (4147181, 2) (remaining tasks 2)
+2021-01-11 22:09:17,323 [DEBUG]  		found 2 row clusters (in 0.83075 secs)
+2021-01-11 22:09:17,323 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1953787, 1) (remaining tasks 3)
+2021-01-11 22:09:17,361 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.03704 secs)
+2021-01-11 22:09:17,361 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1953787, 1) (remaining tasks 2)
+2021-01-11 22:09:17,440 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.07938 secs)
+2021-01-11 22:09:17,513 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (1923219, 2) (remaining tasks 1)
+2021-01-11 22:09:17,594 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (2223962, 2) (remaining tasks 2)
+2021-01-11 22:09:17,651 [DEBUG]  		found 1 col clusters (in 0.05727 secs)
+2021-01-11 22:09:17,651 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1923219, 1) (remaining tasks 2)
+2021-01-11 22:09:17,726 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.07445 secs)
+2021-01-11 22:09:17,726 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1923219, 1) (remaining tasks 1)
+2021-01-11 22:09:17,810 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.08367 secs)
+2021-01-11 22:09:17,893 [DEBUG]  OP: Operation.SPLIT_ROWS on slice (2223962, 2) (remaining tasks 0)
+2021-01-11 22:09:18,596 [DEBUG]  		found 2 row clusters (in 0.70229 secs)
+2021-01-11 22:09:18,638 [DEBUG]  OP: Operation.SPLIT_COLUMNS on slice (1138493, 2) (remaining tasks 1)
+2021-01-11 22:09:18,708 [DEBUG]  		found 2 col clusters (in 0.07061 secs)
+2021-01-11 22:09:18,760 [DEBUG]  OP: Operation.REMOVE_UNINFORMATIVE_FEATURES on slice (1085469, 2) (remaining tasks 2)
+2021-01-11 22:09:18,760 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1138493, 1) (remaining tasks 3)
+2021-01-11 22:09:18,818 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.05728 secs)
+2021-01-11 22:09:18,818 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1138493, 1) (remaining tasks 2)
+2021-01-11 22:09:18,839 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.02076 secs)
+2021-01-11 22:09:18,839 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1085469, 1) (remaining tasks 1)
+2021-01-11 22:09:18,859 [DEBUG]  		 created leaf Categorical for scope=[4] (in 0.01988 secs)
+2021-01-11 22:09:18,859 [DEBUG]  OP: Operation.CREATE_LEAF on slice (1085469, 1) (remaining tasks 0)
+2021-01-11 22:09:18,892 [DEBUG]  		 created leaf IdentityNumericLeaf for scope=[3] (in 0.03307 secs)
+2021-01-11 22:09:19,226 [DEBUG]  Built SPN in 17.74461069703102 sec
+2021-01-11 22:09:19,227 [INFO ]  learning time:20.29 (10000000 datasets), incremental learning time: 0 (0 datasets), incremental_condition: None, incremental-learning-rate: 0% [TIME]
+2021-01-11 22:09:19,249 [INFO ]  Saving ensemble to ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000.pkl
