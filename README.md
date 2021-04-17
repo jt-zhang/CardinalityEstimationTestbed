@@ -7,7 +7,7 @@ CardinalityEstimationTestbed
 `cd CardinalityEstimationTestbed\Synthetic`\
 `python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS]`
 #### Get_sql_truecard
-`python get_truecard.py --version cols_[COLUMNS]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
+`python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
 #### Get_result
 `python get_result.py`
 
