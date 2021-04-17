@@ -21,7 +21,7 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - First, the strings in the data tables should be converted to numbers.\
 `cd CardinalityEstimationTestbed\Overall\imdb`\
 `python data_str2num.py`
-#### Varying \#Columns
+#### Varying Columns
 - Start by generating training and testing queries queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\imdb\cols`\
 `python generate_sql.py`
