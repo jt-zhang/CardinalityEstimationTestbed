@@ -2,10 +2,6 @@
 CardinalityEstimationTestbed
 
 ## Experiment of synthetic
-<<<<<<< HEAD
-=======
-### DeepDB, MSCN, LocalXGB, LocalNN
->>>>>>> 0094a941fab6bd5ed536abbbe539a4056dfd282c
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed\Synthetic`\
 `python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS]`
@@ -15,12 +11,6 @@ CardinalityEstimationTestbed
 `python get_result.py` Then experimental results of all methods can be obtained.\
 If only experimental results of some methods should be obtained, other methods can be commented out in `get_result.py`.
 
-
-<<<<<<< HEAD
-=======
-### Naru, Feedback-KDE, Bayesian
-- Refer to `run.sh` or `get_result.py` in each method folder to execute the code to get results in batches.   
->>>>>>> 0094a941fab6bd5ed536abbbe539a4056dfd282c
 
 ## Experiment of overall
 ### Real Datasets download
