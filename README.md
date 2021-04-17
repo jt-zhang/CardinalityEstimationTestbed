@@ -2,17 +2,25 @@
 CardinalityEstimationTestbed
 
 ## Experiment of synthetic
+<<<<<<< HEAD
+=======
+### DeepDB, MSCN, LocalXGB, LocalNN
+>>>>>>> 0094a941fab6bd5ed536abbbe539a4056dfd282c
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed\Synthetic`\
-`python generate_data_sql.py --cols ' + str(cols) + ' --distinct ' + str(distinct) + ' --corr ' + str(corr) + ' --skew ' + str(skew)`
+`python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS]`
 #### Get_sql_truecard
-`python get_truecard.py --version cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew)`
+`python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
 #### Get_result
 `python get_result.py` Then experimental results of all methods can be obtained.\
 If only experimental results of some methods should be obtained, other methods can be commented out in `get_result.py`.
 
 
-
+<<<<<<< HEAD
+=======
+### Naru, Feedback-KDE, Bayesian
+- Refer to `run.sh` or `get_result.py` in each method folder to execute the code to get results in batches.   
+>>>>>>> 0094a941fab6bd5ed536abbbe539a4056dfd282c
 
 ## Experiment of overall
 ### Real Datasets download
@@ -23,12 +31,12 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - First, the strings in the data tables should be converted to numbers.\
 `cd CardinalityEstimationTestbed\Overall\imdb`\
 `python data_str2num.py`
-#### Cols
+#### Varying \#Columns
 - Start by generating training and testing queries queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\imdb\cols`\
 `python generate_sql.py`
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
-#### Distinct
+#### Varying Domain Size
 - First, the data of the distinct is generated and populated.\
 `cd CardinalityEstimationTestbed\Overall\imdb\distinct`\
 `python data_process.py`
