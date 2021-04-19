@@ -8,8 +8,8 @@ CardinalityEstimationTestbed
 #### Get_sql_truecard
 `python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
 #### Get_result
-`python get_result.py`\
-- Then experimental results of all methods can be obtained.\
+`python get_result.py`
+- Then experimental results of all methods can be obtained.
 - If only experimental results of some methods should be obtained, other methods can be commented out in `get_result.py`.
 
 
