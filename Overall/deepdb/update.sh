@@ -1,1 +1,7 @@
-#
+# cols4_update
+# Old model testing
+python3 maqp.py --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --pairwise_rdc_path ../imdb-benchmark/spn_ensembles/pairwise_rdc.pkl --dataset imdb-ranges --target_path ./baselines/cardinality_estimation/results/beforeimdbtest.sql.deepdb.results.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000_before.pkl --query_file_location ./benchmarks/job-light/sql/imdbtest.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv
+# New model training
+python3 maqp.py --generate_hdf --generate_sampled_hdfs --generate_ensemble --incremental_learning_rate 10
+# Modify the name of the trained model + _after AND TEST
+python3 maqp.py --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --pairwise_rdc_path ../imdb-benchmark/spn_ensembles/pairwise_rdc.pkl --dataset imdb-ranges --target_path ./baselines/cardinality_estimation/results/afterimdbtest.sql.deepdb.results.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000_after.pkl --query_file_location ./benchmarks/job-light/sql/imdbtest.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv
