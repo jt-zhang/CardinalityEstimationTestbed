@@ -40,3 +40,7 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `cd CardinalityEstimationTestbed\Overall\forest_&_power`\
 `python generate_sql.py`
 - Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
+
+### Update
+- Select 10% of the number of rows in each table and add them to the end of the table.
+- Refer to `update.sh` in each method folder to execute the code to get the result.
