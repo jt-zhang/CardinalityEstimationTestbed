@@ -43,4 +43,3 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 
 ## Update
 - Refer to `update.sh` in each method folder to execute the code to get the result.
-- 
