@@ -1,6 +1,6 @@
 """Dataset registrations."""
 import os
-
+import pandas as pd
 import numpy as np
 
 import common
@@ -19,15 +19,13 @@ def LoadDmv(filename='Vehicle__Snowmobile__and_Boat_Registrations.csv'):
     type_casts = {'Reg Valid Date': np.datetime64}
     return common.CsvTable('DMV', csv_file, cols, type_casts)
 '''
-def LoadDmv(filename='low.csv'): 
-    csv_file = '/home/jintao/naru/csvdata_sql/{}'.format(filename)
-    cols = []
-    colss = int(filename[5])
-    for i in range(colss):
-        cols.append('col' + str(i))
+def LoadDmv(filename='low.csv'): # modify
+    csv_file = '../train-test-data/forest_power-data-sql/{}'.format(filename)
+    table_head = pd.read_csv( csv_file, sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+    cols = list(table_head.columns)
     # Note: other columns are converted to objects/strings automatically.  We
     # don't need to specify a type-cast for those because the desired order
     # there is the same as the default str-ordering (lexicographical).
     type_casts = {'Reg Valid Date': np.datetime64}
-
+    # ptint('csvfile',csv_file)
     return common.CsvTable('DMV', csv_file, cols, type_casts)

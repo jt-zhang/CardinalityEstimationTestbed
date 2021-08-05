@@ -16,7 +16,7 @@ CardinalityEstimationTestbed
 ## Experiment of overall
 ### Real Datasets download
 - Download the [IMDB](http://homepages.cwi.nl/~boncz/job/imdb.tgz) data tables to: `../train-test-data/imdbdataset-str`
-- Download the [forest, power](http://archive.ics.uci.edu/) data tables to: `../train-test-data/forest_&_power-data-sql`\
+- Download the [forest, power](http://archive.ics.uci.edu/) data tables to: `../train-test-data/forest_power-data-sql`\
 Begin by doing a simple job on the table, removing some unused columns. For Forest We use ﬁrst 10 numeric attributes; For Power We used the 7 numeric attributes after the ﬁrst two attributes (date and time).
 ### Imdb
 - First, the strings in the data tables should be converted to numbers.\
@@ -35,9 +35,9 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `python sql_generate.py`
 - Then refer to `run.sh` in each method folder to execute the code to get the result.
 
-### Forest_&_power
+### forest_power
 - Start by generating training and testing queries for different columns.\
-`cd CardinalityEstimationTestbed\Overall\forest_&_power`\
+`cd CardinalityEstimationTestbed\Overall\forest_power`\
 `python generate_sql.py`
 - Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
 

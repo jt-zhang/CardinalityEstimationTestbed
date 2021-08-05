@@ -47,10 +47,8 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--testfilepath', type=str, default='dmv-tiny', help='Dataset.')
-parser.add_argument('--version', type=str, default='cols_4_distinct_1000_corr_5_skew_5', help='Dataset.')
-
-parser.add_argument('--table', type=str, default='cols_4_distinct_1000_corr_5_skew_5', help='Dataset.')
-parser.add_argument('--alias', type=str, default='cdcs', help='Dataset.')
+parser.add_argument('--csvname', type=str, default='dmv-tiny', help='Dataset.')
+parser.add_argument('--alias', type=str, default='dmv-tiny', help='Dataset.')
 
 
 parser.add_argument('--inference-opts',
@@ -161,8 +159,7 @@ parser.add_argument(
     help='Maximum number of partitions of the Maxdiff histogram.')
 
 args = parser.parse_args()
-version = args.version
-fmetric = open('/home/jintao/naru/metric_result/' + args.version + '.naru.txt', 'a')
+
 
 def InvertOrder(order):
     if order is None:
@@ -176,39 +173,10 @@ def InvertOrder(order):
         inv_ordering[order[natural_idx]] = natural_idx
     return inv_ordering
 
-def preprocess_sql(sql_path):
-    output = []
-    cols = set([])
-    with open(sql_path, 'r') as f:
-        for line in f.readlines():
-            # print (line)
-            sql = ','.join(line.split(',')[:-1])
-            cardinality  = line.split(',')[-1].strip('\n')
-            tables = [x.strip() for x in re.search('FROM(.*)WHERE', sql, re.IGNORECASE).group(1).split(',')]
-            joins = [x.strip() for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[0:len(tables)-1]]
-            conditions = [x.strip(' ;\n') for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[len(tables)-1:]]
-            conds = []
-            for cond in conditions:
-                operator = re.search('([<>=])', cond, re.IGNORECASE).group(1)
-                left = cond.split(operator)[0]
-                right = cond.split(operator)[1]
-                cols.add(left)
-                conds.append(left)
-                conds.append(operator)
-                conds.append(right)
-            # print (tables, joins, conds, cardinality)
-            output.append(','.join(tables)+'#'+','.join(joins)+'#'+','.join(conds)+'#'+cardinality)
-    with open(sql_path+'.csv', 'w') as f:
-        for line in output:
-            f.write(line)
-            f.write('\n')
 
 def MakeTable():
-    assert args.dataset in ['dmv-tiny', 'dmv']
-    if args.dataset == 'dmv-tiny':
-        table = datasets.LoadDmv('dmv-tiny.csv')
-    elif args.dataset == 'dmv':
-        table = datasets.LoadDmv(args.version + '.csv')  # modify
+    print(args.csvname)
+    table = datasets.LoadDmv(args.csvname)  # modify
 
     oracle_est = estimators_lib.Oracle(table)
     if args.run_bn:
@@ -234,7 +202,7 @@ def SampleTupleThenRandom(all_cols,
     s = table.data.iloc[rng.randint(0, table.cardinality)]
     vals = s.values
 
-    if args.dataset in ['dmv', 'dmv-tiny']:
+    if args.dataset in ['dmv', 'dmv-tiny','forest', 'power']:
         # Giant hack for DMV.
         vals[6] = vals[6].to_datetime64()
 
@@ -337,9 +305,7 @@ def print_qerror(preds_unnorm, labels_unnorm):
                 qerror.append(preds_unnorm[i] / float(labels_unnorm[i]))
             else:
                 qerror.append(float(labels_unnorm[i]) / float(preds_unnorm[i]))
-    fmetric.write("Median: {}".format(np.median(qerror))+ '\n'+ "90th percentile: {}".format(np.percentile(qerror, 90))+ '\n'+ "95th percentile: {}".format(np.percentile(qerror, 95))+\
-            '\n'+ "99th percentile: {}".format(np.percentile(qerror, 99))+ '\n'+ "99th percentile: {}".format(np.percentile(qerror, 99))+ '\n'+ "Max: {}".format(np.max(qerror))+ '\n'+\
-            "Mean: {}".format(np.mean(qerror))+ '\n')
+
     print("Median: {}".format(np.median(qerror)))
     print("90th percentile: {}".format(np.percentile(qerror, 90)))
     print("95th percentile: {}".format(np.percentile(qerror, 95)))
@@ -348,17 +314,14 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Mean: {}".format(np.mean(qerror)))
 
 def print_mse(preds_unnorm, labels_unnorm):
-    fmetric.write("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean())+ '\n')
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
 
 def print_mape(preds_unnorm, labels_unnorm):
-    fmetric.write("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100)+ '\n')
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
 def print_pearson_correlation(x, y):
     from scipy import stats
     PCCs=stats.pearsonr(x, y)
-    fmetric.write("Pearson Correlation: {}".format(PCCs)+ '\n\n')
     print("Pearson Correlation: {}".format(PCCs))
 
 def RunN(table,
@@ -376,8 +339,8 @@ def RunN(table,
     ests_new,truths_new=[],[]
     last_time = None
     print('estimators',estimators)
-    alias2table = {args.alias:args.table} # modify
-    with open(args.testfilepath + version + 'test.sql'+'.csv', 'r') as f:  # modify
+    alias2table = {args.alias:args.alias} # modify
+    with open(args.testfilepath+args.alias+'test.sql'+'.csv', 'r') as f:  # modify
         queries = f.readlines()[0:999]  # .Parsing
         testt1=time.time()
         for query in queries:
@@ -389,7 +352,7 @@ def RunN(table,
             true_card = int(query.split('#')[-1])
             
             columns = np.asarray(table.columns)
-            # print('columns',columns)
+            print('columns',columns)
             names = [c.name for c in columns]
             # col1 = columns[names.index('col0')]
 
@@ -413,7 +376,7 @@ def RunN(table,
                 elif op == '>':
                     if position >= 0:
                         val = x[position]
-                # print (f'Updated:{op}, {val}')
+                print (f'Updated:{op}, {val}')
                 cols.append(col)
                 ops.append(op)
                 vals.append(val)
@@ -468,7 +431,7 @@ def RunN(table,
             
             print(ops)
             '''
-
+            print('cols, ops ,vals ',cols, ops ,vals)
             query = cols, ops ,vals
             estcard = estimators[0].Query(cols, ops,
                             vals)  # oracle_est
@@ -488,8 +451,7 @@ def RunN(table,
         c = np.rot90(c)
         c = np.rot90(c)
         c = np.rot90(c)
-        np.savetxt(args.testfilepath+version+'test.sql.naru.result.csv', c, delimiter = ',') # modify /
-        fmetric.write('testtime per:' + str((testt2-testt1)/1800) + '\n')
+        np.savetxt(args.testfilepath+args.alias+'sql.nero.result.csv', c, delimiter = ',') # modify /
         print('testtime per:', (testt2-testt1)/1800)
         print_qerror(np.array(ests_new), np.array(truths_new))
         print_mse(np.array(ests_new), np.array(truths_new))
@@ -675,14 +637,9 @@ def LoadOracleCardinalities():
 
 
 def Main():
-    import os
-    import fnmatch
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     all_ckpts = glob.glob('./models/{}'.format(args.glob))
-    for f_name in os.listdir('./models'):
-        if fnmatch.fnmatch(f_name, version + '*.pt'):   # filename_match
-            all_ckpts = glob.glob('./models/' + f_name)
-    # all_ckpts = glob.glob('./models/dmv-2.0MB-model5.623-data5.471-made-resmade-hidden256_256_256_256_256-emb32-directIo-binaryInone_hotOut-inputNoEmbIfLeq-colmask-20epochs-seed0.pt')
+    all_ckpts = glob.glob('./models/'+str(args.dataset)+'*.pt')
     print(args.blacklist)
     if args.blacklist:
         all_ckpts = [ckpt for ckpt in all_ckpts if args.blacklist not in ckpt]
@@ -702,15 +659,16 @@ def Main():
 
     for s in selected_ckpts:
         if args.order is None:
-            z = re.match('.*?model([\d\.]+)-data([\d\.]+).+seed([\d\.]+).*.pt',
+            z = re.match('.+model([\d\.]+)-data([\d\.]+).+seed([\d\.]+).*.pt',
                          s)
         else:
             z = re.match(
-                '.*?model([\d\.]+)-data([\d\.]+).+seed([\d\.]+)-order.*.pt', s)
+                '.+model([\d\.]+)-data([\d\.]+).+seed([\d\.]+)-order.*.pt', s)
         assert z
         model_bits = float(z.group(1))
         data_bits = float(z.group(2))
         seed = int(z.group(3))
+        print('model_bits:', model_bits)
         bits_gap = model_bits - data_bits
 
         order = None
@@ -722,7 +680,7 @@ def Main():
                                     fixed_ordering=order,
                                     seed=seed)
         else:
-            if args.dataset in ['dmv-tiny', 'dmv']:
+            if args.dataset in ['dmv-tiny', 'dmv','forest', 'power']:
                 model = MakeMade(
                     scale=args.fc_hiddens,
                     cols_to_train=table.columns,
@@ -768,7 +726,7 @@ def Main():
                                                shortcircuit=args.column_masking)
             for c in parsed_ckpts
         ]
-        # print(estimators)
+        print(estimators)
         for est, ckpt in zip(estimators, parsed_ckpts):
             est.name = str(est) + '_{}_{:.3f}'.format(ckpt.seed, ckpt.bits_gap)
 
@@ -812,5 +770,4 @@ def Main():
 
 
 if __name__ == '__main__':
-    preprocess_sql(args.testfilepath + version + 'test.sql')
     Main()

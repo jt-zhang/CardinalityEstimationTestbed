@@ -17,10 +17,9 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Device', DEVICE)
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 parser = argparse.ArgumentParser()
-parser.add_argument('--version', type=str, default='cols_4_distinct_1000_corr_5_skew_5', help='Dataset.')  # version
-
+parser.add_argument('--csvname', type=str, default='dmv-tiny', help='Dataset.')
 # Training.
-parser.add_argument('--dataset', type=str, default='dmv', help='Dataset.')
+parser.add_argument('--dataset', type=str, default='dmv-tiny', help='Dataset.')
 parser.add_argument('--num-gpus', type=int, default=0, help='#gpus.')
 parser.add_argument('--bs', type=int, default=1024, help='Batch size.')
 parser.add_argument(
@@ -108,8 +107,8 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-version = args.version
-fmetric = open('/home/jintao/naru/metric_result/' + args.version + '.naru.txt', 'a')
+
+
 def Entropy(name, data, bases=None):
     import scipy.stats
     s = 'Entropy of {}:'.format(name)
@@ -332,11 +331,8 @@ def TrainTask(seed=0):
     torch.manual_seed(0)
     np.random.seed(0)
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    assert args.dataset in ['dmv-tiny', 'dmv']
-    if args.dataset == 'dmv-tiny':
-        table = datasets.LoadDmv('dmv-tiny.csv')
-    elif args.dataset == 'dmv':
-        table = datasets.LoadDmv(args.version + '.csv')
+
+    table = datasets.LoadDmv(args.csvname)
 
     table_bits = Entropy(
         table,
@@ -357,7 +353,7 @@ def TrainTask(seed=0):
                                 fixed_ordering=fixed_ordering,
                                 seed=seed)
     else:
-        if args.dataset in ['dmv-tiny', 'dmv']:
+        if args.dataset in ['dmv-tiny', 'dmv', 'forest', 'power']:
             model = MakeMade(
                 scale=args.fc_hiddens,
                 cols_to_train=table.columns,
@@ -407,12 +403,10 @@ def TrainTask(seed=0):
                 epoch, mean_epoch_train_loss,
                 mean_epoch_train_loss / np.log(2)))
             since_start = time.time() - train_start
-            
             print('time since start: {:.1f} secs'.format(since_start))
 
         train_losses.append(mean_epoch_train_loss)
-    fmetric.write('Traintime since start: {:.1f} secs'.format(since_start)+'\n')
-    
+
     print('Training done; evaluating likelihood on full data:')
     all_losses = RunEpoch('test',
                           model,
@@ -429,10 +423,13 @@ def TrainTask(seed=0):
 
     if fixed_ordering is None:
         if seed is not None:
-            PATH = 'models/' + version + '{:.1f}MB-model{:.3f}-data{:.3f}-seed{}'.format(mb, model.model_bits, table_bits, seed) + '.pt'
-            # 'models/{}-{:.1f}MB-model{:.3f}-data{:.3f}-{}-{}epochs-seed{}.pt'.format(args.dataset, mb, model.model_bits, table_bits, model.name(),args.epochs, seed)
+            PATH = 'models/{}-{:.1f}MB-model{:.3f}-data{:.3f}-{}-{}epochs-seed{}.pt'.format(
+                args.dataset, mb, model.model_bits, table_bits, model.name(),
+                args.epochs, seed)
         else:
-            PATH = 'models/' + version + '.pt'
+            PATH = 'models/{}-{:.1f}MB-model{:.3f}-data{:.3f}-{}-{}epochs-seed{}-{}.pt'.format(
+                args.dataset, mb, model.model_bits, table_bits, model.name(),
+                args.epochs, seed, time.time())
     else:
         annot = ''
         if args.inv_order:
