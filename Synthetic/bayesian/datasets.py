@@ -36,7 +36,7 @@ def LoadStoreSales(filename='store_sales.csv'):
 
 def LoadCDCS(paras):
     csv_name = 'cols_{}_distinct_{}_corr_{}_skew_{}'.format(paras[0], paras[1], paras[2], paras[3])
-    csv_file = '/home/jintao/naru/csvdata_sql/{}.csv'.format(csv_name)
+    csv_file = '../csvdata_sql/{}.csv'.format(csv_name)
     cols = []
     for i in range(paras[0]):
         cols.append("col{}".format(i))

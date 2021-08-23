@@ -29,6 +29,7 @@ csv_path = path+ '/' f"{version}.csv"
 csv_path2 = path+ '/' f"{version}_nohead.csv" # for deepdb
 seed = 2
 
+df = pd.DataFrame()
 for i in range(cols-1):
     seed = seed + 1
     row_num = 100000  # 
@@ -55,11 +56,10 @@ df.to_csv(csv_path2, index=False, header = False) # using for deepdb
 
 ops = ['=', '<', '>']  # train and test all not contain >=, <=
 f2 = open('./csvdata_sql/'+ version + '.sql','w')
-for i in range(3600000):   # as much as possible sqls
-    a = list(np.random.randint(0, distinct, 1))[0]
+for i in range(360000):   # as much as possible sqls
     sql = 'SELECT COUNT(*) FROM ' + version + ' cdcs WHERE '
     for i in range(cols):
-        sql += 'cdcs.col' + str(i) + choice(ops) + str(a) + ' AND '
+        sql += 'cdcs.col' + str(i) + choice(ops) + str(list(np.random.randint(0, distinct, 1))[0]) + ' AND '
     sql = sql[0: len(sql)-5]
     sql = sql + ';\n'
     f2.write(sql)

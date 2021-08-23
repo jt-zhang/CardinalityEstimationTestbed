@@ -1,0 +1,4 @@
+2021-08-23 16:38:48,305 [INFO ]  Generating HDF files for tables in ./csvdata_sql and store to path ../imdb-benchmark/gen_single_light
+2021-08-23 16:38:48,306 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2021-08-23 16:38:48,306 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2021-08-23 16:38:48,306 [INFO ]  Preparing hdf file for table cols_4_distinct_1000_corr_4_skew_4

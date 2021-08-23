@@ -8,22 +8,22 @@ parser.add_argument('--version', type=str, help='datasets_dir', default='cols_4_
 args = parser.parse_args()
 version = args.version
 
-pretrain = 'python preprocessing.py --datasets-dir ./csvdata_sql --raw-query-file ./sql_truecard/' + version + \
-    'train.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
-pretest = 'python preprocessing.py --datasets-dir ./csvdata_sql --raw-query-file ./sql_truecard/' + version + \
-    'test.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
-train = 'python train.py --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + \
-    '_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file ./sql_truecard/' + version + \
-    'train.sql --test-query-file ./sql_truecard/' + version + 'test.sql --train --version ' + version
-test = 'python train.py --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + \
-    '_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file ./sql_truecard/' + version + \
-    'train.sql --test-query-file ./sql_truecard/' + version + 'test.sql --version ' + version
+pretrain = 'python preprocessing.py --datasets-dir ../../csvdata_sql --raw-query-file ../../sql_truecard/' + version + \
+    'train.sql' + ' --min-max-file ../data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
+pretest = 'python preprocessing.py --datasets-dir ../../csvdata_sql --raw-query-file ../../sql_truecard/' + version + \
+    'test.sql' + ' --min-max-file ../data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
+train = 'python train.py --min-max-file ./data/' + version + \
+    '_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file ../sql_truecard/' + version + \
+    'train.sql --test-query-file ../sql_truecard/' + version + 'test.sql --train --version ' + version
+test = 'python train.py --min-max-file ./data/' + version + \
+    '_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file ../sql_truecard/' + version + \
+    'train.sql --test-query-file ../sql_truecard/' + version + 'test.sql --version ' + version
 
 
-os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/mscn')
+os.chdir('./learnedcardinalities-master/mscn')
 os.system(pretrain)
 os.system(pretest)
-os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master')
+os.chdir('..')
 os.system(train)
 os.system(test)
 

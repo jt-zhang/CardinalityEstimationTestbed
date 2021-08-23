@@ -583,7 +583,7 @@ def LoadOracleCardinalities():
     return None
 
 def LoadSqlCard(cols):
-    path = '/home/jintao/naru/sql_truecard/{}test.sql'.format(args.dataset)
+    path = '../sql_truecard/{}test.sql'.format(args.dataset)
     flag = False
     cards = []
     sqls = []

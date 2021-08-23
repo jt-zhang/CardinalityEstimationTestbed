@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 import os
 
-min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
+min_max_file = '../data/column_min_max_vals.csv'
 
 def preprocess_sql(sql_path):
     output = []

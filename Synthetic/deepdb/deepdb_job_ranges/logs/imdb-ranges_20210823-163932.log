@@ -1,0 +1,35 @@
+2021-08-23 16:39:32,651 [INFO ]  Generating HDF files for tables in ../../csvdata_sql and store to path ../imdb-benchmark/gen_single_light
+2021-08-23 16:39:32,652 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2021-08-23 16:39:32,652 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2021-08-23 16:39:32,652 [INFO ]  Preparing hdf file for table cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,675 [INFO ]  Managing functional dependencies for table cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,676 [INFO ]  Preparing multipliers for table cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,676 [INFO ]  Preparing categorical values and null values for table cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,677 [DEBUG]  		Preparing numerical values for column col0
+2021-08-23 16:39:32,680 [INFO ]  Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+2021-08-23 16:39:32,680 [INFO ]  Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2021-08-23 16:39:32,680 [INFO ]  NumExpr defaulting to 8 threads.
+2021-08-23 16:39:32,689 [DEBUG]  		Preparing numerical values for column col1
+2021-08-23 16:39:32,690 [DEBUG]  		Preparing numerical values for column col2
+2021-08-23 16:39:32,692 [DEBUG]  		Preparing numerical values for column col3
+2021-08-23 16:39:32,693 [INFO ]  Relevant attributes for table cols_4_distinct_1000_corr_4_skew_4 are ['col0', 'col1', 'col2', 'col3']
+2021-08-23 16:39:32,693 [INFO ]  NULL values for table cols_4_distinct_1000_corr_4_skew_4 are [377.00446, 448.40894999999995, 449.48920999999996, 449.87656]
+2021-08-23 16:39:32,733 [INFO ]  Adding table parts without join partners for table cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,733 [INFO ]  Files successfully created
+2021-08-23 16:39:32,733 [INFO ]  Generating sampled HDF files for tables in ../../csvdata_sql and store to path ../imdb-benchmark/gen_single_light
+2021-08-23 16:39:32,733 [DEBUG]  Creating sample for None
+2021-08-23 16:39:32,734 [DEBUG]  generate_join_sample(single_table=cols_4_distinct_1000_corr_4_skew_4, relationship_list=None, split_condition=None)
+2021-08-23 16:39:32,751 [INFO ]  Files successfully created
+2021-08-23 16:39:32,751 [INFO ]  maqp(generate_ensemble: ensemble_strategy=rdc_based, incremental_learning_rate=0, incremental_condition=None, ensemble_path=../../sql_truecard/)
+2021-08-23 16:39:32,751 [INFO ]  Computed 0 rdc values in 4.9551017582416534e-06 secs
+2021-08-23 16:39:32,954 [INFO ]  Computed optimal solution out of 10000 candidates in 0.202250799164176 secs
+2021-08-23 16:39:32,954 [INFO ]  		cols_4_distinct_1000_corr_4_skew_4
+2021-08-23 16:39:32,954 [INFO ]  Learning SPN for frozenset().
+2021-08-23 16:39:32,954 [DEBUG]  Using postsampling_factor 10.
+2021-08-23 16:39:32,954 [DEBUG]  Using spn_sample_size 10000000.
+2021-08-23 16:39:32,954 [DEBUG]  generate_n_samples_with_incremental_part(sample_size=10000000, single_table=cols_4_distinct_1000_corr_4_skew_4, relationship_list=None, sample_size_estimate=100000.0, incremental_learning_rate=0, incremental_condition=None)
+2021-08-23 16:39:32,954 [DEBUG]  to many samples, reduce number of samples with sample_rate=1.0
+2021-08-23 16:39:32,954 [DEBUG]  generate_join_sample(single_table=cols_4_distinct_1000_corr_4_skew_4, relationship_list=None, split_condition=None)
+2021-08-23 16:39:32,962 [INFO ]  split full sample dataset into parts: initial learning size: 100000, incremental: 0
+2021-08-23 16:39:32,962 [INFO ]  Computed join for frozenset(), (tables: frozenset({'cols_4_distinct_1000_corr_4_skew_4'})) in 0.008181251119822264 secs
+2021-08-23 16:39:32,962 [INFO ]  card(learning): 100000, card(df_inc_samples): 0

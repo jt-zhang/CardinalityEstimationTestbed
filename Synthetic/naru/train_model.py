@@ -109,7 +109,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 version = args.version
-fmetric = open('/home/jintao/naru/metric_result/' + args.version + '.naru.txt', 'a')
+fmetric = open('../metric_result/' + args.version + '.naru.txt', 'a')
 def Entropy(name, data, bases=None):
     import scipy.stats
     s = 'Entropy of {}:'.format(name)

@@ -1,0 +1,1 @@
+2021-08-23 16:39:33,805 [INFO ]  maqp(evaluate_cardinalities: database_name=postgres, target_path=../../sql_truecard/cols_4_distinct_1000_corr_4_skew_4test.sql.deepdb.results.csv)

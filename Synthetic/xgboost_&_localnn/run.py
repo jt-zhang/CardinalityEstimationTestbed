@@ -23,7 +23,7 @@ parser.add_argument("--version", help="version", type=str, default='cols_4_disti
 args = parser.parse_args()
 min_max_file = args.min_max_file
 # min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
-fmetric = open('/home/zhangjintao/Benchmark3/metric_result/' + args.version + '.' + args.model + '.txt', 'w')
+fmetric = open('../metric_result/' + args.version + '.' + args.model + '.txt', 'w')
 
 class MLP(nn.Module):
     def __init__(self, input_dim, hidden_dim):

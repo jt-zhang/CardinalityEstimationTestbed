@@ -28,7 +28,7 @@ print (args.queries, args.epochs, args.batch, args.hid, args.cuda, args.train, a
 # global min_max_file  # quanju
 min_max_file = args.min_max_file
 
-fmetric = open('/home/zhangjintao/Benchmark3/metric_result/' + args.version + '.mscn.txt', 'a')
+fmetric = open('../metric_result/' + args.version + '.mscn.txt', 'a')
 
 
 def unnormalize_torch(vals, min_val, max_val):
@@ -163,6 +163,8 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
 
         print("Training Time: {}s".format(train_end - train_start))
         fmetric.write("Training Time: {}s".format(train_end - train_start)+ '\n')  # Write training time
+        path = train_file + '.mscn.model'
+        torch.save(model.state_dict(), path)
         '''
         # Get final training and validation set predictions
         preds_train, t_total = predict(model, train_data_loader, cuda)
@@ -207,50 +209,50 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         model.load_state_dict(torch.load(path))
         model.eval()
 
-    # Load test data
-    file_name = test_file
-    joins, predicates, tables, samples, label = load_data(file_name, num_materialized_samples)
+        # Load test data
+        file_name = test_file
+        joins, predicates, tables, samples, label = load_data(file_name, num_materialized_samples)
 
-    # Get feature encoding and proper normalization
-    samples_test = encode_samples(tables, samples, table2vec)
-    predicates_test, joins_test = encode_data(predicates, joins, column_min_max_vals, column2vec, op2vec, join2vec)
-    labels_test, _, _ = normalize_labels(label, min_val, max_val)
+        # Get feature encoding and proper normalization
+        samples_test = encode_samples(tables, samples, table2vec)
+        predicates_test, joins_test = encode_data(predicates, joins, column_min_max_vals, column2vec, op2vec, join2vec)
+        labels_test, _, _ = normalize_labels(label, min_val, max_val)
 
-    print("Number of test samples: {}".format(len(labels_test)))
+        print("Number of test samples: {}".format(len(labels_test)))
 
-    max_num_predicates = max([len(p) for p in predicates_test])
-    max_num_joins = max([len(j) for j in joins_test])
+        max_num_predicates = max([len(p) for p in predicates_test])
+        max_num_joins = max([len(j) for j in joins_test])
 
-    # Get test set predictions
-    test_data = make_dataset(samples_test, predicates_test, joins_test, labels_test, max_num_joins, max_num_predicates)
-    test_data_loader = DataLoader(test_data, batch_size=batch_size)
+        # Get test set predictions
+        test_data = make_dataset(samples_test, predicates_test, joins_test, labels_test, max_num_joins, max_num_predicates)
+        test_data_loader = DataLoader(test_data, batch_size=batch_size)
 
-    preds_test, t_total = predict(model, test_data_loader, cuda)
-    fmetric.write("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000)+ '\n')
-    # fmetric.close()
-    print("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000))
+        preds_test, t_total = predict(model, test_data_loader, cuda)
+        fmetric.write("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000)+ '\n')
+        # fmetric.close()
+        print("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000))
 
-    # Unnormalize
-    preds_test_unnorm = unnormalize_labels(preds_test, min_val, max_val)
+        # Unnormalize
+        preds_test_unnorm = unnormalize_labels(preds_test, min_val, max_val)
 
-    # Print metrics
-    print("\nQ-Error " + test_file + ":")
-    print_qerror(preds_test_unnorm, np.array(label, dtype=np.float64))
-    print("\nMSE validation set:")
-    print_mse(preds_test_unnorm, np.array(label, dtype=np.float64))
-    print("\nMAPE validation set:")
-    print_mape(preds_test_unnorm, np.array(label, dtype=np.float64))
-    print("\nPearson Correlation validation set:")
-    print_pearson_correlation(preds_test_unnorm, np.array(label, dtype=np.float64))
+        # Print metrics
+        print("\nQ-Error " + test_file + ":")
+        print_qerror(preds_test_unnorm, np.array(label, dtype=np.float64))
+        print("\nMSE validation set:")
+        print_mse(preds_test_unnorm, np.array(label, dtype=np.float64))
+        print("\nMAPE validation set:")
+        print_mape(preds_test_unnorm, np.array(label, dtype=np.float64))
+        print("\nPearson Correlation validation set:")
+        print_pearson_correlation(preds_test_unnorm, np.array(label, dtype=np.float64))
 
 
-    # Write predictions
-    file_name = test_file + ".mscn.result.csv"
-    os.makedirs(os.path.dirname(file_name), exist_ok=True)
-    with open(file_name, "w") as f:
-        for i in range(len(preds_test_unnorm)):
-            f.write(str(preds_test_unnorm[i]) + "," + label[i] + "\n")
-    f.close()  # remark
+        # Write predictions
+        file_name = test_file + ".mscn.result.csv"
+        os.makedirs(os.path.dirname(file_name), exist_ok=True)
+        with open(file_name, "w") as f:
+            for i in range(len(preds_test_unnorm)):
+                f.write(str(preds_test_unnorm[i]) + "," + label[i] + "\n")
+        f.close()  # remark
 
 
 def main():

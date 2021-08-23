@@ -1,6 +1,5 @@
 import os
 
-os.chdir('/home/zhangjintao/Benchmark3')
 # 
 for cols in [2, 4, 6, 8]:
     for distinct in [10, 100, 1000, 10000]:

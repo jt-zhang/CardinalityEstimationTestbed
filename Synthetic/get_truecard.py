@@ -13,8 +13,8 @@ parser.add_argument('--version', type=str, help='datasets_dir', default='cols_4_
 args = parser.parse_args()
 version = args.version
 
-db_connection = DBConnection(db='postgres',db_user='postgres',db_host="/var/run/postgresql")  # modify
-
+# db_connection = DBConnection(db='postgres',db_user='postgres',db_host="/var/run/postgresql")  # modify
+db_connection = DBConnection(db='autocard', db_password="jintao2020", db_user='jintao', db_host="localhost") 
 fschema = open('./csvdata_sql/schema_'+ version + '.sql')
 schemasql = fschema.read()
 dropsql = 'DROP TABLE ' + version + ';'
@@ -35,7 +35,8 @@ except Exception as e:
 # os.system(csvsql)
 df = pd.read_csv('./csvdata_sql/' + version + '.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
 columns = tuple(df.columns)
-connection = psycopg2.connect(user='postgres', host="/var/run/postgresql", database='postgres')
+# connection = psycopg2.connect(user='postgres', host="/var/run/postgresql", database='postgres')
+connection = psycopg2.connect(user='jintao', host="localhost", database='autocard', password="jintao2020")
 cur = connection.cursor()
 file = open('./csvdata_sql/' + version + '_nohead.csv','r')  # Read a file without a header
 cur.copy_from(file, version , sep=',')
