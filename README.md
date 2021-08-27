@@ -8,10 +8,19 @@ CardinalityEstimationTestbed
 #### Get_sql_truecard
 `python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
 #### Get_result
-`python get_result.py`
+`python get_result.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS] --method [METHOD]`
 - Then experimental results of all methods can be obtained.
-- If only experimental results of some methods should be obtained, other methods can be commented out in `get_result.py`.
+#### Parameters
+- `[COLUMNS_NUM]` should be an integer between 1 and 9.
+- `[DOMAIN_SIZE]` should be an integer between 10 and 20000.
+- `[CORRELATION]` should be an integer between 1 and 9.
+- `[SKEWNESS]` should be an integer between 1 and 9.\
+For example:\
 
+    cols in [2, 4, 6, 8]
+    distinct in [10, 100, 1000, 10000]
+    corr in [2, 4, 6, 8]
+    skew in [2, 4, 6, 8]
 
 ## Experiment of overall
 ### Real Datasets download
@@ -23,17 +32,16 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `cd CardinalityEstimationTestbed\Overall\imdb`\
 `python data_str2num.py`
 #### Varying Columns
-- Start by generating training and testing queries queries for different columns.\
-`cd CardinalityEstimationTestbed\Overall\imdb\cols`\
-`python generate_sql.py`
-- Then refer to `run.sh` in each method folder to execute the code to get the result.
+- Refer to `run.sh` in each method folder to execute the code to get the result.
 #### Varying Domain Size
 - First, the data of the distinct is generated and populated.\
 `cd CardinalityEstimationTestbed\Overall\imdb\distinct`\
 `python data_process.py`
-- Next, generate training and testing queries of different distinct.\
-`python sql_generate.py`
-- Then refer to `run.sh` in each method folder to execute the code to get the result.
+- Then refer to `run.sh` in mscn and neurocard folder to execute the code to get the result.
+
+### XTZX
+- We open source this data set and workload: [XTZX](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
+- The method of reproduction of experiments on this data set is similar to the IMDB above.
 
 ### forest_power
 - Start by generating training and testing queries for different columns.\
