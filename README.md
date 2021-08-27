@@ -46,7 +46,7 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
 #### XTZX
-- We open source this data set and workload: [XTZX](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
+- We open source this data set and workload: [XTZX](https://cloud.tsinghua.edu.cn/f/544d200e2081484bab34/).
 - The method of reproduction of experiments on this data set is similar to the IMDB above.
 
 #### Update
