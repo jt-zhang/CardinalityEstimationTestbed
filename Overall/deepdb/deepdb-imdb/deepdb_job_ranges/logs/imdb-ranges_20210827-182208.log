@@ -1,0 +1,2 @@
+2021-08-27 18:22:08,949 [INFO ]  maqp(evaluate_cardinalities: database_name=imdb, target_path=./baselines/cardinality_estimation/results/deepdblight/imdb_light_model_based_budget_5.csv)
+2021-08-27 18:22:08,966 [DEBUG]  Including SPN with table_set {'title', 'cast_info'} with sampling ratio(10000000 / 36244344)

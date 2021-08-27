@@ -99,11 +99,11 @@ if __name__ == '__main__':
     for k, v in pattern2training.items():
         print (k, len(v))
         data = np.concatenate((v, pattern2truecard[k]),axis=1)
-        np.savetxt('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/{}/{}.assertion'.format(args.output_dir, k), data, delimiter=",")
+        np.savetxt('./test/java/edu/illinois/quicksel/resources/{}/{}.assertion'.format(args.output_dir, k), data, delimiter=",")
         vecs = []
         for _ in range(int(len(v[0]) / 2)):
             vecs.append(0.0)
             vecs.append(1.0)
         vecs.append(1.0)
-        np.savetxt('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/{}/{}.permanent'.format(args.output_dir, k), np.array([vecs]), delimiter=",")
+        np.savetxt('./test/java/edu/illinois/quicksel/resources/{}/{}.permanent'.format(args.output_dir, k), np.array([vecs]), delimiter=",")
 

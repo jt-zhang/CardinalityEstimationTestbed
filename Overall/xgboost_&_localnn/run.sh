@@ -1,1 +1,0 @@
-python run.py --train-file ../train-test-data/imdb-cols-sql/4/train-num.sql --test-file ../train-test-data/imdb-cols-sql/4/test-num.sql --min-max-file ../learnedcardinalities-master/data/cols4_min_max_vals.csv --model xgb

@@ -8,7 +8,7 @@ import os
 
 import argparse
 parser = argparse.ArgumentParser(description='Quick Sel Preprocessing')
-parser.add_argument('--testpath', type=str, help='sqls to be parsed', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
+parser.add_argument('--testpath', type=str, help='sqls to be parsed', default='../../../../../../train-test-data/cols-sql/4/test-only4-num.sql')
 args = parser.parse_args()
 
 def print_qerror(preds_unnorm, labels_unnorm):
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     est = []
     true = []
     path = './JOB/'+ args.testpath
-    with open('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl', 'rb') as f:
+    with open('../../../../../../pattern2totalnum.pkl', 'rb') as f:
         pattern2totalnum = pickle.load(f)
         print('pattern2totalnum:', pattern2totalnum)
     for filename in os.listdir(path):
@@ -68,4 +68,4 @@ if __name__ == '__main__':
     c = np.rot90(c)
     c = np.rot90(c)
     c = np.rot90(c)
-    np.savetxt('/home/zhangjintao/Benchmark3/otherdataset/csvdata_sql/' +  'powertest.sql.quicksel.result.csv', c, delimiter = ',')
+    # np.savetxt('../../../../../../train-test-data/cols-sql/4/' +  'quicksel.result.csv', c, delimiter = ',')
