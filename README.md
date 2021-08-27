@@ -39,16 +39,16 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 `python data_process.py`
 - Then refer to `run.sh` in mscn and neurocard folder to execute the code to get the result.
 
-### XTZX
-- We open source this data set and workload: [XTZX](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
-- The method of reproduction of experiments on this data set is similar to the IMDB above.
-
 ### forest_power
 - Start by generating training and testing queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\forest_power`\
 `python generate_sql.py`
 - Then refer to `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
-### Update
+#### XTZX
+- We open source this data set and workload: [XTZX](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
+- The method of reproduction of experiments on this data set is similar to the IMDB above.
+
+#### Update
 - Select 10% of the number of rows in each table and add them to the end of the table.
 - Refer to `update.sh` in each method folder to execute the code to get the result.
