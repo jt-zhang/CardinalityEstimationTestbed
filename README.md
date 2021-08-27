@@ -17,10 +17,10 @@ CardinalityEstimationTestbed
 - `[SKEWNESS]` should be an integer between 1 and 9.
 - The parameter we use is
 
-`cols in [2, 4, 6, 8]
-distinct in [10, 100, 1000, 10000]
-corr in [2, 4, 6, 8]
-skew in [2, 4, 6, 8]`
+`cols in [2, 4, 6, 8]; 
+distinct in [10, 100, 1000, 10000]; 
+corr in [2, 4, 6, 8]; 
+skew in [2, 4, 6, 8]; `
 
 ## Experiment of overall
 ### Real Datasets download
