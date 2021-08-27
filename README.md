@@ -15,7 +15,7 @@ CardinalityEstimationTestbed
 - `[DOMAIN_SIZE]` should be an integer between 10 and 20000.
 - `[CORRELATION]` should be an integer between 1 and 9.
 - `[SKEWNESS]` should be an integer between 1 and 9.\
-For example:\
+- The parameter we use is
 
     cols in [2, 4, 6, 8]
     distinct in [10, 100, 1000, 10000]
