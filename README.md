@@ -69,10 +69,6 @@ AND
 `cd Overall/xgboost_localnn`\
 `python run_exp.py --xt 4 --model [nn OR xgb]`
 
-#### XTZX
-- We open source this data set and workload: [XTZX](https://cloud.tsinghua.edu.cn/f/544d200e2081484bab34/).
-- The method of reproduction of experiments on this data set is similar to the IMDB above.
-
-#### Update
+### Update
 - Select 10% of the number of rows in each table and add them to the end of the table.
 - Refer to `update.sh` in each method folder to execute the code to get the result.
