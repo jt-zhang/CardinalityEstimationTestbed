@@ -33,10 +33,10 @@ parser.add_argument('--inference-opts',
                     action='store_true',
                     help='Tracing optimization for better latency.')
 
-parser.add_argument('--test-file-path', type=str, default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql', help='')
-parser.add_argument('--single-data-path', type=str, default='/home/sunji/CardinalityEstimationBenchmark/Distinct-Value-High', help='')
-parser.add_argument('--join-data-path', type=str, default='/home/sunji/CardinalityEstimationBenchmark/join_samples', help='')
-parser.add_argument('--join-num-path', type=str, default='/home/sunji/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl', help='')
+parser.add_argument('--test-file-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql', help='')
+parser.add_argument('--single-data-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High', help='')
+parser.add_argument('--join-data-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/join_samples', help='')
+parser.add_argument('--join-num-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl', help='')
 parser.add_argument('--join-sample-size', type=int, default=10000, help='')
 
 parser.add_argument('--num-queries', type=int, default=20, help='# queries.')

@@ -31,13 +31,13 @@ os.system(test)
 '''
 cd mscn
 
-python preprocessing.py --datasets-dir ./csvdata_sql/ --raw-query-file ./sql_truecard/train-num.sql --min-max-file /home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --alias distinct3
+python preprocessing.py --datasets-dir ./csvdata_sql/ --raw-query-file ./sql_truecard/train-num.sql --min-max-file /home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --alias distinct3
 
-python preprocessing.py --datasets-dir /home/sunji/CardinalityEstimationBenchmark/Corrskewdis/distinct3 --raw-query-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql --min-max-file /home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --alias distinct3
+python preprocessing.py --datasets-dir /home/jintao/CardinalityEstimationBenchmark/Corrskewdis/distinct3 --raw-query-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql --min-max-file /home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --alias distinct3
 
 cd ..
 
-python train.py --min-max-file /home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/train-num.sql --test-query-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql --train
+python train.py --min-max-file /home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/train-num.sql --test-query-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql --train
 
-python train.py --min-max-file /home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/train-num.sql --test-query-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql
+python train.py --min-max-file /home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/distinct3_min_max_vals.csv --queries 10000 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/train-num.sql --test-query-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/distinct-sql/distinct3/test-num.sql
 '''

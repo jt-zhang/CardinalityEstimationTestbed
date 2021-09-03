@@ -1,1 +1,0 @@
-python run.py --train-file ../train-test-data/forest_power-sql/powertrain.sql --test-file ../train-test-data/forest_power-sql/powertest.sql --min-max-file ../learnedcardinalities-master/data/power_min_max_vals.csv --model xgb --version power

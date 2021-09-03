@@ -1,0 +1,4 @@
+2021-08-27 18:22:22,506 [INFO ]  Generating HDF files for tables in ../../../train-test-data/imdbdata-num/no_head and store to path ../imdb-benchmark/gen_single_light
+2021-08-27 18:22:22,506 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2021-08-27 18:22:22,507 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2021-08-27 18:22:22,507 [INFO ]  Preparing hdf file for table title

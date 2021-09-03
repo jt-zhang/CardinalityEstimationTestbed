@@ -20,5 +20,5 @@ os.system(run)
 
 
 '''
-python run.py --train-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/skew-sql/skew2/train-num.sql --test-file /home/sunji/CardinalityEstimationBenchmark/train-test-data/skew-sql/skew2/test-num.sql --min-max-file /home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/skew2_min_max_vals.csv --model xgb
+python run.py --train-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/skew-sql/skew2/train-num.sql --test-file /home/jintao/CardinalityEstimationBenchmark/train-test-data/skew-sql/skew2/test-num.sql --min-max-file /home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/skew2_min_max_vals.csv --model xgb
 '''

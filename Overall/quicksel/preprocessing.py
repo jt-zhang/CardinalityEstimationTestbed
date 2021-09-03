@@ -3,8 +3,8 @@ import psycopg2
 import numpy as np
 import pickle
 from tqdm import tqdm
-min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
-datasets_dir = '/home/sunji/CardinalityEstimationBenchmark/Distinct-Value-High/'
+min_max_file = '/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
+datasets_dir = '/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High/'
 def prepare_pattern_workload(path):
     pattern2training = {}
     with open('pattern2totalnum.pkl', 'rb') as f:
@@ -86,9 +86,9 @@ def prepare_pattern_workload(path):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Quick Sel Preprocessing')
-    parser.add_argument('--raw-file', type=str, help='sqls to be parsed', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
-    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
-    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/sunji/CardinalityEstimationBenchmark/Distinct-Value-High/')
+    parser.add_argument('--raw-file', type=str, help='sqls to be parsed', default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
+    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High/')
     parser.add_argument('--output-dir', type=str, help='output relative directory', default='JOB/cols-sql/2/test')
     args = parser.parse_args()
 
@@ -99,11 +99,11 @@ if __name__ == '__main__':
     for k, v in pattern2training.items():
         print (k, len(v))
         data = np.concatenate((v, pattern2truecard[k]),axis=1)
-        np.savetxt('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/{}/{}.assertion'.format(args.output_dir, k), data, delimiter=",")
+        np.savetxt('./test/java/edu/illinois/quicksel/resources/{}/{}.assertion'.format(args.output_dir, k), data, delimiter=",")
         vecs = []
         for _ in range(int(len(v[0]) / 2)):
             vecs.append(0.0)
             vecs.append(1.0)
         vecs.append(1.0)
-        np.savetxt('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/quicksel/test/java/edu/illinois/quicksel/resources/{}/{}.permanent'.format(args.output_dir, k), np.array([vecs]), delimiter=",")
+        np.savetxt('./test/java/edu/illinois/quicksel/resources/{}/{}.permanent'.format(args.output_dir, k), np.array([vecs]), delimiter=",")
 

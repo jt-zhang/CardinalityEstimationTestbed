@@ -14,15 +14,15 @@ import time
 
 import argparse
 parser = argparse.ArgumentParser(description='Local NN')
-parser.add_argument('--train-file', type=str, help='datasets_dir', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
-parser.add_argument('--test-file', type=str, help='sqls to be parsed', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
-parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+parser.add_argument('--train-file', type=str, help='datasets_dir', default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
+parser.add_argument('--test-file', type=str, help='sqls to be parsed', default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
+parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
 parser.add_argument('--model', type=str, help='nn or xgb', default='nn')
 parser.add_argument("--version", help="version", type=str, default='cols_4_distinct_1000_corr_5_skew_5')
 
 args = parser.parse_args()
 min_max_file = args.min_max_file
-# min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
+# min_max_file = '/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
 fmetric = open('../metric_result/' + args.version + '.' + args.model + '.txt', 'w')
 
 class MLP(nn.Module):

@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 import os
 
-min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
+min_max_file = '/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
 
 
 def preprocess_sql(sql_path):
@@ -113,9 +113,9 @@ def select_samples(data_dir):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='MSCN preprocessing')
-    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/sunji/CardinalityEstimationBenchmark/Distinct-Value-High/')
-    parser.add_argument('--raw-query-file', type=str, help='sqls to be parsed', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
-    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High/')
+    parser.add_argument('--raw-query-file', type=str, help='sqls to be parsed', default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
+    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
     args = parser.parse_args()
     min_max_file = args.min_max_file
     sql_path = args.raw_query_file

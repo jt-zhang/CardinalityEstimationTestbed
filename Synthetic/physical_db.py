@@ -5,7 +5,7 @@ import pandas as pd
 
 class DBConnection:
     def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.55", db_port="5432", db="benchmark"):
-    #def __init__(self, db_user="sunji", db_password="sunji", db_host="166.111.121.62", db_port="5432", db="imdb"): 
+    #def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.62", db_port="5432", db="imdb"): 
         self.db_user = db_user
         self.db_password = db_password
         self.db_host = db_host

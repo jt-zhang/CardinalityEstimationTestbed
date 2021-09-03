@@ -11,9 +11,9 @@ from mscn.model import SetConv
 
 from scipy import stats
 
-# min_max_file = '/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
+# min_max_file = '/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
 parser = argparse.ArgumentParser(description='MSCN.')
-parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
 parser.add_argument("--queries", help="number of training queries (default: 10000)", type=int, default=10000)
 parser.add_argument("--epochs", help="number of epochs (default: 10)", type=int, default=10)
 parser.add_argument("--batch", help="batch size (default: 1024)", type=int, default=1024)
@@ -21,8 +21,8 @@ parser.add_argument("--hid", help="number of hidden units (default: 256)", type=
 parser.add_argument("--train", help="need train", action='store_true')
 parser.add_argument("--cuda", help="use CUDA", action="store_true")
 parser.add_argument("--version", help="version", type=str, default='cols_4_distinct_1000_corr_5_skew_5')
-parser.add_argument("--train-query-file", help="train queries (no suffix)", default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/train-2-num.sql')
-parser.add_argument("--test-query-file", help="train queries (no suffix)", default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/test-2-num.sql')
+parser.add_argument("--train-query-file", help="train queries (no suffix)", default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/train-2-num.sql')
+parser.add_argument("--test-query-file", help="train queries (no suffix)", default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/test-2-num.sql')
 args = parser.parse_args()
 print (args.queries, args.epochs, args.batch, args.hid, args.cuda, args.train, args.min_max_file)
 # global min_max_file  # quanju

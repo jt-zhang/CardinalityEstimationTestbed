@@ -17,7 +17,7 @@ public class JOBSpeedComparison {
 
   public static void main(String[] args) throws IOException {
 
-    File file = new File("/Users/sunji/Work/quicksel/test/java/edu/illinois/quicksel/resources/JOB/cols-sql/2/test/");
+    File file = new File("/Users/jintao/Work/quicksel/test/java/edu/illinois/quicksel/resources/JOB/cols-sql/2/test/");
     String[] children = file.list();
     for (String filename: children) {
       if (filename.endsWith("assertion")) {

@@ -119,11 +119,11 @@ if __name__ == '__main__':
     import argparse
     
     parser = argparse.ArgumentParser(description='MSCN preprocessing')
-    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/sunji/CardinalityEstimationBenchmark/Distinct-Value-High/')
-    parser.add_argument('--raw-query-file', type=str, help='sqls to be parsed', default='/home/sunji/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
-    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
-    parser.add_argument('--table', type=str, help='table2alias', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
-    parser.add_argument('--alias', type=str, help='table2alias', default='/home/sunji/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+    parser.add_argument('--datasets-dir', type=str, help='datasets_dir', default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High/')
+    parser.add_argument('--raw-query-file', type=str, help='sqls to be parsed', default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/train-4-num.sql')
+    parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+    parser.add_argument('--table', type=str, help='table2alias', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+    parser.add_argument('--alias', type=str, help='table2alias', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
     args = parser.parse_args()
     
     alias = args.alias

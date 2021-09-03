@@ -49,7 +49,7 @@ custom_lr_lambda:
   value: null
 cwd:
   desc: null
-  value: /home/sunji/CardinalityEstimationBenchmark/neurocard-master/neurocard
+  value: /home/jintao/CardinalityEstimationBenchmark/neurocard-master/neurocard
 dataset:
   desc: null
   value: imdb

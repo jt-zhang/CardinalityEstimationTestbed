@@ -1,0 +1,41 @@
+2021-08-27 18:40:50,342 [INFO ]  Generating HDF files for tables in ../../../train-test-data/forest_power-data-sql/no_head and store to path ../imdb-benchmark/gen_single_light
+2021-08-27 18:40:50,343 [INFO ]  Removing target path ../imdb-benchmark/gen_single_light
+2021-08-27 18:40:50,344 [INFO ]  Making target path ../imdb-benchmark/gen_single_light
+2021-08-27 18:40:50,344 [INFO ]  Preparing hdf file for table forest
+2021-08-27 18:40:51,076 [INFO ]  Managing functional dependencies for table forest
+2021-08-27 18:40:51,138 [INFO ]  Preparing multipliers for table forest
+2021-08-27 18:40:51,138 [INFO ]  Preparing categorical values and null values for table forest
+2021-08-27 18:40:51,139 [DEBUG]  		Preparing categorical values for column Elevation
+2021-08-27 18:40:51,518 [DEBUG]  		Preparing categorical values for column Aspect
+2021-08-27 18:40:51,875 [DEBUG]  		Preparing categorical values for column Slope
+2021-08-27 18:40:52,221 [DEBUG]  		Preparing categorical values for column Horizontal_Distance_To_Hydrology
+2021-08-27 18:40:52,573 [DEBUG]  		Preparing categorical values for column Vertical_Distance_To_Hydrology
+2021-08-27 18:40:52,851 [DEBUG]  		Preparing categorical values for column Horizontal_Distance_To_Roadways
+2021-08-27 18:40:53,109 [DEBUG]  		Preparing categorical values for column Hillshade_9am
+2021-08-27 18:40:53,297 [DEBUG]  		Preparing categorical values for column Hillshade_Noon
+2021-08-27 18:40:53,479 [DEBUG]  		Preparing categorical values for column Hillshade_3pm
+2021-08-27 18:40:53,661 [DEBUG]  		Preparing categorical values for column Horizontal_Distance_To_Fire_Points
+2021-08-27 18:40:53,939 [INFO ]  Relevant attributes for table forest are ['Elevation', 'Aspect', 'Slope', 'Horizontal_Distance_To_Hydrology', 'Vertical_Distance_To_Hydrology', 'Horizontal_Distance_To_Roadways', 'Hillshade_9am', 'Hillshade_Noon', 'Hillshade_3pm', 'Horizontal_Distance_To_Fire_Points']
+2021-08-27 18:40:53,939 [INFO ]  NULL values for table forest are [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2021-08-27 18:40:54,081 [INFO ]  Note: detected 80 virtual cores but NumExpr set to maximum of 64, check "NUMEXPR_MAX_THREADS" environment variable.
+2021-08-27 18:40:54,081 [INFO ]  Note: NumExpr detected 80 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2021-08-27 18:40:54,081 [INFO ]  NumExpr defaulting to 8 threads.
+2021-08-27 18:40:54,596 [INFO ]  Adding table parts without join partners for table forest
+2021-08-27 18:40:54,603 [INFO ]  Files successfully created
+2021-08-27 18:40:54,603 [INFO ]  Generating sampled HDF files for tables in ../../../train-test-data/forest_power-data-sql/no_head and store to path ../imdb-benchmark/gen_single_light
+2021-08-27 18:40:54,647 [DEBUG]  Creating sample for None
+2021-08-27 18:40:54,648 [DEBUG]  generate_join_sample(single_table=forest, relationship_list=None, split_condition=None)
+2021-08-27 18:40:54,787 [INFO ]  Files successfully created
+2021-08-27 18:40:54,788 [INFO ]  maqp(generate_ensemble: ensemble_strategy=rdc_based, incremental_learning_rate=0, incremental_condition=None, ensemble_path=../../../train-test-data/forest_power-data-sql/)
+2021-08-27 18:40:54,793 [INFO ]  Computed 0 rdc values in 9.287148714065552e-06 secs
+2021-08-27 18:40:55,162 [INFO ]  Computed optimal solution out of 10000 candidates in 0.3688213382847607 secs
+2021-08-27 18:40:55,162 [INFO ]  		forest
+2021-08-27 18:40:55,168 [INFO ]  Learning SPN for frozenset().
+2021-08-27 18:40:55,168 [DEBUG]  Using postsampling_factor 10.
+2021-08-27 18:40:55,168 [DEBUG]  Using spn_sample_size 10000000.
+2021-08-27 18:40:55,168 [DEBUG]  generate_n_samples_with_incremental_part(sample_size=10000000, single_table=forest, relationship_list=None, sample_size_estimate=581013.0, incremental_learning_rate=0, incremental_condition=None)
+2021-08-27 18:40:55,168 [DEBUG]  to many samples, reduce number of samples with sample_rate=1.0
+2021-08-27 18:40:55,168 [DEBUG]  generate_join_sample(single_table=forest, relationship_list=None, split_condition=None)
+2021-08-27 18:40:55,280 [INFO ]  split full sample dataset into parts: initial learning size: 581013, incremental: 0
+2021-08-27 18:40:55,280 [INFO ]  Computed join for frozenset(), (tables: frozenset({'forest'})) in 0.11206937581300735 secs
+2021-08-27 18:40:55,280 [INFO ]  card(learning): 581013, card(df_inc_samples): 0

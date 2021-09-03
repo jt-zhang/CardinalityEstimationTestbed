@@ -771,7 +771,7 @@ class BayesianNetwork(CardEst):
                                                   n_jobs=8,
                                                   root=root)
 
-        #with open('/home/sunji/CardinalityEstimationBenchmark/naru-master/model/'+'.bayesian.model', 'wb') as f:
+        #with open('/home/jintao/CardinalityEstimationBenchmark/naru-master/model/'+'.bayesian.model', 'wb') as f:
             #import dill
             #dill.dump(self.model, f)  #pickle.dump(models)
         print('done, took', time.time() - t, 'secs.')

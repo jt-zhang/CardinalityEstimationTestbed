@@ -324,7 +324,7 @@ JOB_MY = {
     'warmups': 0.15,
     # Eval:
     'compute_test_loss': False,
-    'queries_csv': '/home/sunji/CardinalityEstimationBenchmark/train-test-data/all-schema/train_truecard_num.sql.csv',
+    'queries_csv': '/home/jintao/CardinalityEstimationBenchmark/train-test-data/all-schema/train_truecard_num.sql.csv',
     'num_eval_queries_per_iteration': 0,
     'num_eval_queries_at_end': 113,
     'eval_psamples': [1000],
@@ -357,7 +357,7 @@ JOB_jintao = {
     'warmups': 0.15,
     # Eval:
     'compute_test_loss': False,
-    'queries_csv': '/home/sunji/CardinalityEstimationBenchmark/train-test-data/all-schema/train_truecard_num.sql.csv',
+    'queries_csv': '/home/jintao/CardinalityEstimationBenchmark/train-test-data/all-schema/train_truecard_num.sql.csv',
     'num_eval_queries_per_iteration': 0,
     'num_eval_queries_at_end': 113,
     'eval_psamples': [1000],
@@ -413,7 +413,7 @@ def generate_title_movie_companies(p):
     for i in tqdm(range(5000000)):
         samples.append(next(join_iter_dataset.join_iter_dataset))
     df = pd.DataFrame(data=pd.concat(samples, axis=1)).T
-    df.to_csv('/home/sunji/{}.csv'.format(key), index=False)
+    df.to_csv('/home/jintao/{}.csv'.format(key), index=False)
 
 
 def main():
