@@ -1,6 +1,13 @@
 '''import os
+<<<<<<< HEAD
 # os.chdir('/home/zhangjintao/Benchmark3')
 # cols_4_distinct_1000_corr_5_skew_5
+=======
+
+# os.chdir('/home/zhangjintao/Benchmark3')
+# cols_4_distinct_1000_corr_5_skew_5
+
+>>>>>>> 665e3f137da8be58c962c7d26343b822d0c06d74
 for cols in [2, 4, 6, 8]:
     for distinct in [10, 100, 1000, 10000]:
         for corr in [2, 4, 6, 8]:
@@ -91,4 +98,8 @@ if method == 'bayesian':
 # os.system('python train_and_test.py --train-query-file ../sql_truecard/' + version + 'train.sql --test-query-file ../sql_truecard/' + version + 'test.sql --single-data-dir ../csvdata_sql --database overall --sample-num=5000 --train-num 1000 --use-gpu --retrain --seed 11')
 # os.chdir('..')
 
+<<<<<<< HEAD
 print('cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew) + 'is OK.')
+=======
+print('cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew) + 'is OK.')
+>>>>>>> 665e3f137da8be58c962c7d26343b822d0c06d74
