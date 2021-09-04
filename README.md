@@ -48,7 +48,7 @@ AND
 `python data_process.py`
 - Then refer to `run.sh` in mscn and neurocard folder to execute the code to get the result.
 
-#### Varying Domain Size
+#### Varying Join samples
 - For example: \
 `cd Overall/deepdb`\
 `python run_exp.py --samples 3`
