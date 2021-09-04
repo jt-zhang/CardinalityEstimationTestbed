@@ -53,7 +53,7 @@ AND
 `cd Overall/deepdb`\
 `python run_exp.py --samples 3`
 
-### forest_power
+### forest&power
 - Start by generating training and testing queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\forest_power`\
 `python generate_sql.py`
