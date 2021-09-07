@@ -48,12 +48,12 @@ AND
 `python data_process.py`
 - Then refer to `run.sh` in mscn and neurocard folder to execute the code to get the result.
 
-#### Varying Domain Size
+#### Varying Join samples
 - For example: \
 `cd Overall/deepdb`\
 `python run_exp.py --samples 3`
 
-### forest_power
+### forest&power
 - Start by generating training and testing queries for different columns.\
 `cd CardinalityEstimationTestbed\Overall\forest_power`\
 `python generate_sql.py`
