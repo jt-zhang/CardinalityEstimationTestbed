@@ -3,7 +3,7 @@ CardinalityEstimationTestbed
 
 ## Experiment of synthetic
 #### Generate_data_sql
-`cd CardinalityEstimationTestbed\Synthetic`\
+`cd CardinalityEstimationTestbed/Synthetic`\
 `python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS]`
 #### Get_sql_truecard
 `python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
@@ -31,7 +31,7 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - Remember to put the tables in their respective folders that do not contain table headers, for example: `forest_power-data-sql/no_head`, `imdbdata-num/no_head`, `xtzx-data-sql/no_head`.
 ### Imdb
 - First, the strings in the data tables should be converted to numbers.\
-`cd CardinalityEstimationTestbed\Overall\imdb`\
+`cd CardinalityEstimationTestbed/Overall/imdb`\
 `python data_str2num.py`
 #### Varying Columns
 - `cd Overall/[METHOD]`\
@@ -44,7 +44,7 @@ AND
 `python run_exp.py --cols 4 --model [nn OR xgb]`
 #### Varying Domain Size
 - First, the data of the distinct is generated and populated.\
-`cd CardinalityEstimationTestbed\Overall\imdb\distinct`\
+`cd CardinalityEstimationTestbed/Overall/imdb/distinct`\
 `python data_process.py`
 - Then refer to `run.sh` in mscn and neurocard folder to execute the code to get the result.
 
@@ -55,7 +55,7 @@ AND
 
 ### forest&power
 - Start by generating training and testing queries for different columns.\
-`cd CardinalityEstimationTestbed\Overall\forest_power`\
+`cd CardinalityEstimationTestbed/Overall/forest_power`\
 `python generate_sql.py`
 - Then run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
