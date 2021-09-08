@@ -29,6 +29,12 @@ skew in [2, 4, 6, 8]; `
 - We open source [XTZX](https://cloud.tsinghua.edu.cn/f/544d200e2081484bab34/). We have put the data and workload for the experiment into the repositorie.
 Begin by doing a simple job on the table, removing some unused columns. For Forest We use ﬁrst 10 numeric attributes; For Power We used the 7 numeric attributes after the ﬁrst two attributes (date and time).
 - Remember to put the tables in their respective folders that do not contain table headers, for example: `forest_power-data-sql/no_head`, `imdbdata-num/no_head`, `xtzx-data-sql/no_head`.
+
+
+### forest&power
+- Run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
+
+
 ### Imdb
 - First, the strings in the data tables should be converted to numbers.\
 `cd CardinalityEstimationTestbed/Overall/imdb`\
@@ -52,9 +58,6 @@ AND
 - For example: \
 `cd Overall/deepdb`\
 `python run_exp.py --cols 4 --samples 3`
-
-### forest&power
-- Run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
 ### XTZX
 - `cd Overall/[METHOD]`\
