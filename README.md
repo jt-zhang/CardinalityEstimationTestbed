@@ -54,10 +54,7 @@ AND
 `python run_exp.py --cols 4 --samples 3`
 
 ### forest&power
-- Start by generating training and testing queries for different columns.\
-`cd CardinalityEstimationTestbed/Overall/forest_power`\
-`python generate_sql.py`
-- Then run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
+- Run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
 ### XTZX
 - `cd Overall/[METHOD]`\
