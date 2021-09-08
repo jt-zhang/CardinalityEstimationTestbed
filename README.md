@@ -51,7 +51,7 @@ AND
 #### Varying Join samples
 - For example: \
 `cd Overall/deepdb`\
-`python run_exp.py --samples 3`
+`python run_exp.py --cols 4 --samples 3`
 
 ### forest&power
 - Start by generating training and testing queries for different columns.\
