@@ -36,19 +36,25 @@ elif cols == 8:
 
 elif samples == 3:
     os.chdir('./deepdb-imdb/deepdb_job_ranges')
-    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --hdf_sample_size 1000')
+    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --samples_per_spn 10000 10000 1000 1000 1000')
     os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --target_path ./baselines/cardinality_estimation/results/deepdblight/imdb_light_model_based_budget_5.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000.pkl --query_file_location ../../../train-test-data/imdb-cols-sql/4/test-only4-num.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv')
     os.chdir('..')
 
 elif samples == 4:
     os.chdir('./deepdb-imdb/deepdb_job_ranges')
-    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --hdf_sample_size 10000')
+    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --samples_per_spn 100000 100000 10000 10000 10000')
     os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --target_path ./baselines/cardinality_estimation/results/deepdblight/imdb_light_model_based_budget_5.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000.pkl --query_file_location ../../../train-test-data/imdb-cols-sql/4/test-only4-num.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv')
     os.chdir('..')
 
 elif samples == 5:
     os.chdir('./deepdb-imdb/deepdb_job_ranges')
-    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --hdf_sample_size 100000')
+    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --samples_per_spn 1000000 1000000 100000 100000 100000')
+    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --target_path ./baselines/cardinality_estimation/results/deepdblight/imdb_light_model_based_budget_5.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000.pkl --query_file_location ../../../train-test-data/imdb-cols-sql/4/test-only4-num.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv')
+    os.chdir('..')
+
+elif samples == 6:
+    os.chdir('./deepdb-imdb/deepdb_job_ranges')
+    os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --generate_hdf --generate_sampled_hdfs --generate_ensemble --samples_per_spn 10000000 10000000 1000000 1000000 1000000')
     os.system('python3 maqp.py --csv_path ../../../train-test-data/imdbdata-num/no_head --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --target_path ./baselines/cardinality_estimation/results/deepdblight/imdb_light_model_based_budget_5.csv --ensemble_location ../imdb-benchmark/spn_ensembles/ensemble_join_3_budget_5_10000000.pkl --query_file_location ../../../train-test-data/imdb-cols-sql/4/test-only4-num.sql --ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv')
     os.chdir('..')
 
