@@ -1,6 +1,5 @@
-import os
-import subprocess
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description='mscn_xgb_nn')
 
@@ -50,16 +49,15 @@ os.system(test)
 '''
 # sql3
 pretrain = 'python preprocessing.py --datasets-dir /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/ --raw-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
-    'train.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
+           'train.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
 pretest = 'python preprocessing.py --datasets-dir /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/ --raw-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
-    'test.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
+          'test.sql' + ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--table ' + version + ' --alias cdcs'
 train = 'python train.py --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + \
-    '_min_max_vals.csv --queries 7500 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
-    'train.sql --test-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql --train --version ' + version
+        '_min_max_vals.csv --queries 7500 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
+        'train.sql --test-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql --train --version ' + version
 test = 'python train.py --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + \
-    '_min_max_vals.csv --queries 7500 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
-    'train.sql --test-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql --version ' + version
-
+       '_min_max_vals.csv --queries 7500 --epochs 100 --batch 1024 --hid 256 --train-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + \
+       'train.sql --test-query-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql --version ' + version
 
 os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/mscn')
 os.system(pretrain)
@@ -100,13 +98,13 @@ os.system(run)
 '''
 # sql3
 run = 'python run.py --train-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'train.sql' + ' --test-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql' + \
-    ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--model ' + 'nn' + ' --version ' + version
+      ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--model ' + 'nn' + ' --version ' + version
 
 os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/xgboost')
 os.system(run)
 
 run = 'python run.py --train-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'train.sql' + ' --test-file /home/zhangjintao/Benchmark3/sql-modelsize/sql/3/' + version + 'test.sql' + \
-    ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--model ' + 'xgb' + ' --version ' + version
+      ' --min-max-file /home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/learnedcardinalities-master/data/' + version + '_min_max_vals.csv ' + '--model ' + 'xgb' + ' --version ' + version
 
 os.chdir('/home/zhangjintao/Benchmark3/CardinalityEstimationBenchmark/xgboost')
 os.system(run)

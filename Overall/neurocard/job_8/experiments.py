@@ -102,7 +102,7 @@ BASE_CONFIG = {
 JOB_LIGHT_BASE = {
     'dataset': 'imdb',
     'join_tables': [
-        'cast_info', 'title','movie_info'
+        'cast_info', 'title', 'movie_info'
     ],
     'join_keys': {
         'cast_info': ['movie_id'],

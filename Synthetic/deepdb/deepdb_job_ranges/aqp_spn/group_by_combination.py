@@ -2,12 +2,11 @@ import copy
 import logging
 
 import numpy as np
-from spn.algorithms.Inference import likelihood
-from spn.structure.Base import get_nodes_by_type, Leaf, Product, eval_spn_bottom_up, assign_ids
-
 from rspn.algorithms.transform_structure import Prune
 from rspn.algorithms.validity.validity import is_valid
 from rspn.structure.base import Sum
+from spn.algorithms.Inference import likelihood
+from spn.structure.Base import get_nodes_by_type, Leaf, Product, eval_spn_bottom_up, assign_ids
 
 logger = logging.getLogger(__name__)
 

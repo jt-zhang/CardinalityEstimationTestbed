@@ -17,27 +17,30 @@ body {
     /* border: 1px solid #aaa; */
     margin: 0px 20px 0px 20px;
     /* min-width: 740px; */
-    min-width: 800px; */
+    min-width: 800px;
+    */
 }
 
 a {
-/*    color: #CA7900; */
+    /*    color: #CA7900; */
     color: black;
     text-decoration: underline;
 }
 
 a:hover {
-/*    color: #2491CF; */
+    /*    color: #2491CF; */
     text-decoration: underline;
 }
 
 li[class="toctree-l1"] a, div.sphinxsidebar a {
     text-decoration: none !important;
 }
+
 li[class="toctree-l1"] a:hover, div.sphinxsidebar a:hover {
     text-decoration: underline !important;
     color: black !important;
 }
+
 li[class="toctree-l1"] ul {
     list-style-type: circle;
 }
@@ -53,7 +56,7 @@ pre {
     letter-spacing: 0.015em;
     padding: 0.5em;
     border: 1px solid #ccc;
-    background-color: #f8f8f8; 
+    background-color: #f8f8f8;
 }
 
 td.linenos pre {
@@ -87,7 +90,7 @@ tt {
 }
 
 /* function names */
-tt.descname { 
+tt.descname {
     font-style: normal;
     background-color: transparent;
     font-weight: bold;
@@ -96,14 +99,14 @@ tt.descname {
 }
 
 /* module name prepended to function name*/
-tt.descclassname {  
+tt.descclassname {
     font-style: normal;
     background-color: transparent;
     border: 0;
 }
 
 /* variables in function argument list and definition, :samp: */
-tt.docutils.literal, dl.function em {  
+tt.docutils.literal, dl.function em {
     font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     font-style: italic;
     background-color: transparent;
@@ -111,7 +114,7 @@ tt.docutils.literal, dl.function em {
 }
 
 /* function name in reference, and literals */
-tt.xref.docutils.literal {  
+tt.xref.docutils.literal {
     font-style: normal;
     background-color: transparent;
     font-weight: bold;
@@ -122,7 +125,7 @@ a tt {
     background-color: transparent;
     font-weight: bold;
     border: 0;
-/*    color: #CA7900; */
+    /*    color: #CA7900; */
 }
 
 /*
@@ -144,7 +147,6 @@ a tt:hover {
 dl {
     margin-bottom: 15px;
 }
-
 
 
 dd p {
@@ -191,8 +193,8 @@ pre a {
 div.document {
     background-color: white;
     text-align: left;
-/*    background-image: url(contents.png); */
-/*    background-repeat: repeat-x; */
+    /*    background-image: url(contents.png); */
+    /*    background-repeat: repeat-x; */
 }
 
 /*
@@ -210,11 +212,11 @@ div.related h3 {
 }
 
 div.related ul {
-/*    background-image: url(navigation.png); */
+    /*    background-image: url(navigation.png); */
     height: 2em;
     list-style: none;
-    border-top: 1px solid #ddd; 
-    border-bottom: 1px solid #ddd; 
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     margin: 0;
     padding-left: 10px;
 }
@@ -235,13 +237,13 @@ div.related ul li a {
     margin: 0;
     padding: 0 5px 0 5px;
     line-height: 1.75em;
-/*    color: #EE9816; */
-    text-decoration: none;  
+    /*    color: #EE9816; */
+    text-decoration: none;
 }
 
 div.related ul li a:hover {
-/*    color: #3CA8E7;  */
-    text-decoration: underline;  
+    /*    color: #3CA8E7;  */
+    text-decoration: underline;
 }
 
 div.body {
@@ -249,14 +251,14 @@ div.body {
     padding: 0.5em 20px 20px 20px;
 }
 
-div.documentwrapper{
+div.documentwrapper {
     float: left;
     width: 100%;
 }
 
 div.bodywrapper {
-/*     margin: 0 240px 0 0; */
-    margin: 0 0 0 240px; 
+    /*     margin: 0 240px 0 0; */
+    margin: 0 0 0 240px;
     border-left: 1px solid #ccc;
 }
 
@@ -268,31 +270,31 @@ div.body a {
 */
 
 div.body a:hover {
-    color: #2491CF;  
+    color: #2491CF;
 }
 
 div.sphinxsidebar {
     margin: 0;
-    padding: 0.5em 15px 15px 0; 
+    padding: 0.5em 15px 15px 0;
     width: 210px;
-    float: left; 
+    float: left;
     text-align: left;
-    margin-left: -100%; 
+    margin-left: -100%;
 }
 
 div.sphinxsidebar h4, div.sphinxsidebar h3 {
     margin: 1em 0 .2em 0;
-/*    font-size: 0.9em; */
-    font-size: 1.1em; 
+    /*    font-size: 0.9em; */
+    font-size: 1.1em;
 
-    padding: 0.1em 0 0.1em 0.5em; 
-    color: white; 
-    border: 1px solid #86989B; 
-    background-color: #AFC1C4;  
+    padding: 0.1em 0 0.1em 0.5em;
+    color: white;
+    border: 1px solid #86989B;
+    background-color: #AFC1C4;
 }
 
 div.sphinxsidebar h3 a {
-    color: white; 
+    color: white;
 }
 
 div.sphinxsidebar ul {
@@ -353,14 +355,14 @@ h1 {
     margin: 0;
     padding: 0.7em 0 0.3em 0;
     font-size: 1.5em;
-    color: #11557C; 
+    color: #11557C;
 }
 
 h2 {
     margin: 1.3em 0 0.2em 0;
     font-size: 1.35em;
     padding: 0;
-    color: #11557C; 
+    color: #11557C;
 }
 
 h3 {
@@ -369,14 +371,14 @@ h3 {
 }
 
 div.body h1 a, div.body h2 a, div.body h3 a, div.body h4 a, div.body h5 a, div.body h6 a {
-    color: black!important;
+    color: black !important;
 }
 
 h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
     display: none;
     margin: 0 0 0 0.3em;
     padding: 0 0.2em 0 0.2em;
-    color: #aaa!important;
+    color: #aaa !important;
 }
 
 h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor,
@@ -395,7 +397,7 @@ table {
     margin: 0 -0.5em 0 -0.5em;
 }
 
-table.docutils{
+table.docutils {
     margin-left: auto;
     margin-right: auto;
     width: 60%;
@@ -408,7 +410,7 @@ table td, table th {
 }
 
 div.footer {
-/*    background-color: #E3EFF1; */
+    /*    background-color: #E3EFF1; */
     color: #86989B;
     padding: 3px 8px 3px 0;
     clear: both;
@@ -506,11 +508,11 @@ div.versioninfo {
 
 
 a.headerlink {
-    color: #c60f0f!important;
+    color: #c60f0f !important;
     font-size: 1em;
     margin-left: 6px;
     padding: 0 4px 0 4px;
-    text-decoration: none!important;
+    text-decoration: none !important;
     visibility: hidden;
 }
 
@@ -526,7 +528,7 @@ dt:hover > a.headerlink {
 
 a.headerlink:hover {
     background-color: #ccc;
-    color: white!important;
+    color: white !important;
 }
 
 table.indextable td {
@@ -619,8 +621,8 @@ img.logo {
 }
 
 span.raise {
-  vertical-align:super;
-  font-size: .7em;
+    vertical-align: super;
+    font-size: .7em;
 }
 
 ul {

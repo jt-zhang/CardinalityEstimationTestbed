@@ -1,17 +1,19 @@
 """Model training."""
 import argparse
+import fnmatch
+import glob
 import os
 import time
-import glob
+
+import common
+import datasets
+import made
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import fnmatch
-import common
-import datasets
-import made
 import transformer
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Device', DEVICE)
@@ -39,8 +41,8 @@ parser.add_argument('--constant-lr',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Column masking training, which permits wildcard skipping'\
-    ' at querying time.')
+    help='Column masking training, which permits wildcard skipping' \
+         ' at querying time.')
 
 # MADE.
 parser.add_argument('--fc-hiddens',
@@ -53,11 +55,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order '\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order ' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -68,15 +70,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -103,16 +105,17 @@ parser.add_argument(
     type=int,
     required=False,
     help=
-    'Use a specific ordering.  '\
+    'Use a specific ordering.  ' \
     'Format: e.g., [0 2 1] means variable 2 appears second.'
 )
 parser.add_argument('--update', type=str, default='yes', help='Dataset.')  # version
-
 
 args = parser.parse_args()
 update = args.update
 version = args.version
 fmetric = open('/home/jintao/naru_update/metric_result/' + args.version + '.update_naru.txt', 'a')
+
+
 def Entropy(name, data, bases=None):
     import scipy.stats
     s = 'Entropy of {}:'.format(name)
@@ -163,8 +166,8 @@ def RunEpoch(split,
                     t = args.warmups
                     d_model = model.embed_size
                     global_steps = len(loader) * epoch_num + step + 1
-                    lr = (d_model**-0.5) * min(
-                        (global_steps**-.5), global_steps * (t**-1.5))
+                    lr = (d_model ** -0.5) * min(
+                        (global_steps ** -.5), global_steps * (t ** -1.5))
                 else:
                     lr = 1e-2
 
@@ -207,7 +210,7 @@ def RunEpoch(split,
                 xbhat = xbhat.view(-1, model.nout // model.nin, model.nin)
                 # Equivalent to:
                 loss = F.cross_entropy(xbhat, xb.long(), reduction='none') \
-                        .sum(-1).mean()
+                    .sum(-1).mean()
             else:
                 if num_orders_to_forward == 1:
                     loss = model.nll(xbhat, xb).mean()
@@ -237,9 +240,9 @@ def RunEpoch(split,
             if split == 'train':
                 print(
                     'Epoch {} Iter {}, {} entropy gap {:.4f} bits (loss {:.3f}, data {:.3f}) {:.5f} lr'
-                    .format(epoch_num, step, split,
-                            loss.item() / np.log(2) - table_bits,
-                            loss.item() / np.log(2), table_bits, lr))
+                        .format(epoch_num, step, split,
+                                loss.item() / np.log(2) - table_bits,
+                                loss.item() / np.log(2), table_bits, lr))
             else:
                 print('Epoch {} Iter {}, {} loss {:.4f} nats / {:.4f} bits'.
                       format(epoch_num, step, split, loss.item(),
@@ -290,7 +293,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -347,7 +350,7 @@ def TrainTask(seed=0):
     table_bits = Entropy(
         table,
         table.data.fillna(value=0).groupby([c.name for c in table.columns
-                                           ]).size(), [2])[0]
+                                            ]).size(), [2])[0]
     fixed_ordering = None
 
     if args.order is not None:
@@ -360,26 +363,26 @@ def TrainTask(seed=0):
 
     if update == 'yes':
         for f_name in os.listdir('./models'):
-            if fnmatch.fnmatch(f_name, version+ 'update_before' + '*.pt'):   # filename_match
+            if fnmatch.fnmatch(f_name, version + 'update_before' + '*.pt'):  # filename_match
                 all_ckpts = glob.glob('./models/' + f_name)
-                print("Load "+f_name)
+                print("Load " + f_name)
         s = all_ckpts[0]
         z = re.match('.*?model([\d\.]+)-data([\d\.]+).+seed([\d\.]+).*.pt',
-                         s)
+                     s)
         assert z
         model_bits = float(z.group(1))
         data_bits = float(z.group(2))
         seed = int(z.group(3))
         bits_gap = model_bits - data_bits
-        
+
         # print(torch.load(s))
         # model.load_state_dict(torch.load(s))
-        args.epochs = 60   # 淇敼杩欓噷
+        args.epochs = 60  # 淇敼杩欓噷
 
     if args.heads > 0:
-            model = MakeTransformer(cols_to_train=table.columns,
-                                    fixed_ordering=fixed_ordering,
-                                    seed=seed)
+        model = MakeTransformer(cols_to_train=table.columns,
+                                fixed_ordering=fixed_ordering,
+                                seed=seed)
     else:
         if args.dataset in ['dmv-tiny', 'dmv', 'PF']:
             model = MakeMade(
@@ -435,29 +438,33 @@ def TrainTask(seed=0):
                 epoch, mean_epoch_train_loss,
                 mean_epoch_train_loss / np.log(2)))
             since_start = time.time() - train_start
-            
+
             print('time since start: {:.1f} secs'.format(since_start))
 
         train_losses.append(mean_epoch_train_loss)
         # fmetric.write('Traintime since start: {:.1f} secs'.format(since_start)+'\n')
         fmetric = open('/home/jintao/naru_update/metric_result/' + args.version + '.update_naru.txt', 'a')
-        fmetric.write('\nepoch' + str(epoch) + ':\n'+"Training Time: {}s".format(since_start - timetest2 + timetest1)+ '\n')
+        fmetric.write(
+            '\nepoch' + str(epoch) + ':\n' + "Training Time: {}s".format(since_start - timetest2 + timetest1) + '\n')
         fmetric.close()
         all_losses = RunEpoch('test',
-                            model,
-                            train_data=train_data,
-                            val_data=train_data,
-                            opt=None,
-                            batch_size=1024,
-                            log_every=500,
-                            table_bits=table_bits,
-                            return_losses=True)
+                              model,
+                              train_data=train_data,
+                              val_data=train_data,
+                              opt=None,
+                              batch_size=1024,
+                              log_every=500,
+                              table_bits=table_bits,
+                              return_losses=True)
         model_nats = np.mean(all_losses)
         model_bits = model_nats / np.log(2)
         model.model_bits = model_bits
         if fixed_ordering is None:
             if seed is not None:
-                PATH = 'models/' + version + 'update_after' + '{:.1f}MB-model{:.3f}-data{:.3f}-seed{}'.format(mb, model.model_bits, table_bits, seed) + '.pt'
+                PATH = 'models/' + version + 'update_after' + '{:.1f}MB-model{:.3f}-data{:.3f}-seed{}'.format(mb,
+                                                                                                              model.model_bits,
+                                                                                                              table_bits,
+                                                                                                              seed) + '.pt'
                 # 'models/{}-{:.1f}MB-model{:.3f}-data{:.3f}-{}-{}epochs-seed{}.pt'.format(args.dataset, mb, model.model_bits, table_bits, model.name(),args.epochs, seed)
             else:
                 PATH = 'models/' + version + 'update_after' + '.pt'
@@ -472,9 +479,11 @@ def TrainTask(seed=0):
         os.makedirs(os.path.dirname(PATH), exist_ok=True)
         torch.save(model.state_dict(), PATH)
         timetest1 = time.time()
-        os.system('python eval_model.py --testfilepath /home/jintao/naru_update/sql_truecard/ --version '+version+' --table '+version+' --alias '+version+' --dataset=PF --glob=\'<ckpt from above>\' --num-queries=500 --residual --layers=5 --fc-hiddens=256 --direct-io --column-masking --update yes --nepoch '+str(epoch))
+        os.system(
+            'python eval_model.py --testfilepath /home/jintao/naru_update/sql_truecard/ --version ' + version + ' --table ' + version + ' --alias ' + version + ' --dataset=PF --glob=\'<ckpt from above>\' --num-queries=500 --residual --layers=5 --fc-hiddens=256 --direct-io --column-masking --update yes --nepoch ' + str(
+                epoch))
         timetest2 = time.time()
-        
+
     print('Training done; evaluating likelihood on full data:')
 
     '''
@@ -510,8 +519,6 @@ def TrainTask(seed=0):
     # print('Saved to:')
     # print(PATH)
     '''
-
-
 
 
 TrainTask()

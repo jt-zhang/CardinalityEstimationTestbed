@@ -9,12 +9,11 @@ import json
 import operator
 import time
 
+import common
+import made
 import numpy as np
 import pandas as pd
 import torch
-
-import common
-import made
 import transformer
 
 OPS = {
@@ -245,7 +244,7 @@ class ProgressiveSampling(CardEst):
                             None,
                             natural_col=0,
                             out=inp[:, :self.model.
-                                    input_bins_encoded_cumsum[0]])
+                                input_bins_encoded_cumsum[0]])
                     else:
                         l = self.model.input_bins_encoded_cumsum[natural_idx -
                                                                  1]
@@ -302,7 +301,7 @@ class ProgressiveSampling(CardEst):
                                 data_to_encode,
                                 natural_col=0,
                                 out=inp[:, :self.model.
-                                        input_bins_encoded_cumsum[0]])
+                                    input_bins_encoded_cumsum[0]])
                         else:
                             l = self.model.input_bins_encoded_cumsum[natural_idx
                                                                      - 1]
@@ -426,7 +425,7 @@ class SampleFromModel(CardEst):
         self.model = model
         self.table = table  # The table that MADE is trained on.
         self.num_samples_per_query = num_samples_per_query
-        self.device = device  #device to use for pytorch
+        self.device = device  # device to use for pytorch
 
         doms = [c.DistributionSize() for c in table.columns]
         # Right shift by 1; put 0 at head.
@@ -771,9 +770,9 @@ class BayesianNetwork(CardEst):
                                                   n_jobs=8,
                                                   root=root)
 
-        #with open('/home/jintao/CardinalityEstimationBenchmark/naru-master/model/'+'.bayesian.model', 'wb') as f:
-            #import dill
-            #dill.dump(self.model, f)  #pickle.dump(models)
+        # with open('/home/jintao/CardinalityEstimationBenchmark/naru-master/model/'+'.bayesian.model', 'wb') as f:
+        # import dill
+        # dill.dump(self.model, f)  #pickle.dump(models)
         print('done, took', time.time() - t, 'secs.')
 
         def size(states):
@@ -874,7 +873,7 @@ class BayesianNetwork(CardEst):
                     if val == 0 and operators[col_id] == "<":
                         val += 1
                     elif val == self.max_val[col_id] and operators[
-                            col_id] == ">":
+                        col_id] == ">":
                         val -= 1
 
             def prob_match(distribution):
@@ -945,7 +944,7 @@ class BayesianNetwork(CardEst):
                     if val == 0 and operators[col_id] == "<":
                         val += 1
                     elif val == self.max_val[col_id] and operators[
-                            col_id] == ">":
+                        col_id] == ">":
                         val -= 1
 
             def prob_match(distribution):
@@ -1100,9 +1099,9 @@ class MaxDiffHistogram(CardEst):
             start_next_partition = time.time()
             (split_partition_index, split_column_index, partition_boundaries,
              global_maxdiff) = self.next_partition_candidate(
-                 self.partitions, len(self.table.columns), self.table,
-                 min(self.num_new_partitions,
-                     self.limit - len(self.partitions) + 1), self.maxdiff)
+                self.partitions, len(self.table.columns), self.table,
+                min(self.num_new_partitions,
+                    self.limit - len(self.partitions) + 1), self.maxdiff)
             print('determining partition number ', len(self.partitions))
             if global_maxdiff == 0:
                 print('maxdiff already 0 before reaching bucket limit')
@@ -1115,7 +1114,7 @@ class MaxDiffHistogram(CardEst):
                 self.partition_to_maxdiff[p] = set()
                 self._compute_maxdiff(p)
             for d in self.partition_to_maxdiff[
-                    self.partitions[split_partition_index]]:
+                self.partitions[split_partition_index]]:
                 remove_set = set()
                 for cid in range(len(self.table.columns)):
                     remove_set.add(
@@ -1151,7 +1150,7 @@ class MaxDiffHistogram(CardEst):
                         partition.uniform_spreads.append([
                             list(
                                 set(self.table.columns[cid].data[
-                                    partition.data_points]))[0]
+                                        partition.data_points]))[0]
                         ])
                 else:
                     uniform_spread = None
@@ -1177,20 +1176,20 @@ class MaxDiffHistogram(CardEst):
         for cid in range(len(self.table.columns)):
             for pid, partition in enumerate(self.partitions):
                 if partition.boundaries[cid][0] not in self.column_bound_map[
-                        cid]['l']:
+                    cid]['l']:
                     self.column_bound_map[cid]['l'][partition.boundaries[cid]
-                                                    [0]] = [pid]
+                    [0]] = [pid]
                 else:
                     self.column_bound_map[cid]['l'][partition.boundaries[cid]
-                                                    [0]].append(pid)
+                    [0]].append(pid)
 
                 if partition.boundaries[cid][1] not in self.column_bound_map[
-                        cid]['u']:
+                    cid]['u']:
                     self.column_bound_map[cid]['u'][partition.boundaries[cid]
-                                                    [1]] = [pid]
+                    [1]] = [pid]
                 else:
                     self.column_bound_map[cid]['u'][partition.boundaries[cid]
-                                                    [1]].append(pid)
+                    [1]].append(pid)
 
                 self.column_bound_index[cid]['l'].append(
                     partition.boundaries[cid][0])
@@ -1250,7 +1249,7 @@ class MaxDiffHistogram(CardEst):
         # distribute data points to new partitions
         for rowid in partition.data_points:
             if not self.table.columns[
-                    partition_column_index].data.dtype == 'int64':
+                       partition_column_index].data.dtype == 'int64':
                 val = self.table_ds.tuples_np[rowid, partition_column_index]
             else:
                 val = self.table.columns[partition_column_index].data[rowid]
@@ -1317,7 +1316,7 @@ class MaxDiffHistogram(CardEst):
                            len(self.column_bound_index[cid]['u'])):
                 column_set_map[cid] = column_set_map[cid].union(
                     self.column_bound_map[cid]['u'][self.column_bound_index[cid]
-                                                    ['u'][i]])
+                    ['u'][i]])
         else:
             assert o == '=', o
             lower_bound_set = set()
@@ -1340,7 +1339,7 @@ class MaxDiffHistogram(CardEst):
                            len(self.column_bound_index[cid]['u'])):
                 upper_bound_set = upper_bound_set.union(
                     self.column_bound_map[cid]['u'][self.column_bound_index[cid]
-                                                    ['u'][i]])
+                    ['u'][i]])
             column_set_map[cid] = lower_bound_set.intersection(upper_bound_set)
 
     def _estimate_cardinality_per_partition(self, partition, columns, operators,
@@ -1363,10 +1362,10 @@ class MaxDiffHistogram(CardEst):
             elif o in ['>', '>=']:
                 if o == '>':
                     distinct_val_covered = distinct_val_covered * (
-                        len(spread) - bisect.bisect(spread, v))
+                            len(spread) - bisect.bisect(spread, v))
                 else:
                     distinct_val_covered = distinct_val_covered * (
-                        len(spread) - bisect.bisect_left(spread, v))
+                            len(spread) - bisect.bisect_left(spread, v))
             else:
                 assert o == '=', o
                 if not v in spread:

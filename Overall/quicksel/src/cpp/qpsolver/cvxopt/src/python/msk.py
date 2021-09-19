@@ -22,18 +22,21 @@ CVXOPT interface for MOSEK 8.0
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import sys
+
 import mosek
 from cvxopt import matrix, spmatrix, sparse
 
-import sys
 
-def streamprinter(text): 
-    sys.stdout.write(text) 
-    sys.stdout.flush() 
+def streamprinter(text):
+    sys.stdout.write(text)
+    sys.stdout.flush()
+
 
 inf = 0.0
 
 options = {}
+
 
 def lp(c, G, h, A=None, b=None, taskfile=None):
     """
@@ -92,44 +95,44 @@ def lp(c, G, h, A=None, b=None, taskfile=None):
 
     env = mosek.Env()
 
-    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1: 
+    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1:
         raise TypeError("'c' must be a dense column matrix")
     n = c.size[0]
     if n < 1: raise ValueError("number of variables must be at least 1")
 
     if (type(G) is not matrix and type(G) is not spmatrix) or \
-        G.typecode != 'd' or G.size[1] != n:
-        raise TypeError("'G' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            G.typecode != 'd' or G.size[1] != n:
+        raise TypeError("'G' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     m = G.size[0]
     if m is 0: raise ValueError("m cannot be 0")
 
-    if type(h) is not matrix or h.typecode != 'd' or h.size != (m,1):
-        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" %m)
+    if type(h) is not matrix or h.typecode != 'd' or h.size != (m, 1):
+        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" % m)
 
-    if A is None:  A = spmatrix([], [], [], (0,n), 'd')
+    if A is None:  A = spmatrix([], [], [], (0, n), 'd')
     if (type(A) is not matrix and type(A) is not spmatrix) or \
-        A.typecode != 'd' or A.size[1] != n:
-        raise TypeError("'A' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            A.typecode != 'd' or A.size[1] != n:
+        raise TypeError("'A' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     p = A.size[0]
-    if b is None: b = matrix(0.0, (0,1))
-    if type(b) is not matrix or b.typecode != 'd' or b.size != (p,1): 
-        raise TypeError("'b' must be a dense matrix of size (%d,1)" %p)
- 
-    bkc = m*[ mosek.boundkey.up ] + p*[ mosek.boundkey.fx ]
-    blc = m*[ -inf ] + [ bi for bi in b ]
+    if b is None: b = matrix(0.0, (0, 1))
+    if type(b) is not matrix or b.typecode != 'd' or b.size != (p, 1):
+        raise TypeError("'b' must be a dense matrix of size (%d,1)" % p)
+
+    bkc = m * [mosek.boundkey.up] + p * [mosek.boundkey.fx]
+    blc = m * [-inf] + [bi for bi in b]
     buc = matrix([h, b])
 
-    bkx = n*[mosek.boundkey.fr] 
-    blx = n*[ -inf ] 
-    bux = n*[ +inf ]
+    bkx = n * [mosek.boundkey.fr]
+    blx = n * [-inf]
+    bux = n * [+inf]
 
-    colptr, asub, acof = sparse([G,A]).CCS
+    colptr, asub, acof = sparse([G, A]).CCS
     aptrb, aptre = colptr[:-1], colptr[1:]
 
-    task = env.Task(0,0) 
-    task.set_Stream (mosek.streamtype.log, streamprinter) 
+    task = env.Task(0, 0)
+    task.set_Stream(mosek.streamtype.log, streamprinter)
 
     # set MOSEK options 
     for (param, val) in options.items():
@@ -142,20 +145,20 @@ def lp(c, G, h, A=None, b=None, taskfile=None):
         else:
             raise ValueError("invalid MOSEK parameter: " + str(param))
 
-    task.inputdata (m+p, # number of constraints
-                    n,   # number of variables
-                    list(c), # linear objective coefficients  
-                    0.0, # objective fixed value  
-                    list(aptrb), 
-                    list(aptre), 
-                    list(asub),
-                    list(acof), 
-                    bkc,
-                    blc,
-                    buc, 
-                    bkx,
-                    blx,
-                    bux) 
+    task.inputdata(m + p,  # number of constraints
+                   n,  # number of variables
+                   list(c),  # linear objective coefficients
+                   0.0,  # objective fixed value
+                   list(aptrb),
+                   list(aptre),
+                   list(asub),
+                   list(acof),
+                   bkc,
+                   blc,
+                   buc,
+                   bkx,
+                   blx,
+                   bux)
 
     task.putobjsense(mosek.objsense.minimize)
 
@@ -164,24 +167,24 @@ def lp(c, G, h, A=None, b=None, taskfile=None):
 
     task.optimize()
 
-    task.solutionsummary (mosek.streamtype.msg); 
+    task.solutionsummary(mosek.streamtype.msg);
 
     solsta = task.getsolsta(mosek.soltype.bas)
 
-    x, z = n*[ 0.0 ], n*[ 0.0 ]
-    task.getsolutionslice(mosek.soltype.bas, mosek.solitem.xx, 0, n, x) 
-    task.getsolutionslice(mosek.soltype.bas, mosek.solitem.suc, 0, m, z) 
+    x, z = n * [0.0], n * [0.0]
+    task.getsolutionslice(mosek.soltype.bas, mosek.solitem.xx, 0, n, x)
+    task.getsolutionslice(mosek.soltype.bas, mosek.solitem.suc, 0, m, z)
     x, z = matrix(x), matrix(z)
-    
+
     if p is not 0:
-        yu, yl = p*[0.0], p*[0.0]
-        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.suc, m, 
-            m+p, yu) 
-        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.slc, m, 
-            m+p, yl) 
+        yu, yl = p * [0.0], p * [0.0]
+        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.suc, m,
+                              m + p, yu)
+        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.slc, m,
+                              m + p, yl)
         y = matrix(yu) - matrix(yl)
     else:
-        y = matrix(0.0, (0,1))
+        y = matrix(0.0, (0, 1))
 
     if (solsta is mosek.solsta.unknown):
         return (solsta, None, None, None)
@@ -303,57 +306,57 @@ def conelp(c, G, h, dims=None, taskfile=None):
 
     env = mosek.Env()
 
-    if dims is None: 
+    if dims is None:
         (solsta, x, y, z) = lp(c, G, h)
         return (solsta, x, z, None)
-    
-    N, n = G.size    
-    
-    ml, mq, ms = dims['l'], dims['q'], [ k*k for k in dims['s'] ]
+
+    N, n = G.size
+
+    ml, mq, ms = dims['l'], dims['q'], [k * k for k in dims['s']]
     cdim = ml + sum(mq) + sum(ms)
     if cdim is 0: raise ValueError("ml+mq+ms cannot be 0")
 
     # Data for kth 'q' constraint are found in rows indq[k]:indq[k+1] of G.
-    indq = [ dims['l'] ]  
-    for k in dims['q']:  indq = indq + [ indq[-1] + k ] 
+    indq = [dims['l']]
+    for k in dims['q']:  indq = indq + [indq[-1] + k]
 
     # Data for the kth 's' constraint are found in rows indq[-1] + (inds[k]:inds[k+1]) of G.
-    inds = [ 0 ]
-    for k in dims['s']: inds = inds + [ inds[-1] + k*k ]
-        
+    inds = [0]
+    for k in dims['s']: inds = inds + [inds[-1] + k * k]
+
     if type(h) is not matrix or h.typecode != 'd' or h.size[1] != 1:
         raise TypeError("'h' must be a 'd' matrix with 1 column")
     if type(G) is matrix or type(G) is spmatrix:
         if G.typecode != 'd' or G.size[0] != cdim:
-            raise TypeError("'G' must be a 'd' matrix with %d rows " %cdim)
+            raise TypeError("'G' must be a 'd' matrix with %d rows " % cdim)
         if h.size[0] != cdim:
-            raise TypeError("'h' must have %d rows" %cdim)
-    else: 
+            raise TypeError("'h' must have %d rows" % cdim)
+    else:
         raise TypeError("'G' must be a matrix")
 
-    if len(dims['q']) and min(dims['q'])<1: raise TypeError(
+    if len(dims['q']) and min(dims['q']) < 1: raise TypeError(
         "dimensions of quadratic cones must be positive")
 
-    if len(dims['s']) and min(dims['s'])<1: raise TypeError(
+    if len(dims['s']) and min(dims['s']) < 1: raise TypeError(
         "dimensions of semidefinite cones must be positive")
 
-    bkc = n*[ mosek.boundkey.fx ] 
+    bkc = n * [mosek.boundkey.fx]
     blc = list(-c)
     buc = list(-c)
 
     dimx = ml + sum(mq)
-    bkx  = ml*[ mosek.boundkey.lo ] + sum(mq)*[ mosek.boundkey.fr ]
-    blx  = ml*[ 0.0 ] + sum(mq)*[ -inf ]
-    bux  = dimx*[ +inf ] 
-    c    = list(-h)       
-    
+    bkx = ml * [mosek.boundkey.lo] + sum(mq) * [mosek.boundkey.fr]
+    blx = ml * [0.0] + sum(mq) * [-inf]
+    bux = dimx * [+inf]
+    c = list(-h)
+
     cl, cs = c[:dimx], sparse(c[dimx:])
-    Gl, Gs = sparse(G[:dimx,:]), sparse(G[dimx:,:])
+    Gl, Gs = sparse(G[:dimx, :]), sparse(G[dimx:, :])
     colptr, asub, acof = Gl.T.CCS
     aptrb, aptre = colptr[:-1], colptr[1:]
 
-    task = env.Task(0,0) 
-    task.set_Stream (mosek.streamtype.log, streamprinter) 
+    task = env.Task(0, 0)
+    task.set_Stream(mosek.streamtype.log, streamprinter)
 
     # set MOSEK options 
     for (param, val) in options.items():
@@ -364,119 +367,118 @@ def conelp(c, G, h, dims=None, taskfile=None):
         elif str(param)[:6] == "sparam":
             task.putstrparam(param, val)
         else:
-            raise ValueError("invalid MOSEK parameter: "+str(param))
+            raise ValueError("invalid MOSEK parameter: " + str(param))
 
-    task.inputdata (n,    # number of constraints
-                    dimx, # number of variables
-                    cl,   # linear objective coefficients  
-                    0.0,  # objective fixed value  
-                    list(aptrb), 
-                    list(aptre), 
-                    list(asub),
-                    list(acof), 
-                    bkc,
-                    blc,
-                    buc, 
-                    bkx,
-                    blx,
-                    bux) 
+    task.inputdata(n,  # number of constraints
+                   dimx,  # number of variables
+                   cl,  # linear objective coefficients
+                   0.0,  # objective fixed value
+                   list(aptrb),
+                   list(aptre),
+                   list(asub),
+                   list(acof),
+                   bkc,
+                   blc,
+                   buc,
+                   bkx,
+                   blx,
+                   bux)
 
     task.putobjsense(mosek.objsense.maximize)
 
     numbarvar = len(dims['s'])
     task.appendbarvars(dims['s'])
-    
-    barcsubj, barcsubk, barcsubl = (inds[-1])*[ 0 ], (inds[-1])*[ 0 ], (inds[-1])*[ 0 ]
-    barcval = [ -h[indq[-1]+k] for k in range(inds[0], inds[-1])]
+
+    barcsubj, barcsubk, barcsubl = (inds[-1]) * [0], (inds[-1]) * [0], (inds[-1]) * [0]
+    barcval = [-h[indq[-1] + k] for k in range(inds[0], inds[-1])]
     for s in range(numbarvar):
-        for (k,idx) in enumerate(range(inds[s],inds[s+1])):
-            barcsubk[idx] = k / dims['s'][s]   
+        for (k, idx) in enumerate(range(inds[s], inds[s + 1])):
+            barcsubk[idx] = k / dims['s'][s]
             barcsubl[idx] = k % dims['s'][s]
             barcsubj[idx] = s
 
     # filter out upper triangular part
-    trilidx  = [ idx for idx in range(len(barcsubk)) if barcsubk[idx] >= barcsubl[idx] ]
-    barcsubj = [ barcsubj[k] for k in trilidx ]
-    barcsubk = [ barcsubk[k] for k in trilidx ]
-    barcsubl = [ barcsubl[k] for k in trilidx ]
-    barcval  = [ barcval[k]  for k in trilidx ]
+    trilidx = [idx for idx in range(len(barcsubk)) if barcsubk[idx] >= barcsubl[idx]]
+    barcsubj = [barcsubj[k] for k in trilidx]
+    barcsubk = [barcsubk[k] for k in trilidx]
+    barcsubl = [barcsubl[k] for k in trilidx]
+    barcval = [barcval[k] for k in trilidx]
 
-    task.putbarcblocktriplet(len(trilidx), barcsubj, barcsubk, barcsubl, barcval)  
-    
+    task.putbarcblocktriplet(len(trilidx), barcsubj, barcsubk, barcsubl, barcval)
+
     Gst = Gs.T
-    barasubi = len(Gst)*[ 0 ]
-    barasubj = len(Gst)*[ 0 ]
-    barasubk = len(Gst)*[ 0 ]
-    barasubl = len(Gst)*[ 0 ]
-    baraval  = len(Gst)*[ 0.0 ]
-    colptr, row, val = Gst.CCS 
+    barasubi = len(Gst) * [0]
+    barasubj = len(Gst) * [0]
+    barasubk = len(Gst) * [0]
+    barasubl = len(Gst) * [0]
+    baraval = len(Gst) * [0.0]
+    colptr, row, val = Gst.CCS
 
     for s in range(numbarvar):
         for j in range(ms[s]):
-            for idx in range(colptr[inds[s]+j], colptr[inds[s]+j+1]):
+            for idx in range(colptr[inds[s] + j], colptr[inds[s] + j + 1]):
                 barasubi[idx] = row[idx]
                 barasubj[idx] = s
                 barasubk[idx] = j / dims['s'][s]
                 barasubl[idx] = j % dims['s'][s]
-                baraval[idx]  = val[idx]
-        
+                baraval[idx] = val[idx]
+
     # filter out upper triangular part
-    trilidx = [ idx for (idx, (k,l)) in enumerate(zip(barasubk,barasubl)) if k >= l ]
-    barasubi = [ barasubi[k] for k in trilidx ]
-    barasubj = [ barasubj[k] for k in trilidx ]
-    barasubk = [ barasubk[k] for k in trilidx ]
-    barasubl = [ barasubl[k] for k in trilidx ]
-    baraval  = [ baraval[k]  for k in trilidx ]
-     
-    task.putbarablocktriplet(len(trilidx), barasubi, barasubj, barasubk, barasubl, baraval)  
-    
+    trilidx = [idx for (idx, (k, l)) in enumerate(zip(barasubk, barasubl)) if k >= l]
+    barasubi = [barasubi[k] for k in trilidx]
+    barasubj = [barasubj[k] for k in trilidx]
+    barasubk = [barasubk[k] for k in trilidx]
+    barasubl = [barasubl[k] for k in trilidx]
+    baraval = [baraval[k] for k in trilidx]
+
+    task.putbarablocktriplet(len(trilidx), barasubi, barasubj, barasubk, barasubl, baraval)
+
     for k in range(len(mq)):
-        task.appendcone(mosek.conetype.quad, 0.0, 
-                        range(ml+sum(mq[:k]),ml+sum(mq[:k+1])))
-        
-    if taskfile:        
+        task.appendcone(mosek.conetype.quad, 0.0,
+                        range(ml + sum(mq[:k]), ml + sum(mq[:k + 1])))
+
+    if taskfile:
         task.writetask(taskfile)
-        
+
     task.optimize()
 
-    task.solutionsummary (mosek.streamtype.msg); 
+    task.solutionsummary(mosek.streamtype.msg);
 
     solsta = task.getsolsta(mosek.soltype.itr)
 
-    xu, xl, zq = n*[ 0.0 ], n*[ 0.0 ], sum(mq)*[ 0.0 ]
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, 0, n, xl) 
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, n, xu) 
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, ml, dimx, zq) 
-    x = matrix(xu)-matrix(xl)
+    xu, xl, zq = n * [0.0], n * [0.0], sum(mq) * [0.0]
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, 0, n, xl)
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, n, xu)
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, ml, dimx, zq)
+    x = matrix(xu) - matrix(xl)
     zq = matrix(zq)
-    
+
     for s in range(numbarvar):
-        xx = (dims['s'][s]*(dims['s'][s] + 1) >> 1)*[0.0]
+        xx = (dims['s'][s] * (dims['s'][s] + 1) >> 1) * [0.0]
         task.getbarxj(mosek.soltype.itr, s, xx)
-        
+
         xs = matrix(0.0, (dims['s'][s], dims['s'][s]))
         idx = 0
         for j in range(dims['s'][s]):
-            for i in range(j,dims['s'][s]):        
-                xs[i,j] = xx[idx]
+            for i in range(j, dims['s'][s]):
+                xs[i, j] = xx[idx]
                 if i != j:
-                    xs[j,i] = xx[idx]                    
+                    xs[j, i] = xx[idx]
                 idx += 1
-        
+
         zq = matrix([zq, xs[:]])
-        
+
     if ml:
-        zl = ml*[ 0.0 ]
-        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, ml, zl) 
+        zl = ml * [0.0]
+        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, ml, zl)
         zl = matrix(zl)
     else:
-        zl = matrix(0.0, (0,1))
+        zl = matrix(0.0, (0, 1))
 
     if (solsta is mosek.solsta.unknown):
         return (solsta, None, None)
     else:
         return (solsta, x, matrix([zl, zq]))
-
 
 
 def socp(c, Gl=None, hl=None, Gq=None, hq=None, taskfile=None):
@@ -535,73 +537,73 @@ def socp(c, Gl=None, hl=None, Gq=None, hq=None, taskfile=None):
 
     env = mosek.Env()
 
-    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1: 
+    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1:
         raise TypeError("'c' must be a dense column matrix")
     n = c.size[0]
     if n < 1: raise ValueError("number of variables must be at least 1")
 
-    if Gl is None:  Gl = spmatrix([], [], [], (0,n), tc='d')
+    if Gl is None:  Gl = spmatrix([], [], [], (0, n), tc='d')
     if (type(Gl) is not matrix and type(Gl) is not spmatrix) or \
-        Gl.typecode != 'd' or Gl.size[1] != n:
-        raise TypeError("'Gl' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            Gl.typecode != 'd' or Gl.size[1] != n:
+        raise TypeError("'Gl' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     ml = Gl.size[0]
-    if hl is None: hl = matrix(0.0, (0,1))
+    if hl is None: hl = matrix(0.0, (0, 1))
     if type(hl) is not matrix or hl.typecode != 'd' or \
-        hl.size != (ml,1):
+            hl.size != (ml, 1):
         raise TypeError("'hl' must be a dense 'd' matrix of " \
-            "size (%d,1)" %ml)
+                        "size (%d,1)" % ml)
 
     if Gq is None: Gq = []
-    if type(Gq) is not list or [ G for G in Gq if (type(G) is not matrix 
-        and type(G) is not spmatrix) or G.typecode != 'd' or 
-        G.size[1] != n ]:
-        raise TypeError("'Gq' must be a list of sparse or dense 'd' "\
-            "matrices with %d columns" %n)
-    mq = [ G.size[0] for G in Gq ]
-    a = [ k for k in range(len(mq)) if mq[k] == 0 ] 
-    if a: raise TypeError("the number of rows of Gq[%d] is zero" %a[0])
+    if type(Gq) is not list or [G for G in Gq if (type(G) is not matrix
+                                                  and type(G) is not spmatrix) or G.typecode != 'd' or
+                                                 G.size[1] != n]:
+        raise TypeError("'Gq' must be a list of sparse or dense 'd' " \
+                        "matrices with %d columns" % n)
+    mq = [G.size[0] for G in Gq]
+    a = [k for k in range(len(mq)) if mq[k] == 0]
+    if a: raise TypeError("the number of rows of Gq[%d] is zero" % a[0])
     if hq is None: hq = []
-    if type(hq) is not list or len(hq) != len(mq) or [ h for h in hq if
-        (type(h) is not matrix and type(h) is not spmatrix) or 
-        h.typecode != 'd' ]: 
-            raise TypeError("'hq' must be a list of %d dense or sparse "\
-                "'d' matrices" %len(mq))
-    a = [ k for k in range(len(mq)) if hq[k].size != (mq[k], 1) ]
+    if type(hq) is not list or len(hq) != len(mq) or [h for h in hq if
+                                                      (type(h) is not matrix and type(h) is not spmatrix) or
+                                                      h.typecode != 'd']:
+        raise TypeError("'hq' must be a list of %d dense or sparse " \
+                        "'d' matrices" % len(mq))
+    a = [k for k in range(len(mq)) if hq[k].size != (mq[k], 1)]
     if a:
         k = a[0]
-        raise TypeError("'hq[%d]' has size (%d,%d).  Expected size "\
-            "is (%d,1)." %(k, hq[k].size[0], hq[k].size[1], mq[k]))
+        raise TypeError("'hq[%d]' has size (%d,%d).  Expected size " \
+                        "is (%d,1)." % (k, hq[k].size[0], hq[k].size[1], mq[k]))
 
     N = ml + sum(mq)
-    h = matrix(0.0, (N,1))
-    if type(Gl) is matrix or [ Gk for Gk in Gq if type(Gk) is matrix ]:
+    h = matrix(0.0, (N, 1))
+    if type(Gl) is matrix or [Gk for Gk in Gq if type(Gk) is matrix]:
         G = matrix(0.0, (N, n))
     else:
         G = spmatrix([], [], [], (N, n), 'd')
     h[:ml] = hl
-    G[:ml,:] = Gl
+    G[:ml, :] = Gl
     ind = ml
     for k in range(len(mq)):
-        h[ind : ind + mq[k]] = hq[k]
-        G[ind : ind + mq[k], :] = Gq[k]
+        h[ind: ind + mq[k]] = hq[k]
+        G[ind: ind + mq[k], :] = Gq[k]
         ind += mq[k]
 
-    bkc = n*[ mosek.boundkey.fx ] 
+    bkc = n * [mosek.boundkey.fx]
     blc = list(-c)
     buc = list(-c)
 
-    bkx = ml*[ mosek.boundkey.lo ] + sum(mq)*[ mosek.boundkey.fr ]
-    blx = ml*[ 0.0 ] + sum(mq)*[ -inf ]
-    bux = N*[ +inf ] 
+    bkx = ml * [mosek.boundkey.lo] + sum(mq) * [mosek.boundkey.fr]
+    blx = ml * [0.0] + sum(mq) * [-inf]
+    bux = N * [+inf]
 
-    c   = -h        
-    
+    c = -h
+
     colptr, asub, acof = sparse([G.T]).CCS
     aptrb, aptre = colptr[:-1], colptr[1:]
 
-    task = env.Task(0,0) 
-    task.set_Stream (mosek.streamtype.log, streamprinter) 
+    task = env.Task(0, 0)
+    task.set_Stream(mosek.streamtype.log, streamprinter)
 
     # set MOSEK options 
     for (param, val) in options.items():
@@ -612,53 +614,53 @@ def socp(c, Gl=None, hl=None, Gq=None, hq=None, taskfile=None):
         elif str(param)[:6] == "sparam":
             task.putstrparam(param, val)
         else:
-            raise ValueError("invalid MOSEK parameter: "+str(param))
+            raise ValueError("invalid MOSEK parameter: " + str(param))
 
-    task.inputdata (n,   # number of constraints
-                    N,   # number of variables
-                    list(c), # linear objective coefficients  
-                    0.0, # objective fixed value  
-                    list(aptrb), 
-                    list(aptre), 
-                    list(asub),
-                    list(acof), 
-                    bkc,
-                    blc,
-                    buc, 
-                    bkx,
-                    blx,
-                    bux) 
+    task.inputdata(n,  # number of constraints
+                   N,  # number of variables
+                   list(c),  # linear objective coefficients
+                   0.0,  # objective fixed value
+                   list(aptrb),
+                   list(aptre),
+                   list(asub),
+                   list(acof),
+                   bkc,
+                   blc,
+                   buc,
+                   bkx,
+                   blx,
+                   bux)
 
     task.putobjsense(mosek.objsense.maximize)
 
     for k in range(len(mq)):
-        task.appendcone(mosek.conetype.quad, 0.0, 
-                        list(range(ml+sum(mq[:k]),ml+sum(mq[:k+1]))))
+        task.appendcone(mosek.conetype.quad, 0.0,
+                        list(range(ml + sum(mq[:k]), ml + sum(mq[:k + 1]))))
 
     if taskfile:
         task.writetask(taskfile)
-    
+
     task.optimize()
 
-    task.solutionsummary (mosek.streamtype.msg); 
+    task.solutionsummary(mosek.streamtype.msg);
 
     solsta = task.getsolsta(mosek.soltype.itr)
 
-    xu, xl, zq = n*[0.0], n*[0.0], sum(mq)*[0.0]
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, 0, n, xl) 
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, n, xu) 
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, ml, N, zq) 
+    xu, xl, zq = n * [0.0], n * [0.0], sum(mq) * [0.0]
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, 0, n, xl)
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, n, xu)
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, ml, N, zq)
     x = matrix(xu) - matrix(xl)
 
-    zq = [ matrix(zq[sum(mq[:k]):sum(mq[:k+1])]) for k in range(len(mq)) ]
-    
+    zq = [matrix(zq[sum(mq[:k]):sum(mq[:k + 1])]) for k in range(len(mq))]
+
     if ml:
-        zl = ml*[0.0]
-        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, ml, 
-            zl) 
+        zl = ml * [0.0]
+        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, ml,
+                              zl)
         zl = matrix(zl)
     else:
-        zl = matrix(0.0, (0,1))
+        zl = matrix(0.0, (0, 1))
 
     if (solsta is mosek.solsta.unknown):
         return (solsta, None, None, None)
@@ -716,53 +718,53 @@ def qp(P, q, G=None, h=None, A=None, b=None, taskfile=None):
     env = mosek.Env()
 
     if (type(P) is not matrix and type(P) is not spmatrix) or \
-        P.typecode != 'd' or P.size[0] != P.size[1]:
+            P.typecode != 'd' or P.size[0] != P.size[1]:
         raise TypeError("'P' must be a square dense or sparse 'd' matrix ")
     n = P.size[0]
 
     if n < 1: raise ValueError("number of variables must be at least 1")
 
-    if type(q) is not matrix or q.typecode != 'd' or q.size != (n,1):
-        raise TypeError("'q' must be a 'd' matrix of size (%d,1)" %n)
+    if type(q) is not matrix or q.typecode != 'd' or q.size != (n, 1):
+        raise TypeError("'q' must be a 'd' matrix of size (%d,1)" % n)
 
-    if G is None: G = spmatrix([], [], [], (0,n), 'd')
+    if G is None: G = spmatrix([], [], [], (0, n), 'd')
     if (type(G) is not matrix and type(G) is not spmatrix) or \
-        G.typecode != 'd' or G.size[1] != n:
-        raise TypeError("'G' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            G.typecode != 'd' or G.size[1] != n:
+        raise TypeError("'G' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
 
     m = G.size[0]
-    if h is None: h = matrix(0.0, (0,1))
-    if type(h) is not matrix or h.typecode != 'd' or h.size != (m,1):
-        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" %m)
+    if h is None: h = matrix(0.0, (0, 1))
+    if type(h) is not matrix or h.typecode != 'd' or h.size != (m, 1):
+        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" % m)
 
-    if A is None:  A = spmatrix([], [], [], (0,n), 'd')
+    if A is None:  A = spmatrix([], [], [], (0, n), 'd')
     if (type(A) is not matrix and type(A) is not spmatrix) or \
-        A.typecode != 'd' or A.size[1] != n:
-        raise TypeError("'A' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            A.typecode != 'd' or A.size[1] != n:
+        raise TypeError("'A' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     p = A.size[0]
-    if b is None: b = matrix(0.0, (0,1))
-    if type(b) is not matrix or b.typecode != 'd' or b.size != (p,1): 
-        raise TypeError("'b' must be a dense matrix of size (%d,1)" %p)
- 
-    if m+p is 0: raise ValueError("m + p must be greater than 0")
+    if b is None: b = matrix(0.0, (0, 1))
+    if type(b) is not matrix or b.typecode != 'd' or b.size != (p, 1):
+        raise TypeError("'b' must be a dense matrix of size (%d,1)" % p)
 
-    c = list(q)        
+    if m + p is 0: raise ValueError("m + p must be greater than 0")
 
-    bkc = m*[ mosek.boundkey.up ] + p*[ mosek.boundkey.fx ]
-    blc = m*[ -inf ] + [ bi for bi in b ]
-    buc = list(h)+list(b)
+    c = list(q)
 
-    bkx = n*[mosek.boundkey.fr] 
-    blx = n*[ -inf ] 
-    bux = n*[ +inf ]
+    bkc = m * [mosek.boundkey.up] + p * [mosek.boundkey.fx]
+    blc = m * [-inf] + [bi for bi in b]
+    buc = list(h) + list(b)
 
-    colptr, asub, acof = sparse([G,A]).CCS
+    bkx = n * [mosek.boundkey.fr]
+    blx = n * [-inf]
+    bux = n * [+inf]
+
+    colptr, asub, acof = sparse([G, A]).CCS
     aptrb, aptre = colptr[:-1], colptr[1:]
 
-    task = env.Task(0,0) 
-    task.set_Stream (mosek.streamtype.log, streamprinter) 
+    task = env.Task(0, 0)
+    task.set_Stream(mosek.streamtype.log, streamprinter)
 
     # set MOSEK options 
     for (param, val) in options.items():
@@ -773,60 +775,60 @@ def qp(P, q, G=None, h=None, A=None, b=None, taskfile=None):
         elif str(param)[:6] == "sparam":
             task.putstrparam(param, val)
         else:
-            raise ValueError("invalid MOSEK parameter: "+str(param))
+            raise ValueError("invalid MOSEK parameter: " + str(param))
 
-    task.inputdata (m+p, # number of constraints
-                    n,   # number of variables
-                    c, # linear objective coefficients  
-                    0.0, # objective fixed value  
-                    list(aptrb), 
-                    list(aptre), 
-                    list(asub),
-                    list(acof), 
-                    bkc,
-                    blc,
-                    buc, 
-                    bkx,
-                    blx,
-                    bux) 
+    task.inputdata(m + p,  # number of constraints
+                   n,  # number of variables
+                   c,  # linear objective coefficients
+                   0.0,  # objective fixed value
+                   list(aptrb),
+                   list(aptre),
+                   list(asub),
+                   list(acof),
+                   bkc,
+                   blc,
+                   buc,
+                   bkx,
+                   blx,
+                   bux)
 
     Ps = sparse(P)
     I, J = Ps.I, Ps.J
-    tril = [ k for k in range(len(I)) if I[k] >= J[k] ]
+    tril = [k for k in range(len(I)) if I[k] >= J[k]]
     task.putqobj(list(I[tril]), list(J[tril]), list(Ps.V[tril]))
-    
+
     task.putobjsense(mosek.objsense.minimize)
 
     if taskfile:
         task.writetask(taskfile)
-        
+
     task.optimize()
 
-    task.solutionsummary (mosek.streamtype.msg); 
+    task.solutionsummary(mosek.streamtype.msg);
 
     solsta = task.getsolsta(mosek.soltype.itr)
 
-    x = n*[ 0.0 ]
-    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, n, x) 
+    x = n * [0.0]
+    task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, n, x)
     x = matrix(x)
 
     if m is not 0:
-        z = m*[0.0]
-        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, m, 
-            z) 
+        z = m * [0.0]
+        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, 0, m,
+                              z)
         z = matrix(z)
     else:
-        z = matrix(0.0, (0,1))
+        z = matrix(0.0, (0, 1))
 
     if p is not 0:
-        yu, yl = p*[0.0], p*[0.0]
-        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, m, m+p,
-            yu) 
-        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, m, m+p,
-            yl) 
+        yu, yl = p * [0.0], p * [0.0]
+        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.suc, m, m + p,
+                              yu)
+        task.getsolutionslice(mosek.soltype.itr, mosek.solitem.slc, m, m + p,
+                              yl)
         y = matrix(yu) - matrix(yl)
     else:
-        y = matrix(0.0, (0,1))
+        y = matrix(0.0, (0, 1))
 
     if (solsta is mosek.solsta.unknown):
         return (solsta, None, None, None)
@@ -889,58 +891,58 @@ def ilp(c, G, h, A=None, b=None, I=None, taskfile=None):
 
     env = mosek.Env()
 
-    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1: 
+    if type(c) is not matrix or c.typecode != 'd' or c.size[1] != 1:
         raise TypeError("'c' must be a dense column matrix")
     n = c.size[0]
     if n < 1: raise ValueError("number of variables must be at least 1")
 
     if (type(G) is not matrix and type(G) is not spmatrix) or \
-        G.typecode != 'd' or G.size[1] != n:
-        raise TypeError("'G' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            G.typecode != 'd' or G.size[1] != n:
+        raise TypeError("'G' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     m = G.size[0]
     if m is 0: raise ValueError("m cannot be 0")
 
-    if type(h) is not matrix or h.typecode != 'd' or h.size != (m,1):
-        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" %m)
+    if type(h) is not matrix or h.typecode != 'd' or h.size != (m, 1):
+        raise TypeError("'h' must be a 'd' matrix of size (%d,1)" % m)
 
-    if A is None:  A = spmatrix([], [], [], (0,n), 'd')
+    if A is None:  A = spmatrix([], [], [], (0, n), 'd')
     if (type(A) is not matrix and type(A) is not spmatrix) or \
-        A.typecode != 'd' or A.size[1] != n:
-        raise TypeError("'A' must be a dense or sparse 'd' matrix "\
-            "with %d columns" %n)
+            A.typecode != 'd' or A.size[1] != n:
+        raise TypeError("'A' must be a dense or sparse 'd' matrix " \
+                        "with %d columns" % n)
     p = A.size[0]
-    if b is None: b = matrix(0.0, (0,1))
-    if type(b) is not matrix or b.typecode != 'd' or b.size != (p,1): 
-        raise TypeError("'b' must be a dense matrix of size (%d,1)" %p)
- 
+    if b is None: b = matrix(0.0, (0, 1))
+    if type(b) is not matrix or b.typecode != 'd' or b.size != (p, 1):
+        raise TypeError("'b' must be a dense matrix of size (%d,1)" % p)
+
     if I is None: I = set(range(n))
 
-    if type(I) is not set: 
+    if type(I) is not set:
         raise TypeError("invalid argument for integer index set")
 
     for i in I:
-        if type(i) is not int: 
+        if type(i) is not int:
             raise TypeError("invalid integer index set I")
 
     if len(I) > 0 and min(I) < 0: raise IndexError(
-            "negative element in integer index set I")
-    if len(I) > 0 and max(I) > n-1: raise IndexError(
-            "maximum element in in integer index set I is larger than n-1")
+        "negative element in integer index set I")
+    if len(I) > 0 and max(I) > n - 1: raise IndexError(
+        "maximum element in in integer index set I is larger than n-1")
 
-    bkc = m*[ mosek.boundkey.up ] + p*[ mosek.boundkey.fx ]
-    blc = m*[ -inf ] + [ bi for bi in b ]
+    bkc = m * [mosek.boundkey.up] + p * [mosek.boundkey.fx]
+    blc = m * [-inf] + [bi for bi in b]
     buc = matrix([h, b])
 
-    bkx = n*[mosek.boundkey.fr] 
-    blx = n*[ -inf ] 
-    bux = n*[ +inf ]
+    bkx = n * [mosek.boundkey.fr]
+    blx = n * [-inf]
+    bux = n * [+inf]
 
-    colptr, asub, acof = sparse([G,A]).CCS
+    colptr, asub, acof = sparse([G, A]).CCS
     aptrb, aptre = colptr[:-1], colptr[1:]
 
-    task = env.Task(0,0) 
-    task.set_Stream (mosek.streamtype.log, streamprinter) 
+    task = env.Task(0, 0)
+    task.set_Stream(mosek.streamtype.log, streamprinter)
 
     # set MOSEK options 
     for (param, val) in options.items():
@@ -951,48 +953,48 @@ def ilp(c, G, h, A=None, b=None, I=None, taskfile=None):
         elif str(param)[:6] == "sparam":
             task.putstrparam(param, val)
         else:
-            raise ValueError("invalid MOSEK parameter: "+str(param))
-    
-    task.inputdata (m+p, # number of constraints
-                    n,   # number of variables
-                    list(c), # linear objective coefficients  
-                    0.0, # objective fixed value  
-                    list(aptrb), 
-                    list(aptre), 
-                    list(asub),
-                    list(acof), 
-                    bkc,
-                    blc,
-                    buc, 
-                    bkx,
-                    blx,
-                    bux) 
+            raise ValueError("invalid MOSEK parameter: " + str(param))
+
+    task.inputdata(m + p,  # number of constraints
+                   n,  # number of variables
+                   list(c),  # linear objective coefficients
+                   0.0,  # objective fixed value
+                   list(aptrb),
+                   list(aptre),
+                   list(asub),
+                   list(acof),
+                   bkc,
+                   blc,
+                   buc,
+                   bkx,
+                   blx,
+                   bux)
 
     task.putobjsense(mosek.objsense.minimize)
 
     # Define integer variables 
     if len(I) > 0:
-        task.putvartypelist(list(I), len(I)*[ mosek.variabletype.type_int ])
+        task.putvartypelist(list(I), len(I) * [mosek.variabletype.type_int])
 
-    task.putintparam (mosek.iparam.mio_mode, mosek.miomode.satisfied) 
+    task.putintparam(mosek.iparam.mio_mode, mosek.miomode.satisfied)
 
     if taskfile:
         task.writetask(taskfile)
-        
+
     task.optimize()
 
-    task.solutionsummary (mosek.streamtype.msg); 
+    task.solutionsummary(mosek.streamtype.msg);
 
     if len(I) > 0:
         solsta = task.getsolsta(mosek.soltype.itg)
     else:
         solsta = task.getsolsta(mosek.soltype.bas)
-        
-    x = n*[0.0]
+
+    x = n * [0.0]
     if len(I) > 0:
-        task.getsolutionslice(mosek.soltype.itg, mosek.solitem.xx, 0, n, x) 
+        task.getsolutionslice(mosek.soltype.itg, mosek.solitem.xx, 0, n, x)
     else:
-        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.xx, 0, n, x) 
+        task.getsolutionslice(mosek.soltype.bas, mosek.solitem.xx, 0, n, x)
     x = matrix(x)
 
     if (solsta is mosek.solsta.unknown):

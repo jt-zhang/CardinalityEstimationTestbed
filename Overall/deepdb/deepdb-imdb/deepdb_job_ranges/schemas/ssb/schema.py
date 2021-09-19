@@ -45,10 +45,11 @@ def gen_1000gb_ssb_schema(csv_path):
 
     return schema
 
+
 def gen_test_incr_learn_ssb_schema(csv_path, lo_size=100):
-#    Loc.enter('lo_size:', lo_size)
+    #    Loc.enter('lo_size:', lo_size)
     schema = gen_500gb_ssb_schema(csv_path)
-    table_sizes = {'lineorder': lo_size,   # 11998347 complete
+    table_sizes = {'lineorder': lo_size,  # 11998347 complete
                    'dwdate': 2556,
                    'part': 800000,
                    'supplier': 20000,
@@ -57,25 +58,25 @@ def gen_test_incr_learn_ssb_schema(csv_path, lo_size=100):
     for table in schema.tables:
         table.table_size = table_sizes[table.table_name]
         schema.table_dictionary[table.table_name].table_size = table_sizes[table.table_name]
-#    Loc.leave()
+    #    Loc.leave()
     return schema
 
 
 def gen_test_incr_learn_ssb_sampled_schema(csv_path, lo_size=100, sample_factor=.01):
-#    Loc.enter('lo_size:', lo_size)
+    #    Loc.enter('lo_size:', lo_size)
     schema = gen_500gb_ssb_schema(csv_path)
-    table_sizes = {'lineorder': lo_size,   # 11998347 complete
+    table_sizes = {'lineorder': lo_size,  # 11998347 complete
                    'dwdate': 2556,
                    'part': 800000,
                    'supplier': 20000,
                    'customer': 300000}
     schema.table_dictionary['lineorder'].sample_rate = sample_factor
     sf = str(sample_factor)[2:]
-    schema.table_dictionary['lineorder'].csv_file_location=csv_path.format(f"lineorder_sampled_{sf}")
+    schema.table_dictionary['lineorder'].csv_file_location = csv_path.format(f"lineorder_sampled_{sf}")
     for table in schema.tables:
         table.table_size = table_sizes[table.table_name]
         schema.table_dictionary[table.table_name].table_size = table_sizes[table.table_name]
-#    Loc.leave()
+    #    Loc.leave()
     return schema
 
 

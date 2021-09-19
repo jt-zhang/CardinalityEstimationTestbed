@@ -1,15 +1,15 @@
-import pandas as pd
-import numpy as np
-import pickle
-from scipy import stats
-import math
-import time
-import os
-
 import argparse
+import os
+import pickle
+
+import numpy as np
+from scipy import stats
+
 parser = argparse.ArgumentParser(description='Quick Sel Preprocessing')
-parser.add_argument('--testpath', type=str, help='sqls to be parsed', default='../../../../../../train-test-data/cols-sql/4/test-only4-num.sql')
+parser.add_argument('--testpath', type=str, help='sqls to be parsed',
+                    default='../../../../../../train-test-data/cols-sql/4/test-only4-num.sql')
 args = parser.parse_args()
+
 
 def print_qerror(preds_unnorm, labels_unnorm):
     qerror = []
@@ -26,26 +26,30 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Max: {}".format(np.max(qerror)))
     print("Mean: {}".format(np.mean(qerror)))
 
+
 def print_mse(preds_unnorm, labels_unnorm):
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
+
 
 def print_mape(preds_unnorm, labels_unnorm):
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
+
 def print_pearson_correlation(x, y):
-    PCCs=stats.pearsonr(x, y)
+    PCCs = stats.pearsonr(x, y)
     print("Pearson Correlation: {}".format(PCCs))
+
 
 if __name__ == '__main__':
     est = []
     true = []
-    path = './JOB/'+ args.testpath
+    path = './JOB/' + args.testpath
     with open('../../../../../../pattern2totalnum.pkl', 'rb') as f:
         pattern2totalnum = pickle.load(f)
         print('pattern2totalnum:', pattern2totalnum)
     for filename in os.listdir(path):
         if filename.endswith('.txt'):
-            with open(path+filename, 'r') as f:
+            with open(path + filename, 'r') as f:
                 key = '_'.join(filename.split('_')[:-1])
                 print(pattern2totalnum[key])
                 for x in f.readlines():
@@ -59,7 +63,7 @@ if __name__ == '__main__':
     print_mape(est, true)
     print_pearson_correlation(est, true)
 
-    a = true.tolist() 
+    a = true.tolist()
     b = est.tolist()
     c = []
     c.append(a)

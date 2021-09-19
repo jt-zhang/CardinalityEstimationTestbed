@@ -1,6 +1,5 @@
-import psycopg2
 import pandas as pd
-
+import psycopg2
 from ensemble_compilation.utils import gen_full_join_query, print_conditions
 
 

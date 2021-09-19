@@ -94,12 +94,13 @@ class SchemaGraph:
                                     self.table_dictionary[end_name],
                                     start_attr,
                                     end_attr,
-                                    multiplier_attribute_name)  #沒看懂
+                                    multiplier_attribute_name)  # 沒看懂
 
-        print('start_name, start_attr, end_name, end_attr, multiplier_attribute_name:\n', start_name, '\n',start_attr,'\n', end_name, '\n',end_attr, '\n',multiplier_attribute_name)
+        print('start_name, start_attr, end_name, end_attr, multiplier_attribute_name:\n', start_name, '\n', start_attr,
+              '\n', end_name, '\n', end_attr, '\n', multiplier_attribute_name)
         self.relationships.append(relationship)
         self.relationship_dictionary[relationship.identifier] = relationship
-        print('relationship.identifier:\n',relationship.identifier)
+        print('relationship.identifier:\n', relationship.identifier)
         return relationship.identifier
 
 
@@ -121,7 +122,7 @@ class AggregationOperationType(Enum):
 
 
 class Query:
-    """Represents query"""  #接口
+    """Represents query"""  # 接口
 
     def __init__(self, schema_graph, query_type=QueryType.CARDINALITY, features=None):
         self.query_type = query_type

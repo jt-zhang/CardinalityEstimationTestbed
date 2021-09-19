@@ -25,20 +25,18 @@ import subprocess
 import textwrap
 import time
 
+import common
+import datasets
+import join_utils
+import numpy as np
+import pandas as pd
+import utils
 from absl import app
 from absl import flags
 from absl import logging
-from mako import template
-import numpy as np
-import pandas as pd
-import psycopg2 as pg
-from pyspark.sql import SparkSession
-
-import common
-import datasets
 from factorized_sampler import FactorizedSamplerIterDataset
-import join_utils
-import utils
+from mako import template
+from pyspark.sql import SparkSession
 
 FLAGS = flags.FLAGS
 
@@ -64,7 +62,7 @@ flags.DEFINE_string('spark_master', 'local[*]', 'spark.master.')
 # Print selectivities.
 flags.DEFINE_bool(
     'print_sel', False, 'If specified, load generated cardinalities from '
-    '--output_csv and print selectivities.')
+                        '--output_csv and print selectivities.')
 
 JOB_LIGHT_OUTER_CARDINALITY = 2128877229383
 
@@ -157,7 +155,7 @@ def MakeQueries(spark, cursor, num_queries, tables_in_templates, table_names,
                                       max(ncols // 2, FLAGS.max_filters))
 
             # Positions where the values are non-null.
-            non_null_indices = np.argwhere(~pd.isnull(tup).values).reshape(-1,)
+            non_null_indices = np.argwhere(~pd.isnull(tup).values).reshape(-1, )
             if len(non_null_indices) < num_filters:
                 continue
             print('{} filters out of {} content cols'.format(
@@ -219,8 +217,8 @@ def MakeQueries(spark, cursor, num_queries, tables_in_templates, table_names,
         true_cards.append(true_card)
         print(
             '...done: {} (inner join sel {}; full sel {}; inner join {}); dur {:.1f}s'
-            .format(true_card, true_card / true_inner_join_card,
-                    true_card / true_full_join_card, true_inner_join_card, dur))
+                .format(true_card, true_card / true_inner_join_card,
+                        true_card / true_full_join_card, true_inner_join_card, dur))
 
         # if i > 0 and i % 1 == 0:
         #     spark = StartSpark(spark)
@@ -228,8 +226,8 @@ def MakeQueries(spark, cursor, num_queries, tables_in_templates, table_names,
     df = pd.DataFrame({
         'tables': [','.join(table_names)] * len(true_cards),
         'join_conds': [
-            ','.join(map(lambda s: s.replace(' ', ''), join_clauses_list))
-        ] * len(true_cards),
+                          ','.join(map(lambda s: s.replace(' ', ''), join_clauses_list))
+                      ] * len(true_cards),
         'filters': filter_strings,
         'true_cards': true_cards,
     })
@@ -239,17 +237,17 @@ def MakeQueries(spark, cursor, num_queries, tables_in_templates, table_names,
 
 
 def StartSpark(spark=None):
-    spark = SparkSession.builder.appName('make_job_queries')\
-        .config('spark.master', FLAGS.spark_master)\
-        .config('spark.driver.memory', '200g')\
-        .config('spark.eventLog.enabled', 'true')\
-        .config('spark.sql.warehouse.dir', '/home/ubuntu/spark-sql-warehouse')\
-        .config('spark.sql.cbo.enabled', 'true')\
-        .config('spark.memory.fraction', '0.9')\
-        .config('spark.driver.extraJavaOptions', '-XX:+UseG1GC')\
-        .config('spark.memory.offHeap.enabled', 'true')\
-        .config('spark.memory.offHeap.size', '100g')\
-        .enableHiveSupport()\
+    spark = SparkSession.builder.appName('make_job_queries') \
+        .config('spark.master', FLAGS.spark_master) \
+        .config('spark.driver.memory', '200g') \
+        .config('spark.eventLog.enabled', 'true') \
+        .config('spark.sql.warehouse.dir', '/home/ubuntu/spark-sql-warehouse') \
+        .config('spark.sql.cbo.enabled', 'true') \
+        .config('spark.memory.fraction', '0.9') \
+        .config('spark.driver.extraJavaOptions', '-XX:+UseG1GC') \
+        .config('spark.memory.offHeap.enabled', 'true') \
+        .config('spark.memory.offHeap.size', '100g') \
+        .enableHiveSupport() \
         .getOrCreate()
 
     print('Launched spark:', spark.sparkContext)

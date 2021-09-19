@@ -1,4 +1,5 @@
 """Evaluate estimators (Naru or others) on queries."""
+
 import argparse
 import collections
 import glob
@@ -7,35 +8,14 @@ import pickle
 import re
 import time
 
-import numpy as np
-import pandas as pd
-import torch
-
 import common
 import datasets
 import estimators as estimators_lib
 import made
-import transformer
-import argparse
-import collections
-import glob
-import os
-import pickle
-import re
-import time
-
 import numpy as np
 import pandas as pd
 import torch
-
-import sklearn
-
-import common
-import datasets
-import estimators as estimators_lib
-import made
 import transformer
-import dill
 
 # For inference speed.
 torch.backends.cudnn.deterministic = False
@@ -49,7 +29,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--testfilepath', type=str, default='dmv-tiny', help='Dataset.')
 parser.add_argument('--csvname', type=str, default='dmv-tiny', help='Dataset.')
 parser.add_argument('--alias', type=str, default='dmv-tiny', help='Dataset.')
-
 
 parser.add_argument('--inference-opts',
                     action='store_true',
@@ -74,8 +53,8 @@ parser.add_argument('--psample',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Turn on wildcard skipping.  Requires checkpoints be trained with '\
-    'column masking.')
+    help='Turn on wildcard skipping.  Requires checkpoints be trained with ' \
+         'column masking.')
 parser.add_argument('--order',
                     nargs='+',
                     type=int,
@@ -92,11 +71,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order'\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -107,15 +86,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -202,7 +181,7 @@ def SampleTupleThenRandom(all_cols,
     s = table.data.iloc[rng.randint(0, table.cardinality)]
     vals = s.values
 
-    if args.dataset in ['dmv', 'dmv-tiny','forest', 'power']:
+    if args.dataset in ['dmv', 'dmv-tiny', 'forest', 'power']:
         # Giant hack for DMV.
         vals[6] = vals[6].to_datetime64()
 
@@ -286,21 +265,23 @@ def ReportEsts(estimators):
         v = max(v, np.max(est.errs))
     return v
 
+
 def binary_search(x, target, start, end):
     if start >= end:
         return start - 1
     mid = int((start + end) / 2.0)
     if x[mid] < target:
-        return binary_search(x, target, mid+1, end)
+        return binary_search(x, target, mid + 1, end)
     elif x[mid] == target:
         return mid
     else:
         return binary_search(x, target, start, mid)
 
+
 def print_qerror(preds_unnorm, labels_unnorm):
     qerror = []
     for i in range(len(preds_unnorm)):
-        if float(labels_unnorm[i])>0 and float(preds_unnorm[i])>0:
+        if float(labels_unnorm[i]) > 0 and float(preds_unnorm[i]) > 0:
             if preds_unnorm[i] > float(labels_unnorm[i]):
                 qerror.append(preds_unnorm[i] / float(labels_unnorm[i]))
             else:
@@ -313,16 +294,20 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Max: {}".format(np.max(qerror)))
     print("Mean: {}".format(np.mean(qerror)))
 
+
 def print_mse(preds_unnorm, labels_unnorm):
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
+
 
 def print_mape(preds_unnorm, labels_unnorm):
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
+
 def print_pearson_correlation(x, y):
     from scipy import stats
-    PCCs=stats.pearsonr(x, y)
+    PCCs = stats.pearsonr(x, y)
     print("Pearson Correlation: {}".format(PCCs))
+
 
 def RunN(table,
          cols,
@@ -336,51 +321,48 @@ def RunN(table,
     print(11)
     if rng is None:
         rng = np.random.RandomState(1234)
-    ests_new,truths_new=[],[]
+    ests_new, truths_new = [], []
     last_time = None
-    print('estimators',estimators)
-    alias2table = {args.alias:args.alias} # modify
-    with open(args.testfilepath+args.alias+'test.sql'+'.csv', 'r') as f:  # modify
+    print('estimators', estimators)
+    alias2table = {args.alias: args.alias}  # modify
+    with open(args.testfilepath + args.alias + 'test.sql' + '.csv', 'r') as f:  # modify
         queries = f.readlines()[0:999]  # .Parsing
-        testt1=time.time()
+        testt1 = time.time()
         for query in queries:
-            print (query)
+            print(query)
             tables = [x.split(' ')[0] for x in query.split('#')[0].split(',')]
             alias = [x.split(' ')[1] for x in query.split('#')[0].split(',')]
             key = '_'.join(sorted(alias))
             conditions = query.split('#')[2].split(',')
             true_card = int(query.split('#')[-1])
-            
+
             columns = np.asarray(table.columns)
-            print('columns',columns)
+            print('columns', columns)
             names = [c.name for c in columns]
             # col1 = columns[names.index('col0')]
 
-
-
             cols, ops, vals = [], [], []
-            for i in range(int(len(conditions)/3)):
-                x = conditions[i*3].split('.')
+            for i in range(int(len(conditions) / 3)):
+                x = conditions[i * 3].split('.')
                 col = columns[names.index(x[1])]  # alias2table[x[0]]+':'+
-                op = conditions[i*3+1]
-                val = float(conditions[i*3+2])
+                op = conditions[i * 3 + 1]
+                val = float(conditions[i * 3 + 2])
                 x = col.all_distinct_values
                 # print (col.all_distinct_values, val)
                 position = binary_search(x, val, 0, len(x))
                 if op == '<':
                     if position < len(x) - 1:
-                        val = x[position+1]
+                        val = x[position + 1]
                     elif position == 0:
                         op = '='
                         val = x[position]
                 elif op == '>':
                     if position >= 0:
                         val = x[position]
-                print (f'Updated:{op}, {val}')
+                print(f'Updated:{op}, {val}')
                 cols.append(col)
                 ops.append(op)
                 vals.append(val)
-
 
             '''        
             cols, ops ,vals = [],[],[]
@@ -431,18 +413,18 @@ def RunN(table,
             
             print(ops)
             '''
-            print('cols, ops ,vals ',cols, ops ,vals)
-            query = cols, ops ,vals
+            print('cols, ops ,vals ', cols, ops, vals)
+            query = cols, ops, vals
             estcard = estimators[0].Query(cols, ops,
-                            vals)  # oracle_est
+                                          vals)  # oracle_est
             print('res:', estcard, true_card)
             ests_new.append(estcard)
             truths_new.append(true_card)
         # print(ests_new)
-        testt2=time.time()
+        testt2 = time.time()
         est = np.array(ests_new)
         true = np.array(truths_new)
-        a = true.tolist() 
+        a = true.tolist()
         b = est.tolist()
         c = []
         c.append(a)
@@ -451,8 +433,8 @@ def RunN(table,
         c = np.rot90(c)
         c = np.rot90(c)
         c = np.rot90(c)
-        np.savetxt(args.testfilepath+args.alias+'sql.nero.result.csv', c, delimiter = ',') # modify /
-        print('testtime per:', (testt2-testt1)/1800)
+        np.savetxt(args.testfilepath + args.alias + 'sql.nero.result.csv', c, delimiter=',')  # modify /
+        print('testtime per:', (testt2 - testt1) / 1800)
         print_qerror(np.array(ests_new), np.array(truths_new))
         print_mse(np.array(ests_new), np.array(truths_new))
         print_mape(np.array(ests_new), np.array(truths_new))
@@ -562,7 +544,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -639,7 +621,7 @@ def LoadOracleCardinalities():
 def Main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     all_ckpts = glob.glob('./models/{}'.format(args.glob))
-    all_ckpts = glob.glob('./models/'+str(args.dataset)+'*.pt')
+    all_ckpts = glob.glob('./models/' + str(args.dataset) + '*.pt')
     print(args.blacklist)
     if args.blacklist:
         all_ckpts = [ckpt for ckpt in all_ckpts if args.blacklist not in ckpt]
@@ -680,7 +662,7 @@ def Main():
                                     fixed_ordering=order,
                                     seed=seed)
         else:
-            if args.dataset in ['dmv-tiny', 'dmv','forest', 'power']:
+            if args.dataset in ['dmv-tiny', 'dmv', 'forest', 'power']:
                 model = MakeMade(
                     scale=args.fc_hiddens,
                     cols_to_train=table.columns,
@@ -717,7 +699,7 @@ def Main():
     else:
         print(parsed_ckpts)
         for c in parsed_ckpts:
-            print(c.loaded_model, table,args.psample,args.column_masking)
+            print(c.loaded_model, table, args.psample, args.column_masking)
         estimators = [
             estimators_lib.ProgressiveSampling(c.loaded_model,
                                                table,

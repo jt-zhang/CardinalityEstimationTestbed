@@ -5,12 +5,11 @@ from collections import deque
 from enum import Enum
 
 import numpy as np
-from spn.algorithms.StructureLearning import default_slicer
-from spn.structure.Base import assign_ids, Product
-
 from rspn.algorithms.transform_structure import Prune
 from rspn.algorithms.validity.validity import is_valid
 from rspn.structure.base import Sum
+from spn.algorithms.StructureLearning import default_slicer
+from spn.structure.Base import assign_ids, Product
 
 logger = logging.getLogger(__name__)
 

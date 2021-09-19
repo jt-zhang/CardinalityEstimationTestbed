@@ -284,8 +284,6 @@ JOB_M_FACTORIZED = {
     'epochs_per_iteration': 1,
 }
 
-
-
 ### EXPERIMENT CONFIGS ###
 # Run multiple experiments concurrently by using the --run flag, ex:
 # $ ./run.py --run job-light

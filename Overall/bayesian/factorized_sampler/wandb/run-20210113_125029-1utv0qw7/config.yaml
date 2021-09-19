@@ -80,7 +80,7 @@ eval_join_sampling:
 eval_psamples:
   desc: null
   value:
-  - 8000
+    - 8000
 factorize:
   desc: null
   value: true
@@ -111,21 +111,21 @@ input_no_emb_if_leq:
 join_clauses:
   desc: null
   value:
-  - title.id=aka_title.movie_id
-  - title.id=cast_info.movie_id
-  - title.id=complete_cast.movie_id
-  - title.id=movie_companies.movie_id
-  - title.id=movie_info.movie_id
-  - title.id=movie_info_idx.movie_id
-  - title.id=movie_keyword.movie_id
-  - title.id=movie_link.movie_id
-  - title.kind_id=kind_type.id
-  - comp_cast_type.id=complete_cast.subject_id
-  - company_name.id=movie_companies.company_id
-  - company_type.id=movie_companies.company_type_id
-  - movie_info_idx.info_type_id=info_type.id
-  - keyword.id=movie_keyword.keyword_id
-  - link_type.id=movie_link.link_type_id
+    - title.id=aka_title.movie_id
+    - title.id=cast_info.movie_id
+    - title.id=complete_cast.movie_id
+    - title.id=movie_companies.movie_id
+    - title.id=movie_info.movie_id
+    - title.id=movie_info_idx.movie_id
+    - title.id=movie_keyword.movie_id
+    - title.id=movie_link.movie_id
+    - title.kind_id=kind_type.id
+    - comp_cast_type.id=complete_cast.subject_id
+    - company_name.id=movie_companies.company_id
+    - company_type.id=movie_companies.company_type_id
+    - movie_info_idx.info_type_id=info_type.id
+    - keyword.id=movie_keyword.keyword_id
+    - link_type.id=movie_link.link_type_id
 join_how:
   desc: null
   value: outer
@@ -133,44 +133,44 @@ join_keys:
   desc: null
   value:
     aka_title:
-    - movie_id
+      - movie_id
     cast_info:
-    - movie_id
+      - movie_id
     comp_cast_type:
-    - id
+      - id
     company_name:
-    - id
+      - id
     company_type:
-    - id
+      - id
     complete_cast:
-    - movie_id
-    - subject_id
+      - movie_id
+      - subject_id
     info_type:
-    - id
+      - id
     keyword:
-    - id
+      - id
     kind_type:
-    - id
+      - id
     link_type:
-    - id
+      - id
     movie_companies:
-    - company_id
-    - company_type_id
-    - movie_id
+      - company_id
+      - company_type_id
+      - movie_id
     movie_info:
-    - movie_id
+      - movie_id
     movie_info_idx:
-    - info_type_id
-    - movie_id
+      - info_type_id
+      - movie_id
     movie_keyword:
-    - keyword_id
-    - movie_id
+      - keyword_id
+      - movie_id
     movie_link:
-    - link_type_id
-    - movie_id
+      - link_type_id
+      - movie_id
     title:
-    - id
-    - kind_id
+      - id
+      - kind_id
 join_name:
   desc: null
   value: job-m
@@ -180,22 +180,22 @@ join_root:
 join_tables:
   desc: null
   value:
-  - title
-  - aka_title
-  - cast_info
-  - complete_cast
-  - movie_companies
-  - movie_info
-  - movie_info_idx
-  - movie_keyword
-  - movie_link
-  - kind_type
-  - comp_cast_type
-  - company_name
-  - company_type
-  - info_type
-  - keyword
-  - link_type
+    - title
+    - aka_title
+    - cast_info
+    - complete_cast
+    - movie_companies
+    - movie_info
+    - movie_info_idx
+    - movie_keyword
+    - movie_link
+    - kind_type
+    - comp_cast_type
+    - company_name
+    - company_type
+    - info_type
+    - keyword
+    - link_type
 label_smoothing:
   desc: null
   value: 0.0
@@ -253,8 +253,8 @@ queries_csv:
 query_filters:
   desc: null
   value:
-  - 5
-  - 12
+    - 5
+    - 12
 residual:
   desc: null
   value: true

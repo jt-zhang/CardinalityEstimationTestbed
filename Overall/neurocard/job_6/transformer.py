@@ -4,13 +4,11 @@ This implementation allows for an arbirary ordering of input variables; the
 appropriate masking is automatically calculated.
 """
 
+import masking
 import numpy as np
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import masking
 
 ## Notes on masking schemes
 #
@@ -487,7 +485,7 @@ class Transformer(nn.Module):
                 #   (2) indexing into unk_embeddings is based on natural_idx.
                 dropped_repr = torch.cat((torch.zeros_like(
                     dropped_repr[:, 0:1, :]), dropped_repr[:, :-1, :]),
-                                         dim=1)
+                    dim=1)
             else:
                 dropped_repr = torch.cat(
                     (torch.zeros_like(dropped_repr[:, 0:1, :]), dropped_repr),
@@ -644,8 +642,8 @@ if __name__ == '__main__':
                             num_heads=4,
                             nin=num_cols,
                             input_bins=[
-                                vocab,
-                            ] * num_cols,
+                                           vocab,
+                                       ] * num_cols,
                             use_positional_embs=True,
                             activation='gelu',
                             fixed_ordering=ordering)
@@ -659,7 +657,7 @@ if __name__ == '__main__':
             # [bs, num cols, d_model], the logits
             out = model(inp)
 
-            out[:, nat_idx, :].contiguous().view(-1,)[0].backward()
+            out[:, nat_idx, :].contiguous().view(-1, )[0].backward()
             ok = True
             for n, p in model.named_parameters():
                 if 'embed' in n:

@@ -77,7 +77,7 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
                 table_meta_data['fd_dict'][attribute][child] = reverse_dict
             # remove from dataframe and relevant attributes
             cols_to_be_dropped.append(attribute)
-            print('cols_to_be_dropped: ',cols_to_be_dropped ) # 去掉XX列
+            print('cols_to_be_dropped: ', cols_to_be_dropped)  # 去掉XX列
             relevant_attributes.remove(attribute_wo_table)
     table_data.drop(columns=cols_to_be_dropped, inplace=True)
 
@@ -156,7 +156,8 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
             if len(distinct_vals) > max_distinct_vals:
                 del_cat_attributes.append(rel_attribute)
                 logger.info("Ignoring column {} for table {} because "
-                            "there are too many categorical values".format(rel_attribute, table))  # 扔掉dictinct value太多的列
+                            "there are too many categorical values".format(rel_attribute,
+                                                                           table))  # 扔掉dictinct value太多的列
             # all values nan does not provide any information
             elif not table_data[attribute].notna().any():
                 del_cat_attributes.append(rel_attribute)
@@ -167,17 +168,18 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=100000, cs
                     val_dict[np.nan] = 0
                 else:
                     val_dict = dict(zip(distinct_vals, range(1, len(distinct_vals) + 1)))
-                    val_dict[np.nan] = 0  # 空值为0 , val_dict是对于特定属性 distinct_vals 映射至 1到len(distinct_vals) + 1   nan 映射至 0
-                table_meta_data['categorical_columns_dict'][attribute] = val_dict  #将val_dict存入meta_data
+                    val_dict[
+                        np.nan] = 0  # 空值为0 , val_dict是对于特定属性 distinct_vals 映射至 1到len(distinct_vals) + 1   nan 映射至 0
+                table_meta_data['categorical_columns_dict'][attribute] = val_dict  # 将val_dict存入meta_data
 
                 table_data[attribute] = table_data[attribute].map(val_dict.get)
                 # because we are paranoid
                 table_data[attribute] = table_data[attribute].fillna(0)
                 # apparently slow
                 # table_data[attribute] = table_data[attribute].replace(val_dict)
-                table_meta_data['null_values_column'].append(val_dict[np.nan])  
+                table_meta_data['null_values_column'].append(val_dict[np.nan])
 
-        # numerical value
+                # numerical value
         else:
 
             logger.debug("\t\tPreparing numerical values for column {}".format(rel_attribute))
@@ -268,6 +270,6 @@ def prepare_all_tables(schema_graph, path, csv_seperator=',', max_table_data=200
     prep_end_t = perf_counter()
 
     with open(path + '/build_time_hdf.txt', "w") as text_file:
-        text_file.write(str(round(prep_end_t-prep_start_t)))
+        text_file.write(str(round(prep_end_t - prep_start_t)))
 
     return meta_data

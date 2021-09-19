@@ -9,7 +9,7 @@ purpose is to make the development of software for convex optimization
 applications straightforward by building on Python's extensive standard 
 library and on the strengths of Python as a high-level programming 
 language.
-""" 
+"""
 
 # Copyright 2012-2016 M. Andersen and L. Vandenberghe.
 # Copyright 2010-2011 L. Vandenberghe.
@@ -30,6 +30,7 @@ language.
 # You should have received a copy of the GNU General Public License
 
 import cvxopt.base
+
 
 def normal(nrows, ncols=1, mean=0.0, std=1.0):
     '''
@@ -52,15 +53,16 @@ def normal(nrows, ncols=1, mean=0.0, std=1.0):
     std       standard deviation of the distribution
     '''
 
-    try:    
+    try:
         from cvxopt import gsl
     except:
         from cvxopt.base import matrix
         from random import gauss
-        return matrix([gauss(mean, std) for k in range(nrows*ncols)],
-                      (nrows,ncols), 'd' )
-        
+        return matrix([gauss(mean, std) for k in range(nrows * ncols)],
+                      (nrows, ncols), 'd')
+
     return gsl.normal(nrows, ncols, mean, std)
+
 
 def uniform(nrows, ncols=1, a=0, b=1):
     '''
@@ -83,17 +85,18 @@ def uniform(nrows, ncols=1, a=0, b=1):
     b         upper bound
     '''
 
-    try:    
+    try:
         from cvxopt import gsl
     except:
         from cvxopt.base import matrix
         from random import uniform
-        return matrix([uniform(a, b) for k in range(nrows*ncols)],
-                      (nrows,ncols), 'd' )
+        return matrix([uniform(a, b) for k in range(nrows * ncols)],
+                      (nrows, ncols), 'd')
 
     return gsl.uniform(nrows, ncols, a, b)
 
-def setseed(val = 0):
+
+def setseed(val=0):
     ''' 
     Sets the seed value for the random number generator.
 
@@ -102,17 +105,17 @@ def setseed(val = 0):
     ARGUMENTS
     value     integer seed.  If the value is 0, the current system time  
               is used. 
-    '''    
+    '''
 
-    try:    
+    try:
         from cvxopt import gsl
         gsl.setseed(val)
     except:
         from random import seed
         if val is 0: val = None
         seed(val)
-        
- 
+
+
 def getseed():
     '''
     Returns the seed value for the random number generator.
@@ -120,16 +123,18 @@ def getseed():
     getseed()
     '''
 
-    try:    
+    try:
         from cvxopt import gsl
         return gsl.getseed()
     except:
         raise NotImplementedError("getseed() not installed (requires GSL)")
-    
+
 
 import sys
+
 if sys.version_info[0] < 3:
     import __builtin__
+
     omax = __builtin__.max
     omin = __builtin__.min
 else:
@@ -151,10 +156,10 @@ def max(*args):
     max(iterable)  where the iterator generates matrices and scalars computes
     the elementwise max between the objects in the iterator,  using the
     same conventions as max(a1, ..., an).
-    '''    
-    
+    '''
+
     if len(args) == 1 and type(args[0]).__name__ in \
-            ['list', 'tuple', 'xrange', 'range', 'generator']: 
+            ['list', 'tuple', 'xrange', 'range', 'generator']:
         return +reduce(cvxopt.base.emax, *args)
     elif len(args) == 1 and type(args[0]) is cvxopt.base.matrix:
         return omax(args[0])
@@ -183,7 +188,7 @@ def min(*args):
     '''
 
     if len(args) == 1 and type(args[0]).__name__ in \
-            ['list', 'tuple', 'xrange', 'range', 'generator']: 
+            ['list', 'tuple', 'xrange', 'range', 'generator']:
         return +reduce(cvxopt.base.emin, *args)
     elif len(args) == 1 and type(args[0]) is cvxopt.base.matrix:
         return omin(args[0])
@@ -194,6 +199,7 @@ def min(*args):
             return omin(omin(args[0]), 0.0)
     else:
         return +reduce(cvxopt.base.emin, args)
+
 
 def mul(*args):
     ''' 
@@ -212,10 +218,11 @@ def mul(*args):
     '''
 
     if len(args) == 1 and type(args[0]).__name__ in \
-            ['list', 'tuple', 'xrange', 'range', 'generator']: 
+            ['list', 'tuple', 'xrange', 'range', 'generator']:
         return +reduce(cvxopt.base.emul, *args)
     else:
         return +reduce(cvxopt.base.emul, args)
+
 
 def div(*args):
     ''' 
@@ -234,31 +241,31 @@ def div(*args):
     '''
 
     if len(args) == 1 and type(args[0]).__name__ in \
-            ['list', 'tuple', 'xrange', 'range', 'generator']: 
+            ['list', 'tuple', 'xrange', 'range', 'generator']:
         return +reduce(cvxopt.base.ediv, *args)
     else:
         return +reduce(cvxopt.base.ediv, args)
+
 
 cvxopt.base.normal, cvxopt.base.uniform = normal, uniform
 cvxopt.base.setseed, cvxopt.base.getseed = setseed, getseed
 cvxopt.base.mul, cvxopt.base.div = mul, div
 
 from cvxopt import printing
-matrix_str    = printing.matrix_str_default
-matrix_repr   = printing.matrix_repr_default
-spmatrix_str  = printing.spmatrix_str_default
-spmatrix_repr = printing.spmatrix_repr_default
 
-from cvxopt.base import matrix, spmatrix, sparse, spdiag, sqrt, sin, cos, \
-    exp, log
+matrix_str = printing.matrix_str_default
+matrix_repr = printing.matrix_repr_default
+spmatrix_str = printing.spmatrix_str_default
+spmatrix_repr = printing.spmatrix_repr_default
 
 from cvxopt import solvers, blas, lapack
 
-__all__ = [ 'blas', 'lapack', 'amd', 'umfpack', 'cholmod', 'solvers',
-    'modeling', 'printing', 'info', 'matrix', 'spmatrix', 'sparse', 
-    'spdiag', 'sqrt', 'sin', 'cos', 'exp', 'log', 'min', 'max', 'mul', 
-    'div', 'normal', 'uniform', 'setseed', 'getseed' ]
+__all__ = ['blas', 'lapack', 'amd', 'umfpack', 'cholmod', 'solvers',
+           'modeling', 'printing', 'info', 'matrix', 'spmatrix', 'sparse',
+           'spdiag', 'sqrt', 'sin', 'cos', 'exp', 'log', 'min', 'max', 'mul',
+           'div', 'normal', 'uniform', 'setseed', 'getseed']
 
 from ._version import get_versions
+
 __version__ = get_versions()['version']
 del get_versions

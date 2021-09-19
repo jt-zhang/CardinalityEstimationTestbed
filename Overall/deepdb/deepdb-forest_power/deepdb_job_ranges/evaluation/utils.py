@@ -3,9 +3,8 @@ import logging
 import os
 
 import sqlparse
-from sqlparse.tokens import Token
-
 from ensemble_compilation.graph_representation import Query, QueryType, AggregationType, AggregationOperationType
+from sqlparse.tokens import Token
 
 logger = logging.getLogger(__name__)
 
@@ -319,8 +318,9 @@ def parse_query(query_str, schema):
             else:
                 query.add_where_condition(alias_dict[left.tokens[0].value],
                                           left.tokens[2].value + comparison.tokens[operator_idx].value + right.value)
-    print('query:\n')  #重要
-    print(query.query_type, query.table_set, query.relationship_set, query.table_where_condition_dict, query.conditions, query.aggregation_operations, query.group_bys)  #重要
+    print('query:\n')  # 重要
+    print(query.query_type, query.table_set, query.relationship_set, query.table_where_condition_dict, query.conditions,
+          query.aggregation_operations, query.group_bys)  # 重要
     return query
 
 

@@ -3,8 +3,6 @@ import logging
 from time import perf_counter
 
 import numpy as np
-from spn.structure.StatisticalTypes import MetaType
-
 from aqp_spn.group_by_combination import group_by_combinations
 from ensemble_compilation.spn_ensemble import CombineSPN
 from rspn.algorithms.ranges import NominalRange, NumericRange
@@ -12,6 +10,7 @@ from rspn.rspn import RSPN
 from rspn.structure.leaves import IdentityNumericLeaf, identity_distinct_ranges, categorical_distinct_ranges, \
     Categorical, identity_likelihood_range, categorical_likelihood_range
 from rspn.updates.top_down_updates import cluster_center_update_dataset
+from spn.structure.StatisticalTypes import MetaType
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +27,7 @@ class AQPSPN(CombineSPN, RSPN):
         CombineSPN.__init__(self, full_join_size, schema_graph, relationship_list, table_set=table_set)
         RSPN.__init__(self, meta_types, null_values, full_sample_size,
                       column_names=column_names,
-                      table_meta_data=table_meta_data)  #column_names来源是哪
+                      table_meta_data=table_meta_data)  # column_names来源是哪
 
     def add_dataset(self, dataset):
         """
@@ -379,7 +378,7 @@ class AQPSPN(CombineSPN, RSPN):
             group_by_columns_merged = [table + '.' + attribute for table, attribute in group_by_columns]
 
         for (table, condition) in conditions:
-            print('conditions:\n' , conditions)
+            print('conditions:\n', conditions)
 
             table_obj = self.schema_graph.table_dictionary[table]
 
@@ -400,7 +399,7 @@ class AQPSPN(CombineSPN, RSPN):
                     continue
                 else:
                     raise NotImplementedError
-            
+
             # for other attributes parse. Find matching attr.
             matching_fd_cols = [column for column in list(self.table_meta_data[table]['fd_dict'].keys())
                                 if column + '<' in table + '.' + condition or column + '=' in table + '.' + condition
@@ -408,8 +407,8 @@ class AQPSPN(CombineSPN, RSPN):
             matching_cols = [column for column in self.column_names if column + '<' in table + '.' + condition or
                              column + '=' in table + '.' + condition or column + '>' in table + '.' + condition
                              or column + ' ' in table + '.' + condition]
-            
-            print('condition:' ,condition, type(condition))
+
+            print('condition:', condition, type(condition))
             print('matching_cols:\n', matching_cols)
             print('matching_fd_cols:\n', matching_fd_cols)
             print('self.column_names:\n', self.column_names)

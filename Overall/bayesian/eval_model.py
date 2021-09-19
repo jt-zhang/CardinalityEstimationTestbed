@@ -7,18 +7,14 @@ import pickle
 import re
 import time
 
-import numpy as np
-import pandas as pd
-import torch
-
-import sklearn
-
 import common
 import datasets
 import estimators as estimators_lib
 import made
+import numpy as np
+import pandas as pd
+import torch
 import transformer
-import dill
 
 # For inference speed.
 torch.backends.cudnn.deterministic = False
@@ -33,10 +29,15 @@ parser.add_argument('--inference-opts',
                     action='store_true',
                     help='Tracing optimization for better latency.')
 
-parser.add_argument('--test-file-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql', help='')
-parser.add_argument('--single-data-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High', help='')
-parser.add_argument('--join-data-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/join_samples', help='')
-parser.add_argument('--join-num-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl', help='')
+parser.add_argument('--test-file-path', type=str,
+                    default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql',
+                    help='')
+parser.add_argument('--single-data-path', type=str,
+                    default='/home/jintao/CardinalityEstimationBenchmark/Distinct-Value-High', help='')
+parser.add_argument('--join-data-path', type=str, default='/home/jintao/CardinalityEstimationBenchmark/join_samples',
+                    help='')
+parser.add_argument('--join-num-path', type=str,
+                    default='/home/jintao/CardinalityEstimationBenchmark/quicksel/pattern2totalnum.pkl', help='')
 parser.add_argument('--join-sample-size', type=int, default=10000, help='')
 
 parser.add_argument('--num-queries', type=int, default=20, help='# queries.')
@@ -58,8 +59,8 @@ parser.add_argument('--psample',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Turn on wildcard skipping.  Requires checkpoints be trained with '\
-    'column masking.')
+    help='Turn on wildcard skipping.  Requires checkpoints be trained with ' \
+         'column masking.')
 parser.add_argument('--order',
                     nargs='+',
                     type=int,
@@ -76,11 +77,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order'\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -91,15 +92,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -169,6 +170,7 @@ def MakeTable():
     if args.run_bn:
         return table, common.TableDataset(table), oracle_est
     return table, None, oracle_est
+
 
 def MakeTableNew(filename):
     table = datasets.LoadJobTables(filename)
@@ -387,12 +389,13 @@ def RunNParallel(estimator_factory,
         est.report()
     return estimators
 
+
 def binary_search(x, target, start, end):
     if start >= end:
         return start - 1
     mid = int((start + end) / 2.0)
     if x[mid] < target:
-        return binary_search(x, target, mid+1, end)
+        return binary_search(x, target, mid + 1, end)
     elif x[mid] == target:
         return mid
     else:
@@ -400,16 +403,16 @@ def binary_search(x, target, start, end):
 
 
 def RunNParallelNew(estimator_factory,
-                 parallelism=2,
-                 rng=None,
-                 num=20,
-                 num_filters=11,
-                 oracle_cards=None,
-                 test_file_path='',
-                 single_data_path='',
-                 join_data_path='',
-                 join_num_path='',
-                 join_sample_size=10000):
+                    parallelism=2,
+                    rng=None,
+                    num=20,
+                    num_filters=11,
+                    oracle_cards=None,
+                    test_file_path='',
+                    single_data_path='',
+                    join_data_path='',
+                    join_num_path='',
+                    join_sample_size=10000):
     estimators = {}
     ests = []
     truths = []
@@ -418,11 +421,12 @@ def RunNParallelNew(estimator_factory,
     import pickle
     with open(join_num_path, 'rb') as f:
         pattern2totalnum = pickle.load(f)
-    alias2table = {'t': 'title', 'ci': 'cast_info', 'mi': 'movie_info', 'mi_idx': 'movie_info_idx', 'mk': 'movie_keyword', 'mc': 'movie_companies'}
-    with open(test_file_path+'.csv', 'r') as f:
+    alias2table = {'t': 'title', 'ci': 'cast_info', 'mi': 'movie_info', 'mi_idx': 'movie_info_idx',
+                   'mk': 'movie_keyword', 'mc': 'movie_companies'}
+    with open(test_file_path + '.csv', 'r') as f:
         queries = f.readlines()[0:179]  # .Parsing
         for query in queries:
-            print (query)
+            print(query)
             queries = queries[0:59]
             print('len(queries):', len(queries))
             tables = [x.split(' ')[0] for x in query.split('#')[0].split(',')]
@@ -437,7 +441,7 @@ def RunNParallelNew(estimator_factory,
                     estimators[key] = (estimator, table)
                     end = time.time()
                     training_time += (end - start)
-                    with open(test_file_path+'.bayesian.model', 'a') as f:
+                    with open(test_file_path + '.bayesian.model', 'a') as f:
                         f.write(estimator.model.to_json())
                         f.write('\n')
                 else:
@@ -445,24 +449,24 @@ def RunNParallelNew(estimator_factory,
                 columns = np.asarray(table.columns)
                 names = [c.name for c in columns]
                 cols, ops, vals = [], [], []
-                for i in range(int(len(conditions)/3)):
-                    x = conditions[i*3].split('.')
-                    col = columns[names.index(alias2table[x[0]]+':'+x[1])]
-                    op = conditions[i*3+1]
-                    val = int(conditions[i*3+2])
+                for i in range(int(len(conditions) / 3)):
+                    x = conditions[i * 3].split('.')
+                    col = columns[names.index(alias2table[x[0]] + ':' + x[1])]
+                    op = conditions[i * 3 + 1]
+                    val = int(conditions[i * 3 + 2])
                     x = col.all_distinct_values
-                    print (col.all_distinct_values, val)
+                    print(col.all_distinct_values, val)
                     position = binary_search(x, val, 0, len(x))
                     if op == '<':
                         if position < len(x) - 1:
-                            val = x[position+1]
+                            val = x[position + 1]
                         elif position == 0:
                             op = '='
                             val = x[position]
                     elif op == '>':
                         if position >= 0:
                             val = x[position]
-                    print (f'Updated:{op}, {val}')
+                    print(f'Updated:{op}, {val}')
                     cols.append(col)
                     ops.append(op)
                     vals.append(val)
@@ -485,16 +489,16 @@ def RunNParallelNew(estimator_factory,
                 columns = np.asarray(table.columns)
                 names = [c.name for c in columns]
                 cols, ops, vals = [], [], []
-                for i in range(int(len(conditions)/3)):
-                    cols.append(columns[names.index(conditions[i*3].split('.')[-1])])
-                    ops.append(conditions[i*3+1])
-                    vals.append(float(conditions[i*3+2]))
+                for i in range(int(len(conditions) / 3)):
+                    cols.append(columns[names.index(conditions[i * 3].split('.')[-1])])
+                    ops.append(conditions[i * 3 + 1])
+                    vals.append(float(conditions[i * 3 + 2]))
                 start = time.time()
                 est_card = estimator.Query(cols, ops, vals)
                 end = time.time()
                 testing_time += (end - start)
-            print (est_card, true_card)
-            if est_card==-1:   # if true_card==-1:
+            print(est_card, true_card)
+            if est_card == -1:  # if true_card==-1:
                 continue
             ests.append(est_card)
             truths.append(ests)
@@ -504,13 +508,14 @@ def RunNParallelNew(estimator_factory,
         for i in range(len(ests)):
             f.write(f'{ests[i]},{truths[i]}')
             f.write('\n')
-    #with open(test_file_path+'.bayesian.model', 'wb') as f:
-        #models = {}
-        #for k, v in estimators.items():
-            #models[k] = v[0]
-        #dill.dump(models, f)  #dill.dump(models)  
-        
-    return ests, truths, training_time, testing_time / len(queries) * 1000 , estimators
+    # with open(test_file_path+'.bayesian.model', 'wb') as f:
+    # models = {}
+    # for k, v in estimators.items():
+    # models[k] = v[0]
+    # dill.dump(models, f)  #dill.dump(models)
+
+    return ests, truths, training_time, testing_time / len(queries) * 1000, estimators
+
 
 def MakeBnEstimators():
     table, train_data, oracle_est = MakeTable()
@@ -530,17 +535,18 @@ def MakeBnEstimators():
         est.name = str(est)
     return estimators, table, oracle_est
 
+
 def MakeBnEstimatorsNew(filename):
     table, train_data = MakeTableNew(filename)
     estimator = estimators_lib.BayesianNetwork(train_data,
-                                       args.bn_samples,
-                                       'chow-liu',
-                                       topological_sampling_order=True,
-                                       root=args.bn_root,
-                                       max_parents=2,
-                                       use_pgm=False,
-                                       discretize=100,
-                                       discretize_method='equal_freq')
+                                               args.bn_samples,
+                                               'chow-liu',
+                                               topological_sampling_order=True,
+                                               root=args.bn_root,
+                                               max_parents=2,
+                                               use_pgm=False,
+                                               discretize=100,
+                                               discretize_method='equal_freq')
     return estimator, table
 
 
@@ -552,7 +558,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -625,10 +631,11 @@ def LoadOracleCardinalities():
         return df.values.reshape(-1)
     return None
 
+
 def print_qerror(preds_unnorm, labels_unnorm):
     qerror = []
     for i in range(len(preds_unnorm)):
-        if float(labels_unnorm[i])>0 and float(preds_unnorm[i])>0:
+        if float(labels_unnorm[i]) > 0 and float(preds_unnorm[i]) > 0:
             if preds_unnorm[i] > float(labels_unnorm[i]):
                 qerror.append(preds_unnorm[i] / float(labels_unnorm[i]))
             else:
@@ -641,19 +648,22 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Max: {}".format(np.max(qerror)))
     print("Mean: {}".format(np.mean(qerror)))
 
+
 def print_mse(preds_unnorm, labels_unnorm):
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
+
 
 def print_mape(preds_unnorm, labels_unnorm):
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
+
 def print_pearson_correlation(x, y):
     from scipy import stats
-    PCCs=stats.pearsonr(x, y)
+    PCCs = stats.pearsonr(x, y)
     print("Pearson Correlation: {}".format(PCCs))
-                
-def Main():
 
+
+def Main():
     all_ckpts = glob.glob('./models/{}'.format(args.glob))
     if args.blacklist:
         all_ckpts = [ckpt for ckpt in all_ckpts if args.blacklist not in ckpt]
@@ -721,27 +731,27 @@ def Main():
 
     # Estimators to run.
     if args.run_bn:
-        ests, truths, training_time, test_time, estimators= RunNParallelNew(estimator_factory=MakeBnEstimatorsNew,
-                    parallelism=50,
-                    rng=np.random.RandomState(1234),
-                    num=args.num_queries,
-                    num_filters=None,
-                    oracle_cards=oracle_cards,
-                    test_file_path=args.test_file_path,
-                    single_data_path=args.single_data_path,
-                    join_data_path=args.join_data_path,
-                    join_num_path=args.join_num_path,
-                    join_sample_size=args.join_sample_size)
-        #with open(args.test_file_path+'.bayesian.model', 'wb') as f:
-            #dill.dump(models, f)  #pickle.dump(models)  
+        ests, truths, training_time, test_time, estimators = RunNParallelNew(estimator_factory=MakeBnEstimatorsNew,
+                                                                             parallelism=50,
+                                                                             rng=np.random.RandomState(1234),
+                                                                             num=args.num_queries,
+                                                                             num_filters=None,
+                                                                             oracle_cards=oracle_cards,
+                                                                             test_file_path=args.test_file_path,
+                                                                             single_data_path=args.single_data_path,
+                                                                             join_data_path=args.join_data_path,
+                                                                             join_num_path=args.join_num_path,
+                                                                             join_sample_size=args.join_sample_size)
+        # with open(args.test_file_path+'.bayesian.model', 'wb') as f:
+        # dill.dump(models, f)  #pickle.dump(models)
         ests_new = []
         truths_new = []
-        for e,t in zip(ests, truths):
+        for e, t in zip(ests, truths):
             if e >= 0:
                 ests_new.append(e)
                 truths_new.append(t)
-        print ('Training Time {}s'.format(training_time))
-        print ('Testing Time Per Query {}ms'.format(test_time))
+        print('Training Time {}s'.format(training_time))
+        print('Testing Time Per Query {}ms'.format(test_time))
         print_qerror(np.array(ests_new), np.array(truths_new))
         print_mse(np.array(ests_new), np.array(truths_new))
         print_mape(np.array(ests_new), np.array(truths_new))

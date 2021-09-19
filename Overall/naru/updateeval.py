@@ -1,4 +1,5 @@
 """Evaluate estimators (Naru or others) on queries."""
+
 import argparse
 import collections
 import glob
@@ -7,35 +8,14 @@ import pickle
 import re
 import time
 
-import numpy as np
-import pandas as pd
-import torch
-
 import common
 import datasets
 import estimators as estimators_lib
 import made
-import transformer
-import argparse
-import collections
-import glob
-import os
-import pickle
-import re
-import time
-
 import numpy as np
 import pandas as pd
 import torch
-
-import sklearn
-
-import common
-import datasets
-import estimators as estimators_lib
-import made
 import transformer
-import dill
 
 # For inference speed.
 torch.backends.cudnn.deterministic = False
@@ -52,7 +32,6 @@ parser.add_argument('--update', type=str, default='after', help='Dataset.')
 parser.add_argument('--nepoch', type=str, default='1', help='nepoch.')
 parser.add_argument('--table', type=str, default='cols_4_distinct_1000_corr_5_skew_5', help='Dataset.')
 parser.add_argument('--alias', type=str, default='cdcs', help='Dataset.')
-
 
 parser.add_argument('--inference-opts',
                     action='store_true',
@@ -77,8 +56,8 @@ parser.add_argument('--psample',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Turn on wildcard skipping.  Requires checkpoints be trained with '\
-    'column masking.')
+    help='Turn on wildcard skipping.  Requires checkpoints be trained with ' \
+         'column masking.')
 parser.add_argument('--order',
                     nargs='+',
                     type=int,
@@ -95,11 +74,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order'\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -110,15 +89,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -166,6 +145,7 @@ update = args.update
 version = args.version
 fmetric = open('/home/jintao/naru_update/metric_result/' + args.version + '.update_naru.txt', 'a')
 
+
 def InvertOrder(order):
     if order is None:
         return None
@@ -178,6 +158,7 @@ def InvertOrder(order):
         inv_ordering[order[natural_idx]] = natural_idx
     return inv_ordering
 
+
 def preprocess_sql(sql_path):
     output = []
     cols = set([])
@@ -185,10 +166,12 @@ def preprocess_sql(sql_path):
         for line in f.readlines():
             # print (line)
             sql = ','.join(line.split(',')[:-1])
-            cardinality  = line.split(',')[-1].strip('\n')
+            cardinality = line.split(',')[-1].strip('\n')
             tables = [x.strip() for x in re.search('FROM(.*)WHERE', sql, re.IGNORECASE).group(1).split(',')]
-            joins = [x.strip() for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[0:len(tables)-1]]
-            conditions = [x.strip(' ;\n') for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[len(tables)-1:]]
+            joins = [x.strip() for x in
+                     re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[0:len(tables) - 1]]
+            conditions = [x.strip(' ;\n') for x in
+                          re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[len(tables) - 1:]]
             conds = []
             for cond in conditions:
                 operator = re.search('([<>=])', cond, re.IGNORECASE).group(1)
@@ -199,14 +182,14 @@ def preprocess_sql(sql_path):
                 conds.append(operator)
                 conds.append(right)
             # print (tables, joins, conds, cardinality)
-            output.append(','.join(tables)+'#'+','.join(joins)+'#'+','.join(conds)+'#'+cardinality)
-    with open(sql_path+'.csv', 'w') as f:
+            output.append(','.join(tables) + '#' + ','.join(joins) + '#' + ','.join(conds) + '#' + cardinality)
+    with open(sql_path + '.csv', 'w') as f:
         for line in output:
             f.write(line)
             f.write('\n')
 
-def MakeTable():
 
+def MakeTable():
     if args.dataset == 'dmv-tiny':
         table = datasets.LoadDmv('dmv-tiny.csv')
     elif args.dataset == 'dmv':
@@ -321,28 +304,32 @@ def ReportEsts(estimators):
         v = max(v, np.max(est.errs))
     return v
 
+
 def binary_search(x, target, start, end):
     if start >= end:
         return start - 1
     mid = int((start + end) / 2.0)
     if x[mid] < target:
-        return binary_search(x, target, mid+1, end)
+        return binary_search(x, target, mid + 1, end)
     elif x[mid] == target:
         return mid
     else:
         return binary_search(x, target, start, mid)
 
+
 def print_qerror(preds_unnorm, labels_unnorm):
     qerror = []
     for i in range(len(preds_unnorm)):
-        if float(labels_unnorm[i])>0 and float(preds_unnorm[i])>0:
+        if float(labels_unnorm[i]) > 0 and float(preds_unnorm[i]) > 0:
             if preds_unnorm[i] > float(labels_unnorm[i]):
                 qerror.append(preds_unnorm[i] / float(labels_unnorm[i]))
             else:
                 qerror.append(float(labels_unnorm[i]) / float(preds_unnorm[i]))
-    fmetric.write("Median: {}".format(np.median(qerror))+ '\n'+ "90th percentile: {}".format(np.percentile(qerror, 90))+ '\n'+ "95th percentile: {}".format(np.percentile(qerror, 95))+\
-            '\n'+ "99th percentile: {}".format(np.percentile(qerror, 99))+ '\n'+ "Max: {}".format(np.max(qerror))+ '\n'+\
-            "Mean: {}".format(np.mean(qerror))+ '\n')
+    fmetric.write("Median: {}".format(np.median(qerror)) + '\n' + "90th percentile: {}".format(
+        np.percentile(qerror, 90)) + '\n' + "95th percentile: {}".format(np.percentile(qerror, 95)) + \
+                  '\n' + "99th percentile: {}".format(np.percentile(qerror, 99)) + '\n' + "Max: {}".format(
+        np.max(qerror)) + '\n' + \
+                  "Mean: {}".format(np.mean(qerror)) + '\n')
     print("Median: {}".format(np.median(qerror)))
     print("90th percentile: {}".format(np.percentile(qerror, 90)))
     print("95th percentile: {}".format(np.percentile(qerror, 95)))
@@ -350,19 +337,23 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Max: {}".format(np.max(qerror)))
     print("Mean: {}".format(np.mean(qerror)))
 
+
 def print_mse(preds_unnorm, labels_unnorm):
     # fmetric.write("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean())+ '\n')
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
+
 
 def print_mape(preds_unnorm, labels_unnorm):
     # fmetric.write("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100)+ '\n')
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
+
 def print_pearson_correlation(x, y):
     from scipy import stats
-    PCCs=stats.pearsonr(x, y)
+    PCCs = stats.pearsonr(x, y)
     # fmetric.write("Pearson Correlation: {}".format(PCCs)+ '\n\n')
     print("Pearson Correlation: {}".format(PCCs))
+
 
 def RunN(table,
          cols,
@@ -376,42 +367,42 @@ def RunN(table,
     # print(11)
     if rng is None:
         rng = np.random.RandomState(1234)
-    ests_new,truths_new=[],[]
+    ests_new, truths_new = [], []
     last_time = None
-    print('estimators',estimators)
-    alias2table = {args.alias:args.table} # modify
-    with open('/home/jintao/naru_update/sql_truecard/' + version + 'test.sql'+'.csv', 'r') as f:  # modify
+    print('estimators', estimators)
+    alias2table = {args.alias: args.table}  # modify
+    with open('/home/jintao/naru_update/sql_truecard/' + version + 'test.sql' + '.csv', 'r') as f:  # modify
         queries = f.readlines()[0:2]  # .Parsing
-        testt1=time.time()
+        testt1 = time.time()
         for query in queries:
-            print (query)
+            print(query)
             tables = [x.split(' ')[0] for x in query.split('#')[0].split(',')]
             alias = [x.split(' ')[1] for x in query.split('#')[0].split(',')]
             key = '_'.join(sorted(alias))
             conditions = query.split('#')[2].split(',')
             true_card = int(query.split('#')[-1])
-            
+
             columns = np.asarray(table.columns)
             # print('columns',columns)
             names = [c.name for c in columns]
             # col1 = columns[names.index('col0')]
-            df = pd.read_csv('/home/jintao/naru_update/csvdata_sql/'+version+'.csv', sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+            df = pd.read_csv('/home/jintao/naru_update/csvdata_sql/' + version + '.csv', sep=',', escapechar='\\',
+                             encoding='utf-8', low_memory=False, quotechar='"')
             names = df.columns.values.tolist()
-            print('names',names)
-
+            print('names', names)
 
             cols, ops, vals = [], [], []
-            for i in range(int(len(conditions)/3)):
-                x = conditions[i*3].split('.')
+            for i in range(int(len(conditions) / 3)):
+                x = conditions[i * 3].split('.')
                 col = columns[names.index(x[1])]  # alias2table[x[0]]+':'+
-                op = conditions[i*3+1]
-                val = float(conditions[i*3+2])
+                op = conditions[i * 3 + 1]
+                val = float(conditions[i * 3 + 2])
                 x = col.all_distinct_values
                 # print (col.all_distinct_values, val)
                 position = binary_search(x, val, 0, len(x))
                 if op == '<':
                     if position < len(x) - 1:
-                        val = x[position+1]
+                        val = x[position + 1]
                     elif position == 0:
                         op = '='
                         val = x[position]
@@ -422,7 +413,6 @@ def RunN(table,
                 cols.append(col)
                 ops.append(op)
                 vals.append(val)
-
 
             '''        
             cols, ops ,vals = [],[],[]
@@ -474,17 +464,17 @@ def RunN(table,
             print(ops)
             '''
 
-            query = cols, ops ,vals
+            query = cols, ops, vals
             # print('cols, ops, vals: ', cols, ops, vals)
             estcard = estimators[0].Query(cols, ops, vals)  # oracle_est
             print('res:', estcard, true_card)
             ests_new.append(estcard)
             truths_new.append(true_card)
         # print(ests_new)
-        testt2=time.time()
+        testt2 = time.time()
         est = np.array(ests_new)
         true = np.array(truths_new)
-        a = true.tolist() 
+        a = true.tolist()
         b = est.tolist()
         c = []
         c.append(a)
@@ -493,9 +483,11 @@ def RunN(table,
         c = np.rot90(c)
         c = np.rot90(c)
         c = np.rot90(c)
-        np.savetxt(args.testfilepath+'updateres/'+version+ 'test.sql.naru' + '_epoch' + args.nepoch + '.result.csv', c, delimiter = ',') # modify /
+        np.savetxt(
+            args.testfilepath + 'updateres/' + version + 'test.sql.naru' + '_epoch' + args.nepoch + '.result.csv', c,
+            delimiter=',')  # modify /
         # fmetric.write('testtime per:' + str((testt2-testt1)/1800) + '\n')
-        print('testtime per:', (testt2-testt1)/1800)
+        print('testtime per:', (testt2 - testt1) / 1800)
         print_qerror(np.array(ests_new), np.array(truths_new))
         print_mse(np.array(ests_new), np.array(truths_new))
         print_mape(np.array(ests_new), np.array(truths_new))
@@ -605,7 +597,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -685,7 +677,7 @@ def Main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     # all_ckpts = glob.glob('./models/{}'.format(args.glob))
     for f_name in os.listdir('./models'):
-        if fnmatch.fnmatch(f_name, version+ 'update_after' + '*.pt'):   # filename_match
+        if fnmatch.fnmatch(f_name, version + 'update_after' + '*.pt'):  # filename_match
             all_ckpts = glob.glob('./models/' + f_name)
     # all_ckpts = glob.glob('./models/dmv-2.0MB-model5.623-data5.471-made-resmade-hidden256_256_256_256_256-emb32-directIo-binaryInone_hotOut-inputNoEmbIfLeq-colmask-20epochs-seed0.pt')
     print(args.blacklist)
@@ -727,7 +719,7 @@ def Main():
                                     fixed_ordering=order,
                                     seed=seed)
         else:
-            if args.dataset in ['dmv-tiny', 'dmv','PF']:
+            if args.dataset in ['dmv-tiny', 'dmv', 'PF']:
                 model = MakeMade(
                     scale=args.fc_hiddens,
                     cols_to_train=table.columns,
@@ -764,7 +756,7 @@ def Main():
     else:
         print(parsed_ckpts)
         for c in parsed_ckpts:
-            print(c.loaded_model, table,args.psample,args.column_masking)
+            print(c.loaded_model, table, args.psample, args.column_masking)
         estimators = [
             estimators_lib.ProgressiveSampling(c.loaded_model,
                                                table,

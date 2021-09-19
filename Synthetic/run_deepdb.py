@@ -17,18 +17,18 @@ f2.write('query_no,query,cardinality_true\n')
 i = 0
 with open(sql_path, 'r') as f:
     for line in f.readlines():
-        strt = line[len(line)-10: len(line)]
+        strt = line[len(line) - 10: len(line)]
         tmpindex = strt.index(',')
-        strt = strt[tmpindex+1: len(strt)]
-        tmpz = str(i) + ',' + str(i+1) + ',' + strt
+        strt = strt[tmpindex + 1: len(strt)]
+        tmpz = str(i) + ',' + str(i + 1) + ',' + strt
         f2.write(tmpz)
-        i+=1
+        i += 1
 f2.close()
 
 pre = 'python3 maqp.py --generate_hdf --generate_sampled_hdfs --generate_ensemble --ensemble_path ../../sql_truecard/ --version ' + version
 run = 'python3 maqp.py --evaluate_cardinalities --rdc_spn_selection --max_variants 1 --pairwise_rdc_path ../imdb-benchmark/spn_ensembles/pairwise_rdc.pkl --dataset imdb-ranges ' + \
-    '--target_path ../../sql_truecard/' + version + 'test.sql.deepdb.results.csv ' + '--ensemble_location ../../sql_truecard/' + version + \
-    '.sql.deepdb.model.pkl ' + '--query_file_location ../../sql_truecard/' + version + 'test.sql ' + '--ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv --version ' + version
+      '--target_path ../../sql_truecard/' + version + 'test.sql.deepdb.results.csv ' + '--ensemble_location ../../sql_truecard/' + version + \
+      '.sql.deepdb.model.pkl ' + '--query_file_location ../../sql_truecard/' + version + 'test.sql ' + '--ground_truth_file_location ./benchmarks/job-light/sql/true_cardinalities.csv --version ' + version
 
 os.chdir('./deepdb/deepdb_job_ranges')
 os.system(pre)

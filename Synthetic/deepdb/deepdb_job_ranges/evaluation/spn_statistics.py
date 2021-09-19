@@ -2,9 +2,8 @@ import csv
 import logging
 import os
 
-from spn.structure.Base import Node, get_nodes_by_type
-
 from ensemble_compilation.spn_ensemble import read_ensemble
+from spn.structure.Base import Node, get_nodes_by_type
 
 logger = logging.getLogger(__name__)
 

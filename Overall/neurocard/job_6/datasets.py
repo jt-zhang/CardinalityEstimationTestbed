@@ -5,8 +5,6 @@ import pickle
 
 import numpy as np
 import pandas as pd
-
-import collections
 from common import CsvTable
 
 
@@ -52,7 +50,6 @@ class JoinOrderBenchmark(object):
             # 11
             'cast_info': ['role_id'],
 
-
         })
 
     # Columns with a reasonable range/IN interpretation.
@@ -61,8 +58,8 @@ class JoinOrderBenchmark(object):
         {
             # 26, 133, 23260, 97, 14907, 1409
             'title': [
-                 'production_year', 'phonetic_code', 
-                 'series_years'
+                'production_year', 'phonetic_code',
+                'series_years'
             ],
             # 1095
             'cast_info': [],
@@ -80,9 +77,9 @@ class JoinOrderBenchmark(object):
     BASE_TABLE_PRED_COLS = collections.defaultdict(
         list,
         {
-            'title.csv': ['id', 'production_year','phonetic_code' ,'series_years','kind_id'],
+            'title.csv': ['id', 'production_year', 'phonetic_code', 'series_years', 'kind_id'],
             'cast_info.csv': ['movie_id', 'role_id'],
-            'movie_info': ['movie_id','info_type_id'],
+            'movie_info': ['movie_id', 'info_type_id'],
         })  # 修改这里
 
     JOB_M_PRED_COLS = collections.defaultdict(
@@ -149,18 +146,18 @@ class JoinOrderBenchmark(object):
     TRUE_FULL_OUTER_CARDINALITY = {
         ('cast_info', 'movie_keyword', 'title'): 241319266,
         ('cast_info', 'title'): 24131926,
-        ('cast_info', 'movie_info','title'): 460455976 ,
-        ('cast_info', 'movie_companies', 'movie_info',\
+        ('cast_info', 'movie_info', 'title'): 460455976,
+        ('cast_info', 'movie_companies', 'movie_info', \
          'movie_info_idx', 'movie_keyword', 'title'): 2128877229383,
-        ('aka_title', 'cast_info', 'comp_cast_type', 'company_name',\
+        ('aka_title', 'cast_info', 'comp_cast_type', 'company_name', \
          'company_type', 'complete_cast', 'info_type', 'keyword', \
          'kind_type', 'link_type', 'movie_companies', 'movie_info', \
          'movie_info_idx', 'movie_keyword', 'movie_link', 'title'): 11244784701309,
-        ('aka_name', 'aka_title', 'cast_info', 'char_name',\
-         'comp_cast_type__complete_cast__status_id', 'comp_cast_type__complete_cast__subject_id',\
+        ('aka_name', 'aka_title', 'cast_info', 'char_name', \
+         'comp_cast_type__complete_cast__status_id', 'comp_cast_type__complete_cast__subject_id', \
          'company_name', 'company_type', 'complete_cast', 'info_type__movie_info__info_type_id', \
-         'info_type__movie_info_idx__info_type_id', 'info_type__person_info__info_type_id', 'keyword',\
-         'kind_type', 'link_type', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword',\
+         'info_type__movie_info_idx__info_type_id', 'info_type__person_info__info_type_id', 'keyword', \
+         'kind_type', 'link_type', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword', \
          'movie_link', 'name', 'person_info', 'role_type', 'title'): 282014040554480
     }
 
@@ -172,7 +169,7 @@ class JoinOrderBenchmark(object):
         if JoinOrderBenchmark._CONTENT_COLS is None:
             JoinOrderBenchmark._CONTENT_COLS = {
                 '{}.csv'.format(table_name):
-                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
+                    range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
                 for table_name, range_cols in
                 JoinOrderBenchmark.RANGE_COLUMNS.items()
             }
@@ -182,7 +179,7 @@ class JoinOrderBenchmark(object):
                 if table_name == 'title.csv':
                     cols.append('id')
                 elif 'movie_id' in JoinOrderBenchmark.BASE_TABLE_PRED_COLS[
-                        table_name]:
+                    table_name]:
                     cols.append('movie_id')
 
         return JoinOrderBenchmark._CONTENT_COLS
@@ -250,7 +247,7 @@ def LoadImdb(table=None,
     def get_use_cols(filepath):
         if use_cols == 'simple':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)
-        #elif use_cols == 'content':
+        # elif use_cols == 'content':
         #    return JoinOrderBenchmark.ContentColumns().get(filepath, None)
         elif use_cols == 'content':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)  # 修改

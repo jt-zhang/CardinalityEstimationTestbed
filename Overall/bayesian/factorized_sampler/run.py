@@ -7,17 +7,6 @@ import os
 import pprint
 import time
 
-import numpy as np
-import pandas as pd
-import ray
-from ray import tune
-from ray.tune import logger as tune_logger
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils import data
-import wandb
-
 import common
 import datasets
 import estimators as estimators_lib
@@ -26,9 +15,18 @@ import factorized_sampler
 import fair_sampler
 import join_utils
 import made
+import numpy as np
+import pandas as pd
+import ray
+import torch
+import torch.nn as nn
 import train_utils
 import transformer
 import utils
+import wandb
+from ray import tune
+from ray.tune import logger as tune_logger
+from torch.utils import data
 
 parser = argparse.ArgumentParser()
 
@@ -70,8 +68,8 @@ def TotalGradNorm(parameters, norm_type=2):
         if p.grad is None:
             continue
         param_norm = p.grad.data.norm(norm_type)
-        total_norm += param_norm.item()**norm_type
-    total_norm = total_norm**(1. / norm_type)
+        total_norm += param_norm.item() ** norm_type
+    total_norm = total_norm ** (1. / norm_type)
     return total_norm
 
 
@@ -162,8 +160,8 @@ def run_epoch(split,
                     t = int(warmups * upto * epochs)
 
                 d_model = model.embed_size
-                lr = (d_model**-0.5) * min(
-                    (global_steps**-.5), global_steps * (t**-1.5))
+                lr = (d_model ** -0.5) * min(
+                    (global_steps ** -.5), global_steps * (t ** -1.5))
                 for param_group in opt.param_groups:
                     param_group['lr'] = lr
             else:
@@ -270,7 +268,7 @@ def run_epoch(split,
                 if table_bits:
                     print(
                         'Epoch {} Iter {}, {} entropy gap {:.4f} bits (loss {:.3f}, data {:.3f}) {:.5f} lr, {} tuples seen ({} tup/s)'
-                        .format(
+                            .format(
                             epoch_num, step, split,
                             loss.item() / np.log(2) - table_bits,
                             loss.item() / np.log(2), table_bits, lr,
@@ -280,8 +278,8 @@ def run_epoch(split,
                 elif not use_meters:
                     print(
                         'Epoch {} Iter {}, {} loss {:.3f} bits/tuple, {:.5f} lr'
-                        .format(epoch_num, step, split,
-                                loss.item() / np.log(2), lr))
+                            .format(epoch_num, step, split,
+                                    loss.item() / np.log(2), lr))
 
         if verbose:
             print('%s epoch average loss: %f' % (split, np.mean(losses)))
@@ -340,7 +338,7 @@ def MakeMade(
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        layers if layers > 0 else [512, 256, 512, 128, 1024],
+                     layers if layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         num_masks=max(1, special_orders),
         natural_ordering=True,
@@ -401,12 +399,12 @@ def MakeMade(
                     # Model: { indicators }, { content }, { fanouts },
                     # permute each bracket independently.
                     order = np.concatenate(
-                        (inds, content, fanouts)).reshape(-1,)
+                        (inds, content, fanouts)).reshape(-1, )
                 else:
                     # Model: { content }, { indicators }, { fanouts }.
                     # permute each bracket independently.
                     order = np.concatenate(
-                        (content, inds, fanouts)).reshape(-1,)
+                        (content, inds, fanouts)).reshape(-1, )
                 assert len(np.unique(order)) == len(cols_to_train), order
                 orders.append(order)
         else:
@@ -470,9 +468,9 @@ class NeuroCard(tune.Trainable):
         wandb_project = config['__run']
         wandb.init(name=os.path.basename(
             self.logdir if self.logdir[-1] != '/' else self.logdir[:-1]),
-                   sync_tensorboard=True,
-                   config=config,
-                   project=wandb_project)
+            sync_tensorboard=True,
+            config=config,
+            project=wandb_project)
 
         self.epoch = 0
 
@@ -505,14 +503,14 @@ class NeuroCard(tune.Trainable):
             if len(self.join_tables) > 1:
                 join_spec, join_iter_dataset, loader, table = self.MakeSamplerDatasetLoader(
                     loaded_tables)
-                print (join_iter_dataset)
-                print (table)
+                print(join_iter_dataset)
+                print(table)
                 self.join_spec = join_spec
                 self.train_data = join_iter_dataset
                 self.loader = loader
 
                 table_primary_index = [t.name for t in loaded_tables
-                                      ].index('title')
+                                       ].index('title')
 
                 table.cardinality = datasets.JoinOrderBenchmark.GetFullOuterCardinalityOrFail(
                     self.join_tables)

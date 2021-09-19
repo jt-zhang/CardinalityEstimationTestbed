@@ -1,12 +1,11 @@
 import logging
 
 import numpy as np
+from rspn.structure.leaves import IdentityNumericLeaf, Categorical
 from sklearn.cluster import KMeans
 from spn.algorithms.splitting.Base import preproc, split_data_by_clusters
 from spn.algorithms.splitting.RDC import getIndependentRDCGroups_py
 from spn.structure.StatisticalTypes import MetaType
-
-from rspn.structure.leaves import IdentityNumericLeaf, Categorical
 
 logger = logging.getLogger(__name__)
 MAX_UNIQUE_LEAF_VALUES = 10000

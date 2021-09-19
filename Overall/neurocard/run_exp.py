@@ -1,5 +1,5 @@
-import os
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description='generatedata')
 parser.add_argument('--cols', type=int, help='datasets_dir', default=11)

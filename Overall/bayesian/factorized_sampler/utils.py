@@ -1,8 +1,8 @@
 """Utility functions."""
 
 import ast
-from collections import defaultdict
 import csv
+from collections import defaultdict
 
 
 def _get_table_dict(tables):

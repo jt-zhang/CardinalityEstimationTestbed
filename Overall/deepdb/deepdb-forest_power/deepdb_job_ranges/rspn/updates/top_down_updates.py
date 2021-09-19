@@ -1,12 +1,10 @@
 import logging
 
 import numpy as np
-from spn.structure.Base import Product
-
-from scipy.spatial import distance
-
 from rspn.structure.base import Sum
 from rspn.structure.leaves import Categorical, IdentityNumericLeaf
+from scipy.spatial import distance
+from spn.structure.Base import Product
 
 logger = logging.getLogger(__name__)
 

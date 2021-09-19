@@ -5,8 +5,9 @@ test=# select min(l_shipdate), max(l_shipdate) from lineitem;
  1992-01-02 | 1998-12-01
 (1 row)
 '''
-import psycopg2
 import time
+
+import psycopg2
 
 conn = psycopg2.connect("dbname=test user=postgres")
 cur = conn.cursor()
@@ -18,6 +19,7 @@ cur.execute('set enable_nestloop to off')
 
 prices = list(range(0, 550000, 50000))
 prices.extend(range(510000, 580000, 10000))
+
 
 def get_counts():
     for price in prices:
@@ -49,7 +51,7 @@ def run_all_queries():
 
 
 get_counts()
-#cur.execute('set enable_indexscan to on')
+# cur.execute('set enable_indexscan to on')
 
 # default
 print('default scan mode')
@@ -72,7 +74,5 @@ for i in range(5):
     cur.execute('set enable_indexscan to on')
     run_all_queries()
 
-
 cur.close()
 conn.close()
-

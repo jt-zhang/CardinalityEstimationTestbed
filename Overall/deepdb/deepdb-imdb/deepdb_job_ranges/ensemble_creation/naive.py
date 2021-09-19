@@ -75,7 +75,7 @@ def naive_every_relationship_ensemble(schema, hdf_path, sample_size, ensemble_pa
         # learn spn
         aqp_spn = AQPSPN(meta_types, null_values, full_join_est, schema,
                          [relationship_obj.identifier], full_sample_size=len(df_samples),
-                         column_names=list(df_samples.columns), table_meta_data=prep.table_meta_data)  #colunmn_name来源
+                         column_names=list(df_samples.columns), table_meta_data=prep.table_meta_data)  # colunmn_name来源
         min_instance_slice = RATIO_MIN_INSTANCE_SLICE * min(sample_size, len(df_samples))
         logger.debug(f"Using min_instance_slice parameter {min_instance_slice}.")
         logger.info(f"SPN training phase with {len(df_samples)} samples")

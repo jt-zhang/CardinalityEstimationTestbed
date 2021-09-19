@@ -1,10 +1,7 @@
 """Masking module: random input masking, table masking, etc."""
-import numpy as np
-
-import torch
-import torch.nn as nn
-
 import common
+import numpy as np
+import torch
 
 
 # TODO: refactor made.py to use this class.
@@ -67,7 +64,7 @@ class Masking(object):
                                                    (bs, 1)).astype(np.float32,
                                                                    copy=False)
             table_dropped = np.random.rand(bs, self.num_joined_tables) <= (
-                num_dropped_tables / self.num_joined_tables)
+                    num_dropped_tables / self.num_joined_tables)
             if self.table_primary_index is not None:
                 table_dropped[:, self.table_primary_index] = False
             normal_drop_rands = np.random.rand(bs, inp_seq_len)
@@ -135,7 +132,7 @@ class Masking(object):
                         torch.dropout(
                             kOnes,
                             p=1.0 -
-                            (self.table_column_types[i] == common.TYPE_FANOUT),
+                              (self.table_column_types[i] == common.TYPE_FANOUT),
                             train=is_training), 0, 1)
 
                 else:
@@ -149,7 +146,7 @@ class Masking(object):
                         # attributes are filtered).
                         drop_p = np.random.randint(
                             0, self.table_num_columns[table_index] +
-                            1) / self.table_num_columns[table_index]
+                               1) / self.table_num_columns[table_index]
                     elif self.table_column_types[i] == common.TYPE_FANOUT:
                         drop_p = 1.0
                     batch_mask = torch.clamp(
@@ -169,7 +166,7 @@ class Masking(object):
                 vecs.append(
                     torch.dropout(kOnes,
                                   p=np.random.randint(0, inp_seq_len) /
-                                  inp_seq_len,
+                                    inp_seq_len,
                                   train=is_training))
             dropout_vec = torch.cat(vecs, dim=1)
         else:
@@ -177,7 +174,7 @@ class Masking(object):
                                                    x.device)
             dropout_vec = torch.dropout(kOnes,
                                         p=np.random.randint(0, inp_seq_len) /
-                                        inp_seq_len,
+                                          inp_seq_len,
                                         train=is_training)
         # During training, non-dropped 1's are scaled by 1/(1-p), so we
         # clamp back to 1.  Shaped [bs, num cols, 1].

@@ -1,7 +1,6 @@
-from spn.structure.Base import get_nodes_by_type, Product, Leaf, assign_ids
-
 from rspn.algorithms.validity.validity import is_valid
 from rspn.structure.base import Sum
+from spn.structure.Base import get_nodes_by_type, Product, Leaf, assign_ids
 
 
 def Prune(node, check_cluster_centers=False):

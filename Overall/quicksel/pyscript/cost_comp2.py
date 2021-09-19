@@ -35,9 +35,9 @@ where
   l_quantity <= $2;
 
 '''
-import psycopg2
 import time
-import random
+
+import psycopg2
 
 conn = psycopg2.connect("dbname=test user=postgres")
 cur = conn.cursor()
@@ -47,7 +47,8 @@ cur.execute("set work_mem to '2GB'")
 price_lows = list(range(0, 101000, 10000))
 quantity_highs = list(range(5, 51, 5))
 
-#num = 10
+
+# num = 10
 
 def get_counts():
     for price in price_lows:
@@ -55,7 +56,7 @@ def get_counts():
             sql = f'''
             select count(*)
             from lineitem
-            where l_extendedprice between {price} and {price+2000} 
+            where l_extendedprice between {price} and {price + 2000} 
               and l_quantity <= {quantity}'''
 
             cur.execute(sql)
@@ -66,7 +67,6 @@ def get_counts():
 def run_all_queries():
     for price in price_lows:
         for quantity in quantity_highs:
-
             sql = f'''
                 select
                   l_shipmode,
@@ -84,7 +84,7 @@ def run_all_queries():
                   end) AS low_line_count
                 from
                   lineitem inner join orders on l_orderkey = o_orderkey
-                where l_extendedprice between {price} and {price+2000} 
+                where l_extendedprice between {price} and {price + 2000} 
                   and l_quantity <= {quantity}
                 group by
                   l_shipmode'''
@@ -95,11 +95,13 @@ def run_all_queries():
             elapsed_time = time.time() - start_time
             print('price_low: %d, quantity_high: %d, elapsed_time: %.6f' % (price, quantity, elapsed_time), flush=True)
 
+
 def turn_on_seq_only():
     print('seq')
     cur.execute('set enable_seqscan to on')
     cur.execute('set enable_indexscan to off')
     cur.execute('set enable_bitmapscan to off')
+
 
 def turn_on_index_scan_only():
     print('index scan')
@@ -107,8 +109,9 @@ def turn_on_index_scan_only():
     cur.execute('set enable_indexscan to on')
     cur.execute('set enable_bitmapscan to on')
 
-#get_counts()
-#run_all_queries()
+
+# get_counts()
+# run_all_queries()
 
 print('merge join only')
 cur.execute('set enable_hashjoin to off')
@@ -152,7 +155,5 @@ run_all_queries()
 run_all_queries()
 print()
 
-
 cur.close()
 conn.close()
-

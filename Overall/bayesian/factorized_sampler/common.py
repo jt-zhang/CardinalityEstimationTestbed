@@ -1,13 +1,12 @@
 """Data abstractions."""
-from abc import abstractmethod
-from collections import defaultdict, namedtuple
 import copy
 import os
 import time
+from abc import abstractmethod
+from collections import defaultdict
 
 import numpy as np
 import pandas as pd
-
 import torch
 from torch.utils.data import Dataset, IterableDataset
 
@@ -17,7 +16,6 @@ TYPE_FANOUT = 2
 
 
 def time_this(f):
-
     def timed_wrapper(*args, **kw):
         start_time = time.time()
         result = f(*args, **kw)
@@ -113,7 +111,7 @@ class Column(object):
     def ProjectValue(self, value):
         """Bit slicing: returns the relevant bits in binary for a sub-var."""
         assert self.factor_id is not None, "Only for factorized cols"
-        return (value >> self.bit_offset) & (2**self.bit_width - 1)
+        return (value >> self.bit_offset) & (2 ** self.bit_width - 1)
 
     def ProjectOperator(self, op):
         assert self.factor_id is not None, "Only for factorized cols"
@@ -369,7 +367,7 @@ class FactorizedTable(Dataset):
         self.table_dataset = table_dataset
         self.base_table = self.table_dataset.table
         self.word_size_bits = word_size_bits
-        self.word_size = 2**self.word_size_bits
+        self.word_size = 2 ** self.word_size_bits
         self.columns, self.factorized_tuples_np = self._factorize(
             self.table_dataset.tuples_np)
         self.factorized_tuples = torch.as_tensor(
@@ -402,7 +400,7 @@ class FactorizedTable(Dataset):
                         factorized_data.append(tuples_np[:, i] &
                                                (word_mask >> -num_bits))
                         dist_size = len(np.unique(factorized_data[-1]))
-                        assert dist_size <= 2**(self.word_size_bits + num_bits)
+                        assert dist_size <= 2 ** (self.word_size_bits + num_bits)
                         f_col = Column(col.name + "_fact_" + str(j),
                                        distribution_size=dist_size,
                                        factor_id=j,
@@ -564,7 +562,7 @@ class FactorizedSampleFromJoinIterDataset(IterableDataset):
         assert isinstance(join_iter, SamplerBasedIterDataset), join_iter
         self.join_iter_dataset = join_iter
         self.word_size_bits = word_size_bits
-        self.word_size = 2**self.word_size_bits
+        self.word_size = 2 ** self.word_size_bits
         self.factorize_fanouts = factorize_fanouts
         self.fact_col_mapping = defaultdict(
             list)  # Mapping from table col to fact cols.
@@ -630,7 +628,7 @@ class FactorizedSampleFromJoinIterDataset(IterableDataset):
                     if num_bits < 0:
                         fact_col_dv = col_dv & (word_mask >> -num_bits)
                         dist_size = len(np.unique(fact_col_dv))
-                        assert dist_size <= 2**(self.word_size_bits + num_bits)
+                        assert dist_size <= 2 ** (self.word_size_bits + num_bits)
                         f_col = Column(col.name + '_fact_' + str(j),
                                        distribution_size=dist_size,
                                        factor_id=j,
@@ -818,7 +816,7 @@ class SamplerBasedIterDataset(IterableDataset):
                 columns.append(
                     Column('__in_{}'.format(t.name)).Fill(np.array(
                         [np.nan, 1.0]),
-                                                          infer_dist=True))
+                        infer_dist=True))
                 types.append(TYPE_INDICATOR)
                 table_indexes.append(i)
         if self.add_full_join_fanouts:
@@ -883,7 +881,7 @@ class SamplerBasedIterDataset(IterableDataset):
 
         assert len(sampled_df.columns) == len(self.combined_columns), (len(
             sampled_df.columns), sampled_df.columns, len(
-                self.combined_columns), self.combined_columns)
+            self.combined_columns), self.combined_columns)
 
         self._maybe_save_samples(sampled_df)
 

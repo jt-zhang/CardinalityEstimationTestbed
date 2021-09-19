@@ -5,8 +5,6 @@ import pickle
 
 import numpy as np
 import pandas as pd
-
-import collections
 from common import CsvTable
 
 
@@ -58,7 +56,7 @@ class JoinOrderBenchmark(object):
         list,
         {
             # 26, 133, 23260, 97, 14907, 1409
-            'auth_user': [ 'id_copy', 'is_active'],
+            'auth_user': ['id_copy', 'is_active'],
             # 1095
             'student_courseenrollment': ['id_copy', 'is_active'],
             'organization_account_userorgprofile': ['org_id', 'origin', 'role', '_first_level_id'],
@@ -67,18 +65,19 @@ class JoinOrderBenchmark(object):
         })
 
     CSV_FILES = [
-        'auth_user.csv', 'student_courseenrollment.csv', 'organization_account_userorgprofile.csv', 'auth_userprofile.csv'
+        'auth_user.csv', 'student_courseenrollment.csv', 'organization_account_userorgprofile.csv',
+        'auth_userprofile.csv'
     ]
 
     BASE_TABLE_PRED_COLS = collections.defaultdict(
         list,
         {
-            'auth_user': [ 'id_copy', 'id', 'is_active'],
+            'auth_user': ['id_copy', 'id', 'is_active'],
             # 1095
-            'student_courseenrollment': ['id_copy', 'id','user_id', 'is_active'],
-            'organization_account_userorgprofile': ['id', 'org_id','user_id','origin','role','_first_level_id'],
+            'student_courseenrollment': ['id_copy', 'id', 'user_id', 'is_active'],
+            'organization_account_userorgprofile': ['id', 'org_id', 'user_id', 'origin', 'role', '_first_level_id'],
             # 1095
-            'auth_userprofile': ['id','user_id','level_of_education','host']
+            'auth_userprofile': ['id', 'user_id', 'level_of_education', 'host']
         })  # 修改这里
 
     JOB_M_PRED_COLS = collections.defaultdict(
@@ -144,7 +143,7 @@ class JoinOrderBenchmark(object):
     # For JOB-light schema.
     TRUE_FULL_OUTER_CARDINALITY = {
         ('auth_user', 'student_courseenrollment', 'organization_account_userorgprofile'): 217417,
-        ('auth_user', 'student_courseenrollment'): 118440,\
+        ('auth_user', 'student_courseenrollment'): 118440, \
         ('auth_user', 'auth_userprofile', 'organization_account_userorgprofile', 'student_courseenrollment'): 118440
 
     }
@@ -157,7 +156,7 @@ class JoinOrderBenchmark(object):
         if JoinOrderBenchmark._CONTENT_COLS is None:
             JoinOrderBenchmark._CONTENT_COLS = {
                 '{}.csv'.format(table_name):
-                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
+                    range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
                 for table_name, range_cols in
                 JoinOrderBenchmark.RANGE_COLUMNS.items()
             }
@@ -167,7 +166,7 @@ class JoinOrderBenchmark(object):
                 if table_name == 'auth_user.csv':
                     cols.append('id')
                 elif 'movie_id' in JoinOrderBenchmark.BASE_TABLE_PRED_COLS[
-                        table_name]:
+                    table_name]:
                     cols.append('user_id')
 
         return JoinOrderBenchmark._CONTENT_COLS
@@ -233,7 +232,7 @@ def LoadImdb(table=None,
     def get_use_cols(filepath):
         if use_cols == 'simple':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)
-        #elif use_cols == 'content':
+        # elif use_cols == 'content':
         #    return JoinOrderBenchmark.ContentColumns().get(filepath, None)
         elif use_cols == 'content':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)  # 修改

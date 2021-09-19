@@ -5,16 +5,15 @@ import shutil
 import time
 
 import numpy as np
-
-from rspn.code_generation.generate_code import generate_ensemble_code
 from data_preparation.join_data_preparation import prepare_sample_hdf
 from data_preparation.prepare_single_tables import prepare_all_tables
 from ensemble_compilation.spn_ensemble import read_ensemble
 from ensemble_creation.naive import create_naive_all_split_ensemble, naive_every_relationship_ensemble
 from ensemble_creation.rdc_based import candidate_evaluation
 from evaluation.confidence_interval_evaluation import evaluate_confidence_intervals
+from rspn.code_generation.generate_code import generate_ensemble_code
 from schemas.flights.schema import gen_flights_1B_schema
-from schemas.imdb.schema import gen_job_light_imdb_schema, gen_imdb_schema,gen_job_ranges_imdb_schema
+from schemas.imdb.schema import gen_job_light_imdb_schema, gen_job_ranges_imdb_schema
 from schemas.ssb.schema import gen_500gb_ssb_schema
 from schemas.tpc_ds.schema import gen_1t_tpc_ds_schema
 
@@ -23,7 +22,7 @@ np.random.seed(1)
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', default='imdb-ranges', help='Which dataset to be used')  #imdb-light  
+    parser.add_argument('--dataset', default='imdb-ranges', help='Which dataset to be used')  # imdb-light
 
     # generate hdf
     parser.add_argument('--generate_hdf', help='Prepare hdf5 files for single tables', action='store_true')
@@ -78,7 +77,8 @@ if __name__ == '__main__':
     parser.add_argument('--ensemble_location', nargs='+',
                         default=['../ssb-benchmark/spn_ensembles/ensemble_single_ssb-500gb_10000000.pkl',
                                  '../ssb-benchmark/spn_ensembles/ensemble_relationships_ssb-500gb_10000000.pkl'])
-    parser.add_argument('--query_file_location', default='./benchmarks/ssb/sql/cardinality_queries.sql')  # External write
+    parser.add_argument('--query_file_location',
+                        default='./benchmarks/ssb/sql/cardinality_queries.sql')  # External write
     parser.add_argument('--ground_truth_file_location',
                         default='./benchmarks/ssb/sql/cardinality_true_cardinalities_100GB.csv')  # External write
     parser.add_argument('--database_name', default='postgres')  # modified
@@ -128,7 +128,7 @@ if __name__ == '__main__':
         schema = gen_1t_tpc_ds_schema(table_csv_path)
     elif args.dataset == 'imdb-ranges':
         schema = gen_job_ranges_imdb_schema(table_csv_path, version)  # Add a parameter
-          
+
     else:
         raise ValueError('Dataset unknown')
 
@@ -152,13 +152,14 @@ if __name__ == '__main__':
     # Generate sampled HDF files for fast join calculations
     if args.generate_sampled_hdfs:
         logger.info(f"Generating sampled HDF files for tables in {args.csv_path} and store to path {args.hdf_path}")
-        prepare_sample_hdf(schema, args.hdf_path, args.max_rows_per_hdf_file, args.hdf_sample_size, version) # Add a parameter
+        prepare_sample_hdf(schema, args.hdf_path, args.max_rows_per_hdf_file, args.hdf_sample_size,
+                           version)  # Add a parameter
         logger.info(f"Files successfully created")
         # Pretime
 
     # Generate ensemble for cardinality schemas
     if args.generate_ensemble:
-        time1=time.time()
+        time1 = time.time()
         if not os.path.exists(args.ensemble_path):
             os.makedirs(args.ensemble_path)
 
@@ -180,13 +181,13 @@ if __name__ == '__main__':
                                  args.post_sampling_factor, args.ensemble_budget_factor, args.ensemble_max_no_joins,
                                  args.rdc_threshold, args.pairwise_rdc_path,
                                  incremental_learning_rate=args.incremental_learning_rate,
-                                 incremental_condition=args.incremental_condition )  # Add a parameter
+                                 incremental_condition=args.incremental_condition)  # Add a parameter
         else:
             raise NotImplementedError
         # Traintime
         timetrain = time.time()
-        fmetric.write('Traintime: '+ str(timetrain-time1) + '\n')
-        print('Traintime: \n', timetrain-time1)
+        fmetric.write('Traintime: ' + str(timetrain - time1) + '\n')
+        print('Traintime: \n', timetrain - time1)
         fmetric.close()
     # Read pre-trained ensemble and evaluate cardinality queries scale
     if args.code_generation:
@@ -215,12 +216,13 @@ if __name__ == '__main__':
 
         logging.info(
             f"maqp(evaluate_cardinalities: database_name={args.database_name}, target_path={args.target_path})")
-        evaluate_cardinalities(args.version, args.ensemble_location, args.database_name, args.query_file_location, args.target_path,
+        evaluate_cardinalities(args.version, args.ensemble_location, args.database_name, args.query_file_location,
+                               args.target_path,
                                schema, args.rdc_spn_selection, args.pairwise_rdc_path,
                                use_generated_code=args.use_generated_code,
                                merge_indicator_exp=args.merge_indicator_exp,
                                exploit_overlapping=args.exploit_overlapping, max_variants=args.max_variants,
-                               true_cardinalities_path=args.ground_truth_file_location,  min_sample_ratio=0)
+                               true_cardinalities_path=args.ground_truth_file_location, min_sample_ratio=0)
     # Evaluetime
 
     # Compute ground truth for AQP queries

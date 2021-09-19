@@ -102,7 +102,7 @@ BASE_CONFIG = {
 JOB_LIGHT_BASE = {
     'dataset': 'imdb',
     'join_tables': [
-        'auth_user', 'student_courseenrollment','organization_account_userorgprofile'
+        'auth_user', 'student_courseenrollment', 'organization_account_userorgprofile'
     ],
     'join_keys': {
         'auth_user': ['id'],

@@ -6,15 +6,14 @@ from time import perf_counter
 
 import networkx as nx
 import numpy as np
-from spn.algorithms.splitting.RDC import rdc_cca, rdc_transformer
-from spn.structure.Base import Context
-
 from aqp_spn.aqp_spn import AQPSPN
 from data_preparation.join_data_preparation import JoinDataPreparator
 from ensemble_compilation.physical_db import DBConnection
 from ensemble_compilation.spn_ensemble import SPNEnsemble
 from ensemble_creation.naive import RATIO_MIN_INSTANCE_SLICE
 from ensemble_creation.utils import create_random_join
+from spn.algorithms.splitting.RDC import rdc_cca, rdc_transformer
+from spn.structure.Base import Context
 
 logger = logging.getLogger(__name__)
 
@@ -102,8 +101,7 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
                          physical_db_name, postsampling_factor, ensemble_budget_factor, max_no_joins, rdc_learn,
                          pairwise_rdc_path, rdc_threshold=0.15, random_solutions=10000, bloom_filters=False,
                          incremental_learning_rate=0, incremental_condition=None):
-
-    assert incremental_learning_rate==0 or incremental_condition is None
+    assert incremental_learning_rate == 0 or incremental_condition is None
     prep = JoinDataPreparator(meta_data_path + "/meta_data_sampled.pkl", schema, max_table_data=max_table_data)
 
     # build graph from schema
@@ -140,7 +138,7 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
             relationship_list=relationship_list,
             min_start_table_size=1, sample_rate=1.0,
             drop_redundant_columns=True,
-            max_intermediate_size=sample_size * postsampling_factor[0])  #df_samples来源
+            max_intermediate_size=sample_size * postsampling_factor[0])  # df_samples来源
         rdc_value = max_rdc(schema, left_table, right_table, df_samples, meta_types, rdc_attribute_dict)
         if rdc_value > rdc_threshold:
             pairwise_max_rdc[(left_idx, right_idx)] = rdc_value
@@ -210,8 +208,9 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
                     f"in {perf_counter() - join_start_t} secs")
         logging.info(f"card(learning): {len(df_samples)}, card(df_inc_samples): {len(df_inc_samples)}")
         if not incremental_condition is None:
-            condition_percentage  = int(100.0 * len(df_inc_samples)/len(df_samples))
-            logger.info(f"set incremental_learning_rate to {condition_percentage}%, based on condition {incremental_condition}")
+            condition_percentage = int(100.0 * len(df_inc_samples) / len(df_samples))
+            logger.info(
+                f"set incremental_learning_rate to {condition_percentage}%, based on condition {incremental_condition}")
 
         # cardinality
         if physical_db_name is not None:
@@ -234,7 +233,8 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
                                              from aka_title title
                                             where """ + incremental_condition
                 percentage = db_connection.get_result(sql_percentage_titles)
-                logging.debug(f"sql (for incremental learning_rate calculation): {sql_percentage_titles}: result: {percentage}")
+                logging.debug(
+                    f"sql (for incremental learning_rate calculation): {sql_percentage_titles}: result: {percentage}")
                 # incremental_learning_rate = percentage
             else:
                 percentage = incremental_learning_rate
@@ -261,9 +261,9 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
                       rdc_threshold=rdc_learn)
         spn_learn_end_t = perf_counter()
         omit_incremental = False
-        spn_inc_learn_start_t=0
-        spn_inc_learn_end_t=0
-        if (incremental_learning_rate>0 or incremental_condition is not None):
+        spn_inc_learn_start_t = 0
+        spn_inc_learn_end_t = 0
+        if (incremental_learning_rate > 0 or incremental_condition is not None):
             if (omit_incremental):
                 logger.info(f"no additional incremental SPN training phase with {len(df_inc_samples)} samples ")
             else:
@@ -272,7 +272,8 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
                 spn_inc_learn_start_t = perf_counter()
                 aqp_spn.learn_incremental(df_inc_samples.values)
                 spn_inc_learn_end_t = perf_counter()
-        logging.info(f"learning time:{round(spn_learn_end_t-spn_learn_start_t,2)} ({len(df_samples)} datasets), incremental learning time: {round(spn_inc_learn_end_t-spn_inc_learn_start_t,2)} ({len(df_inc_samples)} datasets), incremental_condition: {incremental_condition}, incremental-learning-rate: {percentage}% [TIME]")
+        logging.info(
+            f"learning time:{round(spn_learn_end_t - spn_learn_start_t, 2)} ({len(df_samples)} datasets), incremental learning time: {round(spn_inc_learn_end_t - spn_inc_learn_start_t, 2)} ({len(df_inc_samples)} datasets), incremental_condition: {incremental_condition}, incremental-learning-rate: {percentage}% [TIME]")
         spn_ensemble.add_spn(aqp_spn)
 
     if incremental_learning_rate and omit_incremental:
@@ -280,7 +281,7 @@ def candidate_evaluation(version, schema, meta_data_path, sample_size, spn_sampl
         ensemble_path += version + '.sql.deepdb.model.pkl'
     else:
         # ensemble_path += f'/ensemble_join_{max_no_joins}_budget_{ensemble_budget_factor}_{spn_sample_size[0]}.pkl '
-        ensemble_path += version + '.sql.deepdb.model.pkl'   # ensemble_path已修改
+        ensemble_path += version + '.sql.deepdb.model.pkl'  # ensemble_path已修改
     logger.info(f"Saving ensemble to {ensemble_path}")
     spn_ensemble.save(ensemble_path)
 

@@ -1,4 +1,3 @@
-import random
 import math
 import subprocess
 
@@ -65,7 +64,7 @@ def hinted_queries(sel_file, query_file):
         output = \
             subprocess.Popen([query], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True).communicate()[
                 0].decode('utf-8')
-        #print(output)
+        # print(output)
         timing = float(output.split('\n')[8].split(' ')[1])
         print(timing, flush=True)
     qf.close()
@@ -94,13 +93,13 @@ def psql_queries(sel_file, query_file):
         output = \
             subprocess.Popen([query], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True).communicate()[
                 0].decode('utf-8')
-        #print(output)
+        # print(output)
         timing = float(output.split('\n')[8].split(' ')[1])
         print(timing, flush=True)
     qf.close()
     sf.close()
-    
-hinted_queries('/home/ubuntu/experiment/sigmod_rev_instacart_correlated_sel_isomer_withPermanent.txt', '/home/ubuntu/experiment/sigmod20_rev_correlated_instacart_queries.csv')
-#psql_queries('/home/ubuntu/experiment/sigmod_rev_instacart_correlated_sel_quicksel.txt', '/home/ubuntu/experiment/sigmod20_rev_correlated_instacart_queries.csv')
 
 
+hinted_queries('/home/ubuntu/experiment/sigmod_rev_instacart_correlated_sel_isomer_withPermanent.txt',
+               '/home/ubuntu/experiment/sigmod20_rev_correlated_instacart_queries.csv')
+# psql_queries('/home/ubuntu/experiment/sigmod_rev_instacart_correlated_sel_quicksel.txt', '/home/ubuntu/experiment/sigmod20_rev_correlated_instacart_queries.csv')

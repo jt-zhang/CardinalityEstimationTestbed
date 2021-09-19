@@ -81,8 +81,8 @@ eval_join_sampling:
 eval_psamples:
   desc: null
   value:
-  - 512
-  - 8000
+    - 512
+    - 8000
 factorize:
   desc: null
   value: true
@@ -120,17 +120,17 @@ join_keys:
   desc: null
   value:
     cast_info:
-    - movie_id
+      - movie_id
     movie_companies:
-    - movie_id
+      - movie_id
     movie_info:
-    - movie_id
+      - movie_id
     movie_info_idx:
-    - movie_id
+      - movie_id
     movie_keyword:
-    - movie_id
+      - movie_id
     title:
-    - id
+      - id
 join_name:
   desc: null
   value: job-light
@@ -140,12 +140,12 @@ join_root:
 join_tables:
   desc: null
   value:
-  - title
-  - cast_info
-  - movie_companies
-  - movie_info
-  - movie_keyword
-  - movie_info_idx
+    - title
+    - cast_info
+    - movie_companies
+    - movie_info
+    - movie_keyword
+    - movie_info_idx
 label_smoothing:
   desc: null
   value: 0.01
@@ -203,8 +203,8 @@ queries_csv:
 query_filters:
   desc: null
   value:
-  - 5
-  - 12
+    - 5
+    - 12
 residual:
   desc: null
   value: true

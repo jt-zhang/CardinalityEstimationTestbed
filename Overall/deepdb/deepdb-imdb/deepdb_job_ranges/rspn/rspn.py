@@ -3,15 +3,14 @@ import time
 from functools import partial
 
 import numpy as np
-from spn.structure.Base import Context
-from spn.structure.StatisticalTypes import MetaType
-
 from rspn.algorithms.expectations import expectation
 from rspn.algorithms.ranges import NominalRange, NumericRange
 from rspn.algorithms.validity.validity import is_valid
 from rspn.learning.rspn_learning import learn_mspn
 from rspn.structure.leaves import IdentityNumericLeaf, identity_expectation, Categorical, categorical_likelihood_range, \
     identity_likelihood_range
+from spn.structure.Base import Context
+from spn.structure.StatisticalTypes import MetaType
 
 logger = logging.getLogger(__name__)
 

@@ -5,8 +5,6 @@ import pickle
 
 import numpy as np
 import pandas as pd
-
-import collections
 from common import CsvTable
 
 
@@ -185,7 +183,8 @@ class JoinOrderBenchmark(object):
     JOB_MY_PRED_COLS = collections.defaultdict(
         list, {
             'title.csv': [
-                'id', 'kind_id', 'production_year', 'episode_nr', 'imdb_index', 'phonetic_code', 'season_nr', 'series_years'
+                'id', 'kind_id', 'production_year', 'episode_nr', 'imdb_index', 'phonetic_code', 'season_nr',
+                'series_years'
             ],
             'cast_info.csv': [
                 'nr_order', 'role_id', 'movie_id'
@@ -201,7 +200,7 @@ class JoinOrderBenchmark(object):
     JOB_Jiayi_PRED_COLS = collections.defaultdict(
         list, {
             'title.csv': [
-                'id', 'title','kind_id','production_year','id2'
+                'id', 'title', 'kind_id', 'production_year', 'id2'
             ],
             'movie_companies.csv': [
                 'movie_id', 'company_id', 'company_type_id'
@@ -212,17 +211,17 @@ class JoinOrderBenchmark(object):
     # For JOB-light schema.
     TRUE_FULL_OUTER_CARDINALITY = {
         ('cast_info', 'movie_keyword', 'title'): 241319266,
-        ('cast_info', 'movie_companies', 'movie_info',\
+        ('cast_info', 'movie_companies', 'movie_info', \
          'movie_info_idx', 'movie_keyword', 'title'): 2128877229383,
-        ('aka_title', 'cast_info', 'comp_cast_type', 'company_name',\
+        ('aka_title', 'cast_info', 'comp_cast_type', 'company_name', \
          'company_type', 'complete_cast', 'info_type', 'keyword', \
          'kind_type', 'link_type', 'movie_companies', 'movie_info', \
          'movie_info_idx', 'movie_keyword', 'movie_link', 'title'): 11244784701309,
-        ('aka_name', 'aka_title', 'cast_info', 'char_name',\
-         'comp_cast_type__complete_cast__status_id', 'comp_cast_type__complete_cast__subject_id',\
+        ('aka_name', 'aka_title', 'cast_info', 'char_name', \
+         'comp_cast_type__complete_cast__status_id', 'comp_cast_type__complete_cast__subject_id', \
          'company_name', 'company_type', 'complete_cast', 'info_type__movie_info__info_type_id', \
-         'info_type__movie_info_idx__info_type_id', 'info_type__person_info__info_type_id', 'keyword',\
-         'kind_type', 'link_type', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword',\
+         'info_type__movie_info_idx__info_type_id', 'info_type__person_info__info_type_id', 'keyword', \
+         'kind_type', 'link_type', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword', \
          'movie_link', 'name', 'person_info', 'role_type', 'title'): 282014040554480
     }
 
@@ -234,7 +233,7 @@ class JoinOrderBenchmark(object):
         if JoinOrderBenchmark._CONTENT_COLS is None:
             JoinOrderBenchmark._CONTENT_COLS = {
                 '{}.csv'.format(table_name):
-                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]
+                    range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]
                 for table_name, range_cols in
                 JoinOrderBenchmark.RANGE_COLUMNS.items()
             }
@@ -244,7 +243,7 @@ class JoinOrderBenchmark(object):
                 if table_name == 'title.csv':
                     cols.append('id')
                 elif 'movie_id' in JoinOrderBenchmark.BASE_TABLE_PRED_COLS[
-                        table_name]:
+                    table_name]:
                     cols.append('movie_id')
 
         return JoinOrderBenchmark._CONTENT_COLS

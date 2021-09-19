@@ -13,12 +13,11 @@
 # 3) Give it a selection of backends.
 # 4) Make it pass pylint.
 
-import os
-import random
-
 import array
 # mport sys
 import math
+import os
+import random
 
 try:
     import mmap as mmap_mod

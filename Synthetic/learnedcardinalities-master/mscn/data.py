@@ -1,9 +1,10 @@
 import csv
+import pickle
+
 import torch
+from mscn.util import *
 from torch.utils.data import dataset
 
-from mscn.util import *
-import pickle
 
 def load_data(file_name, num_materialized_samples):
     joins = []
@@ -43,9 +44,9 @@ def load_data(file_name, num_materialized_samples):
     #                 exit(1)
     #             bitmaps[j] = np.unpackbits(np.frombuffer(bitmap_bytes, dtype=np.uint8))
     #         samples.append(bitmaps)
-    with open(file_name+'.samplebitmap', 'rb') as f:
+    with open(file_name + '.samplebitmap', 'rb') as f:
         samples = pickle.load(f)
-    print (len(samples))
+    print(len(samples))
     print("Loaded bitmaps")
 
     # Split predicates

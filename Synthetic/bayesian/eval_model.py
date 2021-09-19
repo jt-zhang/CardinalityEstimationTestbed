@@ -7,16 +7,14 @@ import pickle
 import re
 import time
 
-import numpy as np
-import pandas as pd
-import torch
-
 import common
 import datasets
 import estimators as estimators_lib
 import made
+import numpy as np
+import pandas as pd
+import torch
 import transformer
-
 from scipy import stats
 
 # For inference speed.
@@ -51,8 +49,8 @@ parser.add_argument('--psample',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Turn on wildcard skipping.  Requires checkpoints be trained with '\
-    'column masking.')
+    help='Turn on wildcard skipping.  Requires checkpoints be trained with ' \
+         'column masking.')
 parser.add_argument('--order',
                     nargs='+',
                     type=int,
@@ -69,11 +67,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order'\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -84,15 +82,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -160,7 +158,7 @@ def MakeTable():
     elif args.dataset == 'store_sales':
         table = datasets.LoadStoreSales()
     else:
-        matchObj = re.match( r'cols_(\d+)_distinct_(\d+)_corr_(\d+)_skew_(\d+)', args.dataset) 
+        matchObj = re.match(r'cols_(\d+)_distinct_(\d+)_corr_(\d+)_skew_(\d+)', args.dataset)
         flag = False
         paras = []
         for i in range(1, 5):
@@ -236,7 +234,7 @@ def GenerateQuery(all_cols, rng, table, return_col_idx=False):
                                             rng,
                                             table,
                                             return_col_idx=return_col_idx)
-    
+
     return cols, ops, vals
 
 
@@ -251,6 +249,7 @@ def Query(estimators,
           index=None):
     assert query is not None
     col, cols, ops, vals = query
+
     # print('query:',query)
     ### Actually estimate the query.
 
@@ -264,10 +263,10 @@ def Query(estimators,
         avg = None
     else:
         card, avg = oracle_est.Query(cols, ops,
-                                vals, col=col) # if oracle_card is None else oracle_card
+                                     vals, col=col)  # if oracle_card is None else oracle_card
         if card == 0 or avg is None:
             return
-    
+
     if fout is not None:
         fout.write("select sum(" + col.name + ")" + " from " + table.name + " where ")
         flag = False
@@ -280,7 +279,8 @@ def Query(estimators,
             if isinstance(v, str):
                 fout.write("'" + v + "'")
             elif isinstance(v, np.datetime64):
-                fout.write("'" + str(pd.to_datetime(v).month) + "/" + str(pd.to_datetime(v).day) + "/" + str(pd.to_datetime(v).year) + "'")
+                fout.write("'" + str(pd.to_datetime(v).month) + "/" + str(pd.to_datetime(v).day) + "/" + str(
+                    pd.to_datetime(v).year) + "'")
             else:
                 fout.write(str(v))
         fout.write(";\n")
@@ -293,12 +293,12 @@ def Query(estimators,
     pprint('\n  actual {} ({:.3f}%) '.format(card,
                                              card / table.cardinality * 100),
            end='')
-    print('col:',col)
+    print('col:', col)
 
     for est in estimators:
         if col is None:
             # print('est.Query(cols, ops, vals):',est.Query(cols, ops, vals))
-            est_card= est.Query(cols, ops, vals) # ,_
+            est_card = est.Query(cols, ops, vals)  # ,_
             print('est_card:', est_card)
             est_avg = None
         else:
@@ -318,21 +318,21 @@ def ReportEsts(estimators):
               np.quantile(est.errs, 0.99), '95th', np.quantile(est.errs, 0.95),
               'median', np.quantile(est.errs, 0.5))
         v = max(v, np.max(est.errs))
-        with open("queries_result.csv","a") as fout:
+        with open("queries_result.csv", "a") as fout:
             mse = ((np.array(est.est_cards) - np.array(est.true_cards)) ** 2).mean()
             mape = (np.abs(np.array(est.est_cards) - np.array(est.true_cards)) / np.array(est.true_cards)).mean() * 100
             pccs = stats.pearsonr(est.est_cards, est.true_cards)
-            fout.write("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(name, 
-                                                        np.quantile(est.errs, 0.5), 
-                                                        np.quantile(est.errs, 0.9), 
-                                                        np.quantile(est.errs, 0.95), 
-                                                        np.quantile(est.errs, 0.99), 
-                                                        np.max(est.errs), 
-                                                        np.mean(est.errs), 
-                                                        mse,
-                                                        mape,
-                                                        pccs,
-                                                        np.mean(est.query_dur_ms)))
+            fout.write("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(name,
+                                                                             np.quantile(est.errs, 0.5),
+                                                                             np.quantile(est.errs, 0.9),
+                                                                             np.quantile(est.errs, 0.95),
+                                                                             np.quantile(est.errs, 0.99),
+                                                                             np.max(est.errs),
+                                                                             np.mean(est.errs),
+                                                                             mse,
+                                                                             mape,
+                                                                             pccs,
+                                                                             np.mean(est.query_dur_ms)))
     return v
 
 
@@ -348,13 +348,14 @@ def RunN(table,
          sqls=None):
     if rng is None:
         rng = np.random.RandomState(1234)
-    
+
     if sqls is None:
         avg_cols = []
         for avg_col in cols:
-            if isinstance(avg_col.data[0], np.int32) or isinstance(avg_col.data[0], np.int64) or isinstance(avg_col.data[0], np.float32) or isinstance(avg_col.data[0], np.float64):
+            if isinstance(avg_col.data[0], np.int32) or isinstance(avg_col.data[0], np.int64) or isinstance(
+                    avg_col.data[0], np.float32) or isinstance(avg_col.data[0], np.float64):
                 avg_cols.append(avg_col)
-                    
+
     last_time = None
     fout = None
     if oracle_cards is None:
@@ -364,27 +365,27 @@ def RunN(table,
         if i % log_every == 0:
             if last_time is not None:
                 print('{:.1f} queries/sec'.format(log_every /
-                                                    (time.time() - last_time)))
+                                                  (time.time() - last_time)))
             do_print = True
             print('Query {}:'.format(i), end=' ')
             last_time = time.time()
         if sqls is None:
             gen_cols, ops, vals = GenerateQuery(cols, rng, table)
-            
+
             col = avg_cols[rng.randint(0, len(avg_cols))]
         else:
             gen_cols, ops, vals = sqls[i]
             col = None
-        
+
         Query(estimators,
-                do_print,
-                oracle_card=oracle_cards[i]
-                if oracle_cards is not None and i < len(oracle_cards) else None,
-                query=(col, gen_cols, ops, vals),
-                table=table,
-                oracle_est=oracle_est,
-                fout=fout)
-    
+              do_print,
+              oracle_card=oracle_cards[i]
+              if oracle_cards is not None and i < len(oracle_cards) else None,
+              query=(col, gen_cols, ops, vals),
+              table=table,
+              oracle_est=oracle_est,
+              fout=fout)
+
     max_err = ReportEsts(estimators)
     return False
 
@@ -425,7 +426,7 @@ def RunNParallel(estimator_factory,
 
         def get_stats(self):
             return [e.get_stats() for e in self.estimators]
-            
+
     print('Building estimators on {} workers'.format(parallelism))
     workers = []
     for i in range(parallelism):
@@ -451,7 +452,7 @@ def RunNParallel(estimator_factory,
 
     time_start = time.time()
     cnts = 0
-    
+
     selects = rng.choice(1000, num, replace=False)
     for i in selects:
         query = queries[i]
@@ -503,7 +504,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -582,6 +583,7 @@ def LoadOracleCardinalities():
         return df.values.reshape(-1)
     return None
 
+
 def LoadSqlCard(cols):
     path = '../sql_truecard/{}test.sql'.format(args.dataset)
     flag = False
@@ -605,7 +607,7 @@ def LoadSqlCard(cols):
                 if token == "WHERE" or token == "AND":
                     flag = True
                 elif flag:
-                    matchObj = re.match( r'cdcs\.(.+?)([>=<])(\d+)', token)
+                    matchObj = re.match(r'cdcs\.(.+?)([>=<])(\d+)', token)
                     col = cols_dict.get(matchObj.group(1), None)
                     assert col is not None
                     cols.append(col)
@@ -616,7 +618,6 @@ def LoadSqlCard(cols):
         return cards, sqls
     assert False
     return None, None
-    
 
 
 def Main():
@@ -629,7 +630,7 @@ def Main():
     print('ckpts', selected_ckpts)
 
     # if not args.run_bn:
-        # OK to load tables now
+    # OK to load tables now
     table, train_data, oracle_est = MakeTable()
     cols_to_train = table.columns
 
@@ -663,14 +664,14 @@ def Main():
                                     seed=seed)
         else:
             # if args.dataset in ['dmv-tiny', 'dmv', 'store_sales', 'cols_8_distinct_10_corr_6_skew_8']:
-                model = MakeMade(
-                    scale=args.fc_hiddens,
-                    cols_to_train=table.columns,
-                    seed=seed,
-                    fixed_ordering=order,
-                )
-            # else:
-            #    assert False, args.dataset
+            model = MakeMade(
+                scale=args.fc_hiddens,
+                cols_to_train=table.columns,
+                seed=seed,
+                fixed_ordering=order,
+            )
+        # else:
+        #    assert False, args.dataset
 
         assert order is None or len(order) == model.nin, order
         ReportModel(model)

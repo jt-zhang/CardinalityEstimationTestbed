@@ -1,13 +1,11 @@
 """MADE and ResMADE."""
-import time
 
+import common
+import distributions
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import common
-import distributions
 import utils
 
 
@@ -195,7 +193,7 @@ class MADE(nn.Module):
 
         if num_masks > 1:
             # Double the weights, so need to reduce the size to be fair.
-            hidden_sizes = [int(h // 2**0.5) for h in hidden_sizes]
+            hidden_sizes = [int(h // 2 ** 0.5) for h in hidden_sizes]
             print('Auto reducing MO hidden sizes to', hidden_sizes, num_masks)
         # None: feed inputs as-is, no encoding applied.  Each column thus
         #     occupies 1 slot in the input layer.  For testing only.
@@ -429,7 +427,7 @@ class MADE(nn.Module):
 
         layers = [
             l for l in self.net if isinstance(l, MaskedLinear) or
-            isinstance(l, MaskedResidualBlock)
+                                   isinstance(l, MaskedResidualBlock)
         ]
 
         ### Precedence of several params determining ordering:
@@ -518,7 +516,7 @@ class MADE(nn.Module):
             self.seed = (self.seed + 1) % self.num_masks
             self.m[-1] = np.arange(
                 self.nin) if self.natural_ordering else rng.permutation(
-                    self.nin)
+                self.nin)
             if self.fixed_ordering is not None:
                 self.m[-1] = np.asarray(self.fixed_ordering)
 
@@ -660,7 +658,7 @@ class MADE(nn.Module):
             coli_dom_size = self.input_bins[natural_col]
             # Embed?
             if coli_dom_size > self.embed_size or not self.input_no_emb_if_leq:
-                res = self.embeddings[natural_col](data.view(-1,))
+                res = self.embeddings[natural_col](data.view(-1, ))
                 if out is not None:
                     out.copy_(res)
                     return out
@@ -715,7 +713,7 @@ class MADE(nn.Module):
                         y_embed[i] = col_i_embs
                         continue
                     elif self.grouped_dropout and self.factor_table and self.factor_table.columns[
-                            i].factor_id not in [None, 0]:
+                        i].factor_id not in [None, 0]:
                         pass  # Use previous column's batch mask
                     elif not self.table_dropout:
                         # Normal column dropout.
@@ -725,6 +723,7 @@ class MADE(nn.Module):
                             device=data.device) / coli_dom_size
                         if self.learnable_unk:
                             dropped_repr = self.unk_embeddings[i]
+
                         # During training, non-dropped 1's are scaled by
                         # 1/(1-p), so we clamp back to 1.
                         def dropout_p():
@@ -764,7 +763,7 @@ class MADE(nn.Module):
                                 # Drop iff table not dropped.
                                 batch_mask = torch.tensor(
                                     use_unk).float().unsqueeze(1).to(
-                                        data.device)
+                                    data.device)
                             else:
                                 # Handle batch elements where this table is not
                                 # dropped.
@@ -774,7 +773,7 @@ class MADE(nn.Module):
                                 ) * 1. / self.table_num_columns[table_index]
 
                                 normal_drop = normal_drop_rands[:,
-                                                                i] <= normal_drop_prob
+                                              i] <= normal_drop_prob
                                 # Make sure we drop content only.
                                 normal_drop = normal_drop * is_content
 
@@ -793,8 +792,8 @@ class MADE(nn.Module):
                                 batch_mask = torch.clamp(
                                     torch.dropout(self.kOnes,
                                                   p=1.0 -
-                                                  (self.table_column_types[i] ==
-                                                   common.TYPE_FANOUT),
+                                                    (self.table_column_types[i] ==
+                                                     common.TYPE_FANOUT),
                                                   train=self.training), 0, 1)
                             else:
                                 # Drop each normal attribute with drawn
@@ -803,15 +802,15 @@ class MADE(nn.Module):
                                 # Drop fanout.
                                 drop_p = 0.0
                                 if self.table_column_types[
-                                        i] == common.TYPE_NORMAL_ATTR:
+                                    i] == common.TYPE_NORMAL_ATTR:
                                     # Possible to drop all columns of this
                                     # table (it participates in join but no
                                     # attributes are filtered).
                                     drop_p = np.random.randint(
                                         0, self.table_num_columns[table_index] +
-                                        1) / self.table_num_columns[table_index]
+                                           1) / self.table_num_columns[table_index]
                                 elif self.table_column_types[
-                                        i] == common.TYPE_FANOUT:
+                                    i] == common.TYPE_FANOUT:
                                     drop_p = 1.0
                                 batch_mask = torch.clamp(
                                     torch.dropout(self.kOnes,
@@ -838,7 +837,7 @@ class MADE(nn.Module):
                     y_onehot.scatter_(1, data[:, i].view(-1, 1), 1)
                     if self.dropout_p:
                         if self.grouped_dropout and self.factor_table and self.factor_table.columns[
-                                i].factor_id not in [None, 0]:
+                            i].factor_id not in [None, 0]:
                             pass  # use prev col's batch mask
                         else:
                             # During training, non-dropped 1's are scaled by
@@ -951,7 +950,7 @@ class MADE(nn.Module):
             logits_for_var = logits[:, :self.logit_indices[0]]
         else:
             logits_for_var = logits[:, self.logit_indices[idx - 1]:self.
-                                    logit_indices[idx]]
+                logit_indices[idx]]
         if self.output_encoding != 'embed' or self.UseDMoL(idx):
             return logits_for_var
 
@@ -1021,7 +1020,7 @@ class MADE(nn.Module):
                 logits = self.forward(sampled)
                 s = torch.multinomial(
                     torch.softmax(self.logits_for_i(i, logits), -1), 1)
-                sampled[:, i] = s.view(-1,)
+                sampled[:, i] = s.view(-1, )
         return sampled
 
 

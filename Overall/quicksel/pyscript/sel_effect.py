@@ -5,8 +5,9 @@ test=# select min(l_shipdate), max(l_shipdate) from lineitem;
  1992-01-02 | 1998-12-01
 (1 row)
 '''
-import psycopg2
 import time
+
+import psycopg2
 
 conn = psycopg2.connect("dbname=test user=postgres")
 cur = conn.cursor()
@@ -17,10 +18,11 @@ cur.execute('set enable_mergejoin to off')
 cur.execute('set enable_nestloop to off')
 
 start_dates = [
-        '1992-01-01', '1993-01-01', '1994-01-01', '1995-01-01', '1996-01-01', '1997-01-01',
-        '1998-01-01', '1998-02-01', '1998-03-01', '1998-04-01', '1998-05-01', '1998-06-01',
-        '1998-07-01', '1998-08-01', '1998-08-02'
-    ]
+    '1992-01-01', '1993-01-01', '1994-01-01', '1995-01-01', '1996-01-01', '1997-01-01',
+    '1998-01-01', '1998-02-01', '1998-03-01', '1998-04-01', '1998-05-01', '1998-06-01',
+    '1998-07-01', '1998-08-01', '1998-08-02'
+]
+
 
 def get_counts():
     for start_date in start_dates:
@@ -51,7 +53,7 @@ def run_all_queries():
         print('start date: %s, elapsed time: %.6f sec' % (start_date, elapsed_time))
 
 
-#get_counts()
+# get_counts()
 cur.execute('set enable_indexscan to on')
 
 for i in range(5):
@@ -61,12 +63,11 @@ for i in range(5):
     cur.execute('set enable_nestloop to off')
     run_all_queries()
 
-#print('nested loop join')
-#cur.execute('set enable_hashjoin to off')
-#cur.execute('set enable_mergejoin to off')
-#cur.execute('set enable_nestloop to on')
-#run_all_queries()
+# print('nested loop join')
+# cur.execute('set enable_hashjoin to off')
+# cur.execute('set enable_mergejoin to off')
+# cur.execute('set enable_nestloop to on')
+# run_all_queries()
 
 cur.close()
 conn.close()
-

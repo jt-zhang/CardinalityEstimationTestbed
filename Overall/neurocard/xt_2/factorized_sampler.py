@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
 """Unbiased join sampler using the Exact Weight algorithm."""
 
-import argparse
 import collections
-import os
-import pickle
 import time
-
-import glog as log
-import numpy as np
-import pandas as pd
 
 import common
 import datasets
@@ -17,11 +10,15 @@ import experiments
 import factorized_sampler_lib.data_utils as data_utils
 import factorized_sampler_lib.prepare_utils as prepare_utils
 import factorized_sampler_lib.rustlib as rustlib
+import glog as log
 import join_utils
+import numpy as np
+import pandas as pd
 
 # Assuming the join columns contain only non-negative values.
 # TODO: Remove this assumption.
 NULL = -1
+
 
 # ----------------------------------------------------------------
 #      Column names utils
@@ -173,7 +170,7 @@ def _make_sampling_table_ordering(tables, root_name):
     Returns a list of table names with the join_root at the front.
     """
     return [root_name
-           ] + [table.name for table in tables if table.name != root_name]
+            ] + [table.name for table in tables if table.name != root_name]
 
 
 class FactorizedSampler(object):

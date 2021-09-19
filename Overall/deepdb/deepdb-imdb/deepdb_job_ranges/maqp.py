@@ -5,16 +5,15 @@ import shutil
 import time
 
 import numpy as np
-
-from rspn.code_generation.generate_code import generate_ensemble_code
 from data_preparation.join_data_preparation import prepare_sample_hdf
 from data_preparation.prepare_single_tables import prepare_all_tables
 from ensemble_compilation.spn_ensemble import read_ensemble
 from ensemble_creation.naive import create_naive_all_split_ensemble, naive_every_relationship_ensemble
 from ensemble_creation.rdc_based import candidate_evaluation
 from evaluation.confidence_interval_evaluation import evaluate_confidence_intervals
+from rspn.code_generation.generate_code import generate_ensemble_code
 from schemas.flights.schema import gen_flights_1B_schema
-from schemas.imdb.schema import gen_job_light_imdb_schema, cols4, cols2, cols6, cols8,gen2,gen4,gen6,gen8,gen10
+from schemas.imdb.schema import gen_job_light_imdb_schema, cols4, cols2, cols6, cols8, gen2, gen4, gen6, gen8, gen10
 from schemas.ssb.schema import gen_500gb_ssb_schema
 from schemas.tpc_ds.schema import gen_1t_tpc_ds_schema
 
@@ -23,7 +22,7 @@ np.random.seed(1)
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', default='cols4', help='Which dataset to be used')  #imdb-light  
+    parser.add_argument('--dataset', default='cols4', help='Which dataset to be used')  # imdb-light
 
     # generate hdf
     parser.add_argument('--generate_hdf', help='Prepare hdf5 files for single tables', action='store_true')
@@ -139,7 +138,7 @@ if __name__ == '__main__':
         schema = gen4(table_csv_path)
     elif args.dataset == 'xt2':
         schema = gen2(table_csv_path)
-          
+
     else:
         raise ValueError('Dataset unknown')
 
@@ -169,7 +168,7 @@ if __name__ == '__main__':
 
     # Generate ensemble for cardinality schemas
     if args.generate_ensemble:
-        time1=time.time()
+        time1 = time.time()
         if not os.path.exists(args.ensemble_path):
             os.makedirs(args.ensemble_path)
 
@@ -196,7 +195,7 @@ if __name__ == '__main__':
             raise NotImplementedError
         # Traintime
         timetrain = time.time()
-        print('Traintime: \n', timetrain-time1)
+        print('Traintime: \n', timetrain - time1)
 
     # Read pre-trained ensemble and evaluate cardinality queries scale
     if args.code_generation:

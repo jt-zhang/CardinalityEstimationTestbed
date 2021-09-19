@@ -1,7 +1,6 @@
 from test_include import *
 import numpy as np
 import time
-from cvxopt import matrix, solvers, spmatrix, log, div
 import random
 
 root = None
@@ -19,21 +18,24 @@ for q in queries:
         root.crack(Node(q))
 
 node_freq = root.assign_optimal_freq()
-#pp.pprint(node_freq)
+# pp.pprint(node_freq)
 
-print root
-print 
+print
+root
+print
 
 qid[0] = 0
 
 for n in [15]:
     root = Node(gen_query((0, 0, 1, 1)))
     for i in range(n):
-        node1 = Node(gen_query((random.random()*0.5, random.random()*0.5,
-                                random.random()*0.5+0.5, random.random()*0.5+0.5)))
-        print node1
+        node1 = Node(gen_query((random.random() * 0.5, random.random() * 0.5,
+                                random.random() * 0.5 + 0.5, random.random() * 0.5 + 0.5)))
+        print
+        node1
         root.crack(node1)
 
-    print 'total number of regions: %d' % root.count()
+    print
+    'total number of regions: %d' % root.count()
     root.assign_optimal_freq()
-    #print root
+    # print root

@@ -3,7 +3,7 @@ import copy
 
 def print_conditions(conditions, seperator='Λ'):
     """Pretty prints a set of conditions with a custom seperator."""
-        
+
     formula = ""
     for i, (table, condition) in enumerate(conditions):
         formula += table + "." + condition
@@ -20,14 +20,14 @@ def gen_full_join_query(schema_graph, relationship_set, table_set, join_type):
 
     from_clause = ""
     if len(relationship_set) == 0:
-        assert(len(table_set) == 1)
+        assert (len(table_set) == 1)
 
         from_clause = list(table_set)[0]
-    
+
     else:
         included_tables = set()
         relationships = copy.copy(relationship_set)
-        
+
         while relationships:
             # first relation to be included
             if len(included_tables) == 0:
@@ -56,5 +56,5 @@ def gen_full_join_query(schema_graph, relationship_set, table_set, join_type):
                     from_clause += " " + join_type + " " + relationship_obj.start + " ON " + relationship_to_add
                     included_tables.add(relationship_obj.start)
                     relationships.remove(relationship_to_add)
-    
+
     return "SELECT {} FROM " + from_clause + " {}"

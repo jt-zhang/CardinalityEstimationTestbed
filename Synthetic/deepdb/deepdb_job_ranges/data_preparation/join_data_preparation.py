@@ -5,10 +5,9 @@ import pickle
 import random
 
 import pandas as pd
-from spn.structure.StatisticalTypes import MetaType
-
 from data_preparation.prepare_single_tables import find_relationships
 from ensemble_creation.utils import create_random_join
+from spn.structure.StatisticalTypes import MetaType
 
 logger = logging.getLogger(__name__)
 
@@ -168,7 +167,7 @@ class JoinDataPreparator:
     def _get_null_value(self, table, attribute):
         null_value_index = self.table_meta_data[table]['relevant_attributes_full'] \
             .index(attribute)  # Get the column index
-        return self.table_meta_data[table]['null_values_column'][null_value_index] # Get a null value
+        return self.table_meta_data[table]['null_values_column'][null_value_index]  # Get a null value
 
     def _sampling_rate(self, table_name):
         full_table_size = self.schema_graph.table_dictionary[table_name].table_size
@@ -272,8 +271,10 @@ class JoinDataPreparator:
             return df_full_samples.sample(sample_size), meta_types, null_values, full_join_size
         return df_full_samples, meta_types, null_values, full_join_size
 
-    def generate_n_samples_with_incremental_part(self, sample_size, post_sampling_factor=30, single_table=None, relationship_list=None,
-                           min_start_table_size=1, drop_redundant_columns=True, incremental_learning_rate=0, incremental_condition=None):
+    def generate_n_samples_with_incremental_part(self, sample_size, post_sampling_factor=30, single_table=None,
+                                                 relationship_list=None,
+                                                 min_start_table_size=1, drop_redundant_columns=True,
+                                                 incremental_learning_rate=0, incremental_condition=None):
         """
         Generates approximately sample_size samples of join.
         :param sample_size:
@@ -286,7 +287,8 @@ class JoinDataPreparator:
         sample_size_estimate, full_join_size = self._size_estimate(single_table=single_table,
                                                                    relationship_list=relationship_list,
                                                                    min_start_table_size=min_start_table_size)
-        logging.debug(f"generate_n_samples_with_incremental_part(sample_size={sample_size}, single_table={single_table}, relationship_list={relationship_list}, sample_size_estimate={sample_size_estimate}, incremental_learning_rate={incremental_learning_rate}, incremental_condition={incremental_condition})")
+        logging.debug(
+            f"generate_n_samples_with_incremental_part(sample_size={sample_size}, single_table={single_table}, relationship_list={relationship_list}, sample_size_estimate={sample_size_estimate}, incremental_learning_rate={incremental_learning_rate}, incremental_condition={incremental_condition})")
         # Sampling of join necessary
         sample_rate = 1.0
         if sample_size_estimate > sample_size:
@@ -305,10 +307,11 @@ class JoinDataPreparator:
         #
         if incremental_learning_rate > 0:
             full_size = len(df_full_samples)
-            split_position = int(full_size * (100.0 - incremental_learning_rate)/100.0)
-            logging.debug(f"split position for dataset: {split_position} (full length: {full_size}, incremenatal_rate: {incremental_learning_rate})")
+            split_position = int(full_size * (100.0 - incremental_learning_rate) / 100.0)
+            logging.debug(
+                f"split position for dataset: {split_position} (full length: {full_size}, incremenatal_rate: {incremental_learning_rate})")
             df_learn_samples = df_full_samples.iloc[0:split_position, :]
-            df_inc_samples =  df_full_samples.iloc[split_position:, :]
+            df_inc_samples = df_full_samples.iloc[split_position:, :]
         elif incremental_condition != None:
             import re
             column, value = re.split(" *[<] *", incremental_condition)
@@ -317,14 +320,17 @@ class JoinDataPreparator:
             if (value is not None):
                 df_learn_samples = df_full_samples[df_full_samples['title.production_year'] < value]
                 df_inc_samples = df_full_samples[df_full_samples[column] >= value]
-                logging.info(f"splitting dataset into {len(df_learn_samples)}:{len(df_inc_samples)} parts, according to condition ({incremental_condition}), incremental_rate: {100.0*len(df_inc_samples)/len(df_full_samples)}% @@@")
+                logging.info(
+                    f"splitting dataset into {len(df_learn_samples)}:{len(df_inc_samples)} parts, according to condition ({incremental_condition}), incremental_rate: {100.0 * len(df_inc_samples) / len(df_full_samples)}% @@@")
             else:
-                print("Currently only '<' operator is supported for incremental_condition (i.e. title.production_year<2015)")
+                print(
+                    "Currently only '<' operator is supported for incremental_condition (i.e. title.production_year<2015)")
                 sys.exit(1)
         else:
             df_inc_samples = pd.DataFrame([])
             df_learn_samples = df_full_samples
-        logging.info(f"split full sample dataset into parts: initial learning size: {len(df_learn_samples)}, incremental: {len(df_inc_samples)}")
+        logging.info(
+            f"split full sample dataset into parts: initial learning size: {len(df_learn_samples)}, incremental: {len(df_inc_samples)}")
         return df_learn_samples, df_inc_samples, meta_types, null_values, full_join_size
 
     def generate_join_sample(self, single_table=None, relationship_list=None, min_start_table_size=1, sample_rate=1,
@@ -337,10 +343,12 @@ class JoinDataPreparator:
         assert single_table is None or relationship_list is None, "Either specify a single table or a set of relations"
         assert single_table is not None or relationship_list is not None, "Provide either table or set of relations"
 
-        logging.debug(f"generate_join_sample(single_table={single_table}, relationship_list={relationship_list}, split_condition={split_condition})")
+        logging.debug(
+            f"generate_join_sample(single_table={single_table}, relationship_list={relationship_list}, split_condition={split_condition})")
         if single_table is not None:
 
-            df_samples = self._get_table_data(self.table_meta_data[single_table]['hdf_path'], single_table)  #df.samples source
+            df_samples = self._get_table_data(self.table_meta_data[single_table]['hdf_path'],
+                                              single_table)  # df.samples source
             if sample_rate < 1:
                 df_samples = df_samples.sample(prob_round(len(df_samples) * sample_rate))
 
@@ -376,7 +384,7 @@ class JoinDataPreparator:
             # Final null value imputation of other columns
             # build null value data structure
             # build data structure reflecting the meta types
-            meta_types = [] # meta_type 
+            meta_types = []  # meta_type
             null_values = []
             for column in df_samples.columns:
 
@@ -547,15 +555,15 @@ class JoinDataPreparator:
                 nn_attribute = table + '.' + table_obj.table_nn_attribute
 
                 # attribute nn field is required
-                print('id_attribute:',id_attribute)
+                print('id_attribute:', id_attribute)
                 if df_samples[id_attribute].isna().any():
                     df_samples = df_samples.rename(columns={id_attribute: nn_attribute})
                     df_samples.loc[df_samples[nn_attribute].notna(), nn_attribute] = 1
-                    df_samples.loc[df_samples[nn_attribute].isna(), nn_attribute] = 0 # Na为0,修正列
+                    df_samples.loc[df_samples[nn_attribute].isna(), nn_attribute] = 0  # Na为0,修正列
 
                 # column can be removed
                 else:
-                    del_id_columns.append(id_attribute)  #全是空值
+                    del_id_columns.append(id_attribute)  # 全是空值
 
                 # remove all other id attributes
                 if len(table_obj.primary_key) > 1:

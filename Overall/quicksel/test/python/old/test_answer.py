@@ -8,7 +8,9 @@ root.crack(node1)
 node2 = Node(Query([.5, .5, .7, .7], 0.5, 2))
 root.crack(node2)
 root.assign_optimal_freq()
-print root, '\n'
+print
+root, '\n'
 
 query1 = Query([.2, .2, .6, .6], None, None)
-print root.answer(query1)
+print
+root.answer(query1)

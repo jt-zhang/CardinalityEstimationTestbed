@@ -1,12 +1,12 @@
-import psycopg2
 import pandas as pd
-
+import psycopg2
 from ensemble_compilation.utils import gen_full_join_query, print_conditions
 
 
 class DBConnection:
 
-    def __init__(self, db='postgres',db_user='postgres',db_host="/var/run/postgresql", db_password="jintao",  db_port="5432"):
+    def __init__(self, db='postgres', db_user='postgres', db_host="/var/run/postgresql", db_password="jintao",
+                 db_port="5432"):
         self.db_user = db_user
         self.db_password = db_password
         self.db_host = db_host

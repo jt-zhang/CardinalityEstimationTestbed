@@ -1,28 +1,24 @@
 #!/usr/bin/env python3
 """Unbiased join sampler using the Exact Weight algorithm."""
 
-import argparse
 import collections
-import os
-import pickle
 import time
 
+import common
+import datasets
+import factorized_sampler_lib.data_utils as data_utils
+import factorized_sampler_lib.prepare_utils as prepare_utils
+import factorized_sampler_lib.rustlib as rustlib
 import glog as log
+import join_utils
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-import common
-import datasets
-import experiments
-import factorized_sampler_lib.data_utils as data_utils
-import factorized_sampler_lib.prepare_utils as prepare_utils
-import factorized_sampler_lib.rustlib as rustlib
-import join_utils
-
 # Assuming the join columns contain only non-negative values.
 # TODO: Remove this assumption.
 NULL = -1
+
 
 # ----------------------------------------------------------------
 #      Column names utils
@@ -174,7 +170,7 @@ def _make_sampling_table_ordering(tables, root_name):
     Returns a list of table names with the join_root at the front.
     """
     return [root_name
-           ] + [table.name for table in tables if table.name != root_name]
+            ] + [table.name for table in tables if table.name != root_name]
 
 
 class FactorizedSampler(object):
@@ -289,7 +285,6 @@ class FactorizedSamplerIterDataset(common.SamplerBasedIterDataset):
 
 LoadedTable = collections.namedtuple("LoadedTable", ["name", "data"])
 
-
 JOB_MY = {
     'join_tables': [
         'title', 'cast_info', 'movie_companies',
@@ -330,7 +325,6 @@ JOB_MY = {
     'eval_psamples': [1000],
 }
 
-
 JOB_jintao = {
     'join_tables': [
         'title', 'movie_companies'
@@ -364,11 +358,13 @@ JOB_jintao = {
 }
 from itertools import combinations
 
+
 def generate_title_movie_companies(p):
     table2alias = {'title': 't', 'movie_companies': 'mc', 'company_name': 'cn'}
     join_tables = ['title', 'movie_companies', 'company_name']
     join_keys = {'title': ['id'], 'movie_companies': ['movie_id', 'company_id'], 'company_name': ['id']}
-    join_clauses = {'title':'title.id=movie_companies.movie_id', 'company_name':'company_name.id=movie_companies.company_id'}
+    join_clauses = {'title': 'title.id=movie_companies.movie_id',
+                    'company_name': 'company_name.id=movie_companies.company_id'}
     # all_cols = {
     #         'title': [
     #             'title','kind_id','production_year','id2', 'id'
@@ -408,7 +404,7 @@ def generate_title_movie_companies(p):
         factorize_fanouts=True)
     t_end = time.time()
     log.info(f"> Initialization took {t_end - t_start} seconds.")
-    print (join_iter_dataset.join_iter_dataset.combined_columns)
+    print(join_iter_dataset.join_iter_dataset.combined_columns)
     samples = []
     for i in tqdm(range(5000000)):
         samples.append(next(join_iter_dataset.join_iter_dataset))
@@ -417,25 +413,29 @@ def generate_title_movie_companies(p):
 
 
 def main():
-    table2alias = {'title': 't', 'cast_info': 'ci', 'movie_companies': 'mc', 'movie_info': 'mi', 'movie_info_idx': 'mi_idx', 'movie_keyword': 'mk'}
+    table2alias = {'title': 't', 'cast_info': 'ci', 'movie_companies': 'mc', 'movie_info': 'mi',
+                   'movie_info_idx': 'mi_idx', 'movie_keyword': 'mk'}
     join_tables = ['title', 'cast_info', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword']
-    join_keys = {'title': ['id'], 'cast_info': ['movie_id'], 'movie_companies': ['movie_id'], 'movie_info': ['movie_id'], 'movie_info_idx': ['movie_id'], 'movie_keyword': ['movie_id']}
-    join_clauses = {'cast_info':'title.id=cast_info.movie_id', 'movie_companies':'title.id=movie_companies.movie_id', 'movie_info':'title.id=movie_info.movie_id', 'movie_info_idx':'title.id=movie_info_idx.movie_id', 'movie_keyword':'title.id=movie_keyword.movie_id'}
+    join_keys = {'title': ['id'], 'cast_info': ['movie_id'], 'movie_companies': ['movie_id'],
+                 'movie_info': ['movie_id'], 'movie_info_idx': ['movie_id'], 'movie_keyword': ['movie_id']}
+    join_clauses = {'cast_info': 'title.id=cast_info.movie_id', 'movie_companies': 'title.id=movie_companies.movie_id',
+                    'movie_info': 'title.id=movie_info.movie_id', 'movie_info_idx': 'title.id=movie_info_idx.movie_id',
+                    'movie_keyword': 'title.id=movie_keyword.movie_id'}
     all_cols = {
-            'title': [
-                'kind_id', 'production_year', 'episode_nr', 'imdb_index', 'phonetic_code', 'season_nr', 'series_years'
-            ],
-            'cast_info': [
-                'nr_order', 'role_id'
-            ],
-            'movie_companies': [
-                'company_type_id'
-            ],
-            'movie_info_idx': ['info_type_id'],
-            'movie_info': ['info_type_id'],
-            'movie_keyword': ['keyword_id']
-        }
-    
+        'title': [
+            'kind_id', 'production_year', 'episode_nr', 'imdb_index', 'phonetic_code', 'season_nr', 'series_years'
+        ],
+        'cast_info': [
+            'nr_order', 'role_id'
+        ],
+        'movie_companies': [
+            'company_type_id'
+        ],
+        'movie_info_idx': ['info_type_id'],
+        'movie_info': ['info_type_id'],
+        'movie_keyword': ['keyword_id']
+    }
+
     tables = ['cast_info', 'movie_companies', 'movie_info', 'movie_info_idx', 'movie_keyword']
     for num in range(1, 6):
         for p in combinations(tables, num):
@@ -481,7 +481,7 @@ def main():
                 factorize_fanouts=True)
             t_end = time.time()
             log.info(f"> Initialization took {t_end - t_start} seconds.")
-            print (join_iter_dataset.join_iter_dataset.combined_columns)
+            print(join_iter_dataset.join_iter_dataset.combined_columns)
             samples = []
             for i in tqdm(range(1000000)):
                 samples.append(next(join_iter_dataset.join_iter_dataset))

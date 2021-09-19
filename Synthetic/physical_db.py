@@ -1,11 +1,11 @@
-import psycopg2
 import pandas as pd
-
+import psycopg2
 
 
 class DBConnection:
-    def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.55", db_port="5432", db="benchmark"):
-    #def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.62", db_port="5432", db="imdb"): 
+    def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.55", db_port="5432",
+                 db="benchmark"):
+        # def __init__(self, db_user="jintao", db_password="jintao", db_host="166.111.121.62", db_port="5432", db="imdb"):
         self.db_user = db_user
         self.db_password = db_password
         self.db_host = db_host
@@ -93,7 +93,7 @@ class DBConnection:
 class TrueCardinalityEstimator:
     """Queries the database to return true cardinalities."""
 
-    def __init__(self,  db_connection):
+    def __init__(self, db_connection):
         self.db_connection = db_connection
 
     def true_cardinality(self, query):

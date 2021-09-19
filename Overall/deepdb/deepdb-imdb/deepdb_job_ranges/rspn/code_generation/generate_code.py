@@ -1,15 +1,13 @@
 import logging
+import os
 from enum import Enum
 from time import perf_counter
 
 import numpy as np
-from spn.structure.Base import assign_ids, Product, get_number_of_nodes
-from spn.structure.StatisticalTypes import MetaType
-
-import os
-
 from rspn.structure.base import Sum
 from rspn.structure.leaves import Categorical, IdentityNumericLeaf
+from spn.structure.Base import assign_ids, Product, get_number_of_nodes
+from spn.structure.StatisticalTypes import MetaType
 
 logger = logging.getLogger(__name__)
 

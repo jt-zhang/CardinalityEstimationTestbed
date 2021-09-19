@@ -1,9 +1,7 @@
 """Dataset registrations."""
-import os
-
-import numpy as np
 
 import common
+import numpy as np
 
 
 def LoadDmv(filename='Vehicle__Snowmobile__and_Boat_Registrations.csv'):
@@ -18,21 +16,25 @@ def LoadDmv(filename='Vehicle__Snowmobile__and_Boat_Registrations.csv'):
     # there is the same as the default str-ordering (lexicographical).
     type_casts = {'Reg_Valid_Date': np.datetime64, 'Zip': np.int32, 'Unladen_Weight': np.int32}
     return common.CsvTable('DMV', csv_file, cols, type_casts)
-    
+
+
 def LoadStoreSales(filename='store_sales.csv'):
     csv_file = '/home/jintao/naru/csvdata_sql/{}'.format(filename)
     cols = [
-        "ss_sold_date_sk","ss_sold_time_sk","ss_item_sk","ss_customer_sk","ss_cdemo_sk",
-        "ss_hdemo_sk","ss_wholesale_cost","ss_list_price","ss_sales_price","ss_ext_discount_amt",
+        "ss_sold_date_sk", "ss_sold_time_sk", "ss_item_sk", "ss_customer_sk", "ss_cdemo_sk",
+        "ss_hdemo_sk", "ss_wholesale_cost", "ss_list_price", "ss_sales_price", "ss_ext_discount_amt",
         "ss_ext_sales_price"
     ]
     # Note: other columns are converted to objects/strings automatically.  We
     # don't need to specify a type-cast for those because the desired order
     # there is the same as the default str-ordering (lexicographical).
-    type_casts = {"ss_sold_date_sk":np.int32,"ss_sold_time_sk":np.int32,"ss_item_sk":np.int32,"ss_customer_sk":np.int32,"ss_cdemo_sk":np.int32,
-        "ss_hdemo_sk":np.int32,"ss_wholesale_cost":np.float32,"ss_list_price":np.float32,"ss_sales_price":np.float32,"ss_ext_discount_amt":np.float32,
-        "ss_ext_sales_price":np.float32}
+    type_casts = {"ss_sold_date_sk": np.int32, "ss_sold_time_sk": np.int32, "ss_item_sk": np.int32,
+                  "ss_customer_sk": np.int32, "ss_cdemo_sk": np.int32,
+                  "ss_hdemo_sk": np.int32, "ss_wholesale_cost": np.float32, "ss_list_price": np.float32,
+                  "ss_sales_price": np.float32, "ss_ext_discount_amt": np.float32,
+                  "ss_ext_sales_price": np.float32}
     return common.CsvTable('store_sales', csv_file, cols, type_casts)
+
 
 def LoadCDCS(paras):
     csv_name = 'cols_{}_distinct_{}_corr_{}_skew_{}'.format(paras[0], paras[1], paras[2], paras[3])

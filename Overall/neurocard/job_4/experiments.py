@@ -102,7 +102,7 @@ BASE_CONFIG = {
 JOB_LIGHT_BASE = {
     'dataset': 'imdb',
     'join_tables': [
-        'cast_info', 'title','movie_info'
+        'cast_info', 'title', 'movie_info'
     ],
     'join_keys': {
         'cast_info': ['movie_id'],
@@ -256,7 +256,7 @@ EXPERIMENT_CONFIGS = {
     'job-light-ranges': dict(
         dict(dict(BASE_CONFIG, **JOB_LIGHT_BASE), **FACTORIZE),
         **{
-            'queries_csv': './queries/job-light-ranges6.csv', # test-dishigh-num.sql.csv',  # job-light-ranges6.csv
+            'queries_csv': './queries/job-light-ranges6.csv',  # test-dishigh-num.sql.csv',  # job-light-ranges6.csv
             'use_cols': 'content',
             'num_eval_queries_per_iteration': 4200,
             # 10M tuples total.

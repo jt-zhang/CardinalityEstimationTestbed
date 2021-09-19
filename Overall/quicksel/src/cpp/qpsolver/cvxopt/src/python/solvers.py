@@ -33,8 +33,8 @@ options:  dictionary with customizable algorithm parameters.
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import cvxopt
-from cvxopt.cvxprog import cp, cpl, gp 
-from cvxopt.coneprog import conelp, lp, sdp, socp, coneqp, qp
+from cvxopt.cvxprog import cp, cpl, gp
+
 options = {}
 cvxopt.cvxprog.options = options
 cvxopt.coneprog.options = options

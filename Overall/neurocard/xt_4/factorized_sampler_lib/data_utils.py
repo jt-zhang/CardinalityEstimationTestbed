@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-from functools import wraps
 import os.path
-
-import glog as log
-import numpy as np
-import pandas as pd
+from functools import wraps
 
 import datasets
+import glog as log
+import pandas as pd
 
 CACHE_DIR = "./cache"
 
@@ -30,7 +28,6 @@ def load(filename, description):
 
 
 def save_result(filename, subdir=None, description="result"):
-
     def decorator(func):
 
         @wraps(func)

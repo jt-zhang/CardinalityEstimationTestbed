@@ -1,5 +1,4 @@
 """MADE and ResMADE."""
-import time
 
 import numpy as np
 
@@ -315,7 +314,7 @@ class MADE(nn.Module):
             self.seed = (self.seed + 1) % self.num_masks
             self.m[-1] = np.arange(
                 self.nin) if self.natural_ordering else rng.permutation(
-                    self.nin)
+                self.nin)
             if self.fixed_ordering is not None:
                 self.m[-1] = np.asarray(self.fixed_ordering)
 
@@ -383,7 +382,7 @@ class MADE(nn.Module):
 
         layers = [
             l for l in self.net if isinstance(l, MaskedLinear) or
-            isinstance(l, MaskedResidualBlock)
+                                   isinstance(l, MaskedResidualBlock)
         ]
         assert len(layers) == len(masks), (len(layers), len(masks))
         for l, m in zip(layers, masks):
@@ -427,7 +426,7 @@ class MADE(nn.Module):
             coli_dom_size = self.input_bins[natural_col]
             # Embed?
             if coli_dom_size >= self.embed_size or not self.input_no_emb_if_leq:
-                res = self.embeddings[natural_col](data.view(-1,))
+                res = self.embeddings[natural_col](data.view(-1, ))
                 if out is not None:
                     out.copy_(res)
                     return out
@@ -552,7 +551,7 @@ class MADE(nn.Module):
                                                non_blocking=True,
                                                copy=False)
                         y_onehots[i] = batch_mask * binaries + (
-                            1. - batch_mask) * dropped_repr
+                                1. - batch_mask) * dropped_repr
 
                 else:
                     # Encode as plain one-hot.
@@ -659,7 +658,7 @@ class MADE(nn.Module):
             logits_for_var = logits[:, :self.logit_indices[0]]
         else:
             logits_for_var = logits[:, self.logit_indices[idx - 1]:self.
-                                    logit_indices[idx]]
+                logit_indices[idx]]
         if self.output_encoding != 'embed':
             return logits_for_var
 
@@ -703,7 +702,7 @@ class MADE(nn.Module):
                 logits = self.forward(sampled)
                 s = torch.multinomial(
                     torch.softmax(self.logits_for_i(i, logits), -1), 1)
-                sampled[:, i] = s.view(-1,)
+                sampled[:, i] = s.view(-1, )
         return sampled
 
 

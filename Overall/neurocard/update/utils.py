@@ -1,8 +1,9 @@
 """Utility functions."""
 
 import ast
-from collections import defaultdict
 import csv
+from collections import defaultdict
+
 
 def _get_table_dict(tables):
     table_dict = {}
@@ -136,9 +137,9 @@ def UnpackQueries(concat_table, queries):
 
         converted.append((query_cols, query_ops, query_vals))
         true_cards.append(true_cardinality)
-    #print("converted:\n")
-    #print(converted)
-    
+    # print("converted:\n")
+    # print(converted)
+
     return converted, true_cards
 
 

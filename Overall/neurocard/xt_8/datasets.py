@@ -5,8 +5,6 @@ import pickle
 
 import numpy as np
 import pandas as pd
-
-import collections
 from common import CsvTable
 
 
@@ -49,7 +47,6 @@ class JoinOrderBenchmark(object):
 
             # 11
 
-
         })
 
     # Columns with a reasonable range/IN interpretation.
@@ -57,7 +54,7 @@ class JoinOrderBenchmark(object):
         list,
         {
             # 26, 133, 23260, 97, 14907, 1409
-            'auth_user': [ 'id_copy', 'is_active'],
+            'auth_user': ['id_copy', 'is_active'],
             # 1095
             'student_courseenrollment': ['id_copy', 'is_active'],
             'organization_account_userorgprofile': ['org_id', 'origin', 'role', '_first_level_id']
@@ -72,10 +69,10 @@ class JoinOrderBenchmark(object):
     BASE_TABLE_PRED_COLS = collections.defaultdict(
         list,
         {
-            'auth_user': [ 'id_copy', 'id', 'is_active'],
+            'auth_user': ['id_copy', 'id', 'is_active'],
             # 1095
-            'student_courseenrollment': ['id_copy', 'id','user_id', 'is_active'],
-            'organization_account_userorgprofile': ['id', 'org_id','user_id','origin','role','_first_level_id']
+            'student_courseenrollment': ['id_copy', 'id', 'user_id', 'is_active'],
+            'organization_account_userorgprofile': ['id', 'org_id', 'user_id', 'origin', 'role', '_first_level_id']
             # 1095
 
         })  # 修改这里
@@ -145,7 +142,6 @@ class JoinOrderBenchmark(object):
         ('auth_user', 'organization_account_userorgprofile', 'student_courseenrollment'): 217417,
         ('auth_user', 'student_courseenrollment'): 118440
 
-
     }
 
     # CSV -> RANGE union CATEGORICAL columns.
@@ -156,7 +152,7 @@ class JoinOrderBenchmark(object):
         if JoinOrderBenchmark._CONTENT_COLS is None:
             JoinOrderBenchmark._CONTENT_COLS = {
                 '{}.csv'.format(table_name):
-                range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
+                    range_cols + JoinOrderBenchmark.CATEGORICAL_COLUMNS[table_name]  # 这里
                 for table_name, range_cols in
                 JoinOrderBenchmark.RANGE_COLUMNS.items()
             }
@@ -166,7 +162,7 @@ class JoinOrderBenchmark(object):
                 if table_name == 'auth_user.csv':
                     cols.append('id')
                 elif 'movie_id' in JoinOrderBenchmark.BASE_TABLE_PRED_COLS[
-                        table_name]:
+                    table_name]:
                     cols.append('user_id')
 
         return JoinOrderBenchmark._CONTENT_COLS
@@ -232,7 +228,7 @@ def LoadImdb(table=None,
     def get_use_cols(filepath):
         if use_cols == 'simple':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)
-        #elif use_cols == 'content':
+        # elif use_cols == 'content':
         #    return JoinOrderBenchmark.ContentColumns().get(filepath, None)
         elif use_cols == 'content':
             return JoinOrderBenchmark.BASE_TABLE_PRED_COLS.get(filepath, None)  # 修改

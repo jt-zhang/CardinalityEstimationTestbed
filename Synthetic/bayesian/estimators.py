@@ -9,12 +9,11 @@ import json
 import operator
 import time
 
+import common
+import made
 import numpy as np
 import pandas as pd
 import torch
-
-import common
-import made
 import transformer
 
 OPS = {
@@ -24,6 +23,7 @@ OPS = {
     '<=': np.less_equal,
     '=': np.equal
 }
+
 
 class CardEst(object):
     """Base class for a cardinality estimator."""
@@ -75,7 +75,7 @@ class CardEst(object):
     def get_stats(self):
         return [
             self.query_starts, self.query_dur_ms, self.errs, self.est_cards,
-            self.true_cards,  self.est_avgs, self.true_avgs
+            self.true_cards, self.est_avgs, self.true_avgs
         ]
 
     def merge_stats(self, state):
@@ -237,9 +237,9 @@ class ProgressiveSampling(CardEst):
                     temp_a[0] = temp_b
                 valid_i = OPS[op](temp_a,
                                   temp_b).astype(np.float32,
-                                                            copy=False)
+                                                 copy=False)
                 if columns[natural_idx].all_distinct_values[0] != columns[natural_idx].all_distinct_values[0]:
-                    valid_i[0] = 0                              
+                    valid_i[0] = 0
             else:
                 continue
 
@@ -257,7 +257,7 @@ class ProgressiveSampling(CardEst):
                             None,
                             natural_col=0,
                             out=inp[:, :self.model.
-                                    input_bins_encoded_cumsum[0]])
+                                input_bins_encoded_cumsum[0]])
                     else:
                         l = self.model.input_bins_encoded_cumsum[natural_idx -
                                                                  1]
@@ -280,9 +280,9 @@ class ProgressiveSampling(CardEst):
                 valid_i = valid_i_list[i]
                 if valid_i is not None:
                     probs_i *= valid_i
-                           
+
                 probs_i_summed = probs_i.sum(1)
-                                
+
                 masked_probs.append(probs_i_summed)
 
                 # If some paths have vanished (~0 prob), assign some nonzero
@@ -290,7 +290,6 @@ class ProgressiveSampling(CardEst):
                 paths_vanished = (probs_i_summed <= 0).view(-1, 1)
                 probs_i = probs_i.masked_fill_(paths_vanished, 1.0)
 
-            
             # Num samples to draw for column i.
             if i != 0:
                 num_i = 1
@@ -314,15 +313,15 @@ class ProgressiveSampling(CardEst):
                             data_to_encode,
                             natural_col=0,
                             out=inp[:, :self.model.
-                                    input_bins_encoded_cumsum[0]])
+                                input_bins_encoded_cumsum[0]])
                     else:
                         l = self.model.input_bins_encoded_cumsum[natural_idx
-                                                                    - 1]
+                                                                 - 1]
                         r = self.model.input_bins_encoded_cumsum[
                             natural_idx]
                         self.model.EncodeInput(data_to_encode,
-                                                natural_col=natural_idx,
-                                                out=inp[:, l:r])
+                                               natural_col=natural_idx,
+                                               out=inp[:, l:r])
                 else:
                     # Transformer.  Need special treatment due to
                     # right-shift.
@@ -339,18 +338,18 @@ class ProgressiveSampling(CardEst):
                     if transformer.MASK_SCHEME == 1:
                         # Should encode natural_col \in [0, ncols).
                         self.model.EncodeInput(data_to_encode,
-                                                natural_col=natural_idx,
-                                                out=inp[:, l:r])
+                                               natural_col=natural_idx,
+                                               out=inp[:, l:r])
                     elif natural_idx < self.model.nin - 1:
                         # If scheme is 0, should not encode the last
                         # variable.
                         self.model.EncodeInput(data_to_encode,
-                                                natural_col=natural_idx,
-                                                out=inp[:, l:r])
+                                               natural_col=natural_idx,
+                                               out=inp[:, l:r])
             if i < ncols - 1:
                 # Actual forward pass.
                 next_natural_idx = i + 1 if ordering is None else ordering[i +
-                                                                            1]
+                                                                           1]
                 if self.shortcircuit and operators[next_natural_idx] is None:
                     # If next variable in line is wildcard, then don't do
                     # this forward pass.  Var 'logits' won't be accessed.
@@ -370,18 +369,19 @@ class ProgressiveSampling(CardEst):
         if col is not None:
             natural_idx = self.table.ColumnIndex(col.name)
             probs_i = torch.softmax(
-                        self.model.logits_for_col(natural_idx, logits), 1)
+                self.model.logits_for_col(natural_idx, logits), 1)
             for i in range(ncols):
                 nid = i if ordering is None else ordering[i]
                 if nid == natural_idx:
                     valid_i = valid_i_list[i]
                     break
             if valid_i is not None:
-                probs_i *= valid_i                            
+                probs_i *= valid_i
             probs_i_summed = probs_i.sum(1)
-            sample_result = (probs_i * torch.tensor(columns[natural_idx].all_distinct_values, device=probs_i.device)).sum(1) / probs_i_summed  
+            sample_result = (probs_i * torch.tensor(columns[natural_idx].all_distinct_values,
+                                                    device=probs_i.device)).sum(1) / probs_i_summed
 
-        # Doing this convoluted scheme because m_p[0] is a scalar, and
+            # Doing this convoluted scheme because m_p[0] is a scalar, and
         # we want the corret shape to broadcast.
         p = masked_probs[1]
         for ls in masked_probs[2:]:
@@ -440,7 +440,7 @@ class ProgressiveSampling(CardEst):
             self.OnStart()
             for ordering in orderings:
                 p_scalar, result = self._sample_n(self.num_samples // num_orderings,
-                                          ordering, columns, operators, vals, col=col)
+                                                  ordering, columns, operators, vals, col=col)
                 ps.append(p_scalar)
                 results.append(result * p_scalar)
             self.OnEnd()
@@ -456,7 +456,7 @@ class SampleFromModel(CardEst):
         self.model = model
         self.table = table  # The table that MADE is trained on.
         self.num_samples_per_query = num_samples_per_query
-        self.device = device  #device to use for pytorch
+        self.device = device  # device to use for pytorch
 
         doms = [c.DistributionSize() for c in table.columns]
         # Right shift by 1; put 0 at head.
@@ -564,6 +564,7 @@ class Oracle(CardEst):
         if return_masks:
             return bools
         return c, (col.data * bools).sum() / c if col is not None and c != 0 else None
+
 
 class QueryRegionSize(CardEst):
     """Returns query region size including wildcards."""
@@ -899,7 +900,7 @@ class BayesianNetwork(CardEst):
                     if val == 0 and operators[col_id] == "<":
                         val += 1
                     elif val == self.max_val[col_id] and operators[
-                            col_id] == ">":
+                        col_id] == ">":
                         val -= 1
 
             def prob_match(distribution):
@@ -970,7 +971,7 @@ class BayesianNetwork(CardEst):
                     if val == 0 and operators[col_id] == "<":
                         val += 1
                     elif val == self.max_val[col_id] and operators[
-                            col_id] == ">":
+                        col_id] == ">":
                         val -= 1
 
             def prob_match(distribution):
@@ -1125,9 +1126,9 @@ class MaxDiffHistogram(CardEst):
             start_next_partition = time.time()
             (split_partition_index, split_column_index, partition_boundaries,
              global_maxdiff) = self.next_partition_candidate(
-                 self.partitions, len(self.table.columns), self.table,
-                 min(self.num_new_partitions,
-                     self.limit - len(self.partitions) + 1), self.maxdiff)
+                self.partitions, len(self.table.columns), self.table,
+                min(self.num_new_partitions,
+                    self.limit - len(self.partitions) + 1), self.maxdiff)
             print('determining partition number ', len(self.partitions))
             if global_maxdiff == 0:
                 print('maxdiff already 0 before reaching bucket limit')
@@ -1140,7 +1141,7 @@ class MaxDiffHistogram(CardEst):
                 self.partition_to_maxdiff[p] = set()
                 self._compute_maxdiff(p)
             for d in self.partition_to_maxdiff[
-                    self.partitions[split_partition_index]]:
+                self.partitions[split_partition_index]]:
                 remove_set = set()
                 for cid in range(len(self.table.columns)):
                     remove_set.add(
@@ -1176,7 +1177,7 @@ class MaxDiffHistogram(CardEst):
                         partition.uniform_spreads.append([
                             list(
                                 set(self.table.columns[cid].data[
-                                    partition.data_points]))[0]
+                                        partition.data_points]))[0]
                         ])
                 else:
                     uniform_spread = None
@@ -1202,20 +1203,20 @@ class MaxDiffHistogram(CardEst):
         for cid in range(len(self.table.columns)):
             for pid, partition in enumerate(self.partitions):
                 if partition.boundaries[cid][0] not in self.column_bound_map[
-                        cid]['l']:
+                    cid]['l']:
                     self.column_bound_map[cid]['l'][partition.boundaries[cid]
-                                                    [0]] = [pid]
+                    [0]] = [pid]
                 else:
                     self.column_bound_map[cid]['l'][partition.boundaries[cid]
-                                                    [0]].append(pid)
+                    [0]].append(pid)
 
                 if partition.boundaries[cid][1] not in self.column_bound_map[
-                        cid]['u']:
+                    cid]['u']:
                     self.column_bound_map[cid]['u'][partition.boundaries[cid]
-                                                    [1]] = [pid]
+                    [1]] = [pid]
                 else:
                     self.column_bound_map[cid]['u'][partition.boundaries[cid]
-                                                    [1]].append(pid)
+                    [1]].append(pid)
 
                 self.column_bound_index[cid]['l'].append(
                     partition.boundaries[cid][0])
@@ -1275,7 +1276,7 @@ class MaxDiffHistogram(CardEst):
         # distribute data points to new partitions
         for rowid in partition.data_points:
             if not self.table.columns[
-                    partition_column_index].data.dtype == 'int64':
+                       partition_column_index].data.dtype == 'int64':
                 val = self.table_ds.tuples_np[rowid, partition_column_index]
             else:
                 val = self.table.columns[partition_column_index].data[rowid]
@@ -1342,7 +1343,7 @@ class MaxDiffHistogram(CardEst):
                            len(self.column_bound_index[cid]['u'])):
                 column_set_map[cid] = column_set_map[cid].union(
                     self.column_bound_map[cid]['u'][self.column_bound_index[cid]
-                                                    ['u'][i]])
+                    ['u'][i]])
         else:
             assert o == '=', o
             lower_bound_set = set()
@@ -1365,7 +1366,7 @@ class MaxDiffHistogram(CardEst):
                            len(self.column_bound_index[cid]['u'])):
                 upper_bound_set = upper_bound_set.union(
                     self.column_bound_map[cid]['u'][self.column_bound_index[cid]
-                                                    ['u'][i]])
+                    ['u'][i]])
             column_set_map[cid] = lower_bound_set.intersection(upper_bound_set)
 
     def _estimate_cardinality_per_partition(self, partition, columns, operators,
@@ -1388,10 +1389,10 @@ class MaxDiffHistogram(CardEst):
             elif o in ['>', '>=']:
                 if o == '>':
                     distinct_val_covered = distinct_val_covered * (
-                        len(spread) - bisect.bisect(spread, v))
+                            len(spread) - bisect.bisect(spread, v))
                 else:
                     distinct_val_covered = distinct_val_covered * (
-                        len(spread) - bisect.bisect_left(spread, v))
+                            len(spread) - bisect.bisect_left(spread, v))
             else:
                 assert o == '=', o
                 if not v in spread:

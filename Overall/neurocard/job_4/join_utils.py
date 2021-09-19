@@ -2,9 +2,9 @@
 """Utils for join graph metadata and handling."""
 
 import collections
+import hashlib
 import re
 
-import hashlib
 import networkx as nx
 
 # If join_graph is null, it will be deduced from join_keys.

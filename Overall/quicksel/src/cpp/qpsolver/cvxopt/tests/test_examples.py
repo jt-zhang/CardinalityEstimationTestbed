@@ -1,4 +1,6 @@
-import unittest, os
+import os
+import unittest
+
 
 class TestExamples(unittest.TestCase):
 
@@ -7,16 +9,16 @@ class TestExamples(unittest.TestCase):
         self.expath = os.path.normpath(dir_path + "/../examples")
 
     def exec_example(self, example):
-        fname = os.path.join(self.expath,example)
+        fname = os.path.join(self.expath, example)
         gdict = dict()
         with open(fname) as f:
             code = compile(f.read(), fname, 'exec')
             exec(code, gdict)
         return gdict
 
-    def assertAlmostEqualLists(self,L1,L2,places=7):
-        self.assertEqual(len(L1),len(L2))
-        for u,v in zip(L1,L2): self.assertAlmostEqual(u,v,places)
+    def assertAlmostEqualLists(self, L1, L2, places=7):
+        self.assertEqual(len(L1), len(L2))
+        for u, v in zip(L1, L2): self.assertAlmostEqual(u, v, places)
 
     ## examples/doc/chap8 scripts
 
@@ -26,12 +28,12 @@ class TestExamples(unittest.TestCase):
 
     def test_ch8_coneqp(self):
         gdict = self.exec_example('doc/chap8/coneqp.py')
-        self.assertAlmostEqualLists(gdict['x'],[0.72558319,0.61806264,0.30253528],5)
+        self.assertAlmostEqualLists(gdict['x'], [0.72558319, 0.61806264, 0.30253528], 5)
 
     def test_ch8_lp(self):
         gdict = self.exec_example('doc/chap8/lp.py')
         self.assertTrue(gdict['sol']['status'] is 'optimal')
-        self.assertAlmostEqualLists(list(gdict['sol']['x']),[1.0,1.0],5)
+        self.assertAlmostEqualLists(list(gdict['sol']['x']), [1.0, 1.0], 5)
 
     def test_ch8_socp(self):
         gdict = self.exec_example('doc/chap8/socp.py')
@@ -45,12 +47,12 @@ class TestExamples(unittest.TestCase):
         gdict = self.exec_example('doc/chap8/mcsdp.py')
         n = gdict['n']
         z = +gdict['z']
-        self.assertAlmostEqualLists(list(z[::n+1]),n*[1.0],5)
+        self.assertAlmostEqualLists(list(z[::n + 1]), n * [1.0], 5)
 
     def test_ch8_l1(self):
         gdict = self.exec_example('doc/chap8/l1.py')
-        P,x,y = gdict['P'],gdict['x'],gdict['y']
-        self.assertAlmostEqualLists(list(P.T*y),P.size[1]*[0.0],5)
+        P, x, y = gdict['P'], gdict['x'], gdict['y']
+        self.assertAlmostEqualLists(list(P.T * y), P.size[1] * [0.0], 5)
 
     def test_ch8_l1regls(self):
         gdict = self.exec_example('doc/chap8/l1regls.py')
@@ -85,24 +87,25 @@ class TestExamples(unittest.TestCase):
         from cvxopt import normal, setseed
         import l1
         setseed(100)
-        m,n = 500,250
-        P = normal(m,n)
-        q = normal(m,1)
-        u1 = l1.l1(P,q)
-        u2 = l1.l1blas(P,q)
-        self.assertAlmostEqualLists(list(u1),list(u2),places=3)
+        m, n = 500, 250
+        P = normal(m, n)
+        q = normal(m, 1)
+        u1 = l1.l1(P, q)
+        u2 = l1.l1blas(P, q)
+        self.assertAlmostEqualLists(list(u1), list(u2), places=3)
 
     def test_l1regls(self):
         from cvxopt import normal, setseed
         import l1regls
         setseed(100)
-        m,n = 250,500
-        A = normal(m,n)
-        b = normal(m,1)
+        m, n = 250, 500
+        A = normal(m, n)
+        b = normal(m, 1)
 
-        x = l1regls.l1regls(A,b)
+        x = l1regls.l1regls(A, b)
         # Check optimality conditions (list should be empty, e.g., False)
-        self.assertFalse([t for t in zip(A.T*(A*x-b),x) if abs(t[1])>1e-6 and abs(t[0]) > 1.0])
+        self.assertFalse([t for t in zip(A.T * (A * x - b), x) if abs(t[1]) > 1e-6 and abs(t[0]) > 1.0])
+
 
 if __name__ == '__main__':
     unittest.main()

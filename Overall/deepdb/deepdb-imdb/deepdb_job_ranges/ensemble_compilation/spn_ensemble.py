@@ -1,3 +1,4 @@
+import bz2
 import copy
 import itertools
 import logging
@@ -11,8 +12,6 @@ import scipy.stats
 from ensemble_compilation.graph_representation import Query, QueryType, AggregationType, AggregationOperationType
 from ensemble_compilation.probabilistic_query import IndicatorExpectation, Expectation
 from evaluation.utils import parse_what_if_query, all_operations_of_type
-from spn.algorithms.Statistics import get_structure_stats
-import bz2
 
 np.random.seed(1)
 
@@ -1206,7 +1205,7 @@ class SPNEnsemble:
         if not return_factor_values:
             return formula, factors, cardinality
         else:
-            return formula, factors, cardinality, values  #估计值（重要）
+            return formula, factors, cardinality, values  # 估计值（重要）
 
     def _greedily_select_next_table(self, original_query, query, next_neighbours, exploit_overlapping, merged_tables,
                                     rdc_spn_selection=False, rdc_attribute_dict=None, prefer_disjunct=False):

@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
 
-import argparse
 import os
-import re
 
 import glog as log
+import join_utils
 import numpy as np
 import pandas as pd
 import ray
-
 from factorized_sampler_lib import data_utils
 from factorized_sampler_lib import rustlib
-import join_utils
 
 NULL = -1
 
 
 @ray.remote
 def get_first_jct(join_name, table, base_count_table):
-
     @data_utils.save_result(f"{table}.jct", join_name,
                             f"join count table of `{table}`")
     def work(table, base_count_table):
@@ -32,7 +28,6 @@ def get_first_jct(join_name, table, base_count_table):
 
 @ray.remote
 def get_jct(table, base_count_table, dependencies, dependency_jcts, join_spec):
-
     @data_utils.save_result(f"{table}.jct", join_spec.join_name,
                             f"join count table of `{table}`")
     def work(table, bct, dependencies, dependency_jcts, join_spec):
@@ -126,7 +121,6 @@ def get_join_count_tables(join_spec):
 
 @ray.remote
 def get_base_count_table(join_name, table, keys):
-
     @data_utils.save_result(f"{table}.bct", join_name,
                             f"base count table of `{table}`")
     def work(table, keys):
@@ -178,8 +172,8 @@ def get_join_key_groups(table, jcts, join_spec):
 
 @ray.remote
 def get_primary_key_groups(table, keys, df, join_spec):
-    print (df.head(5))
-    print (keys)
+    print(df.head(5))
+    print(keys)
     indices = df.groupby(keys).indices
     # Manually patch the dictionary to make sure its keys are tuples.
     if len(keys) == 1:

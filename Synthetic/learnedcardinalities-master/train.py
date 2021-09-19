@@ -1,19 +1,19 @@
 import argparse
-import time
 import os
+import time
+
 import torch
+from mscn.data import get_train_datasets, load_data, make_dataset
+from mscn.model import SetConv
+from mscn.util import *
+from scipy import stats
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from mscn.util import *
-from mscn.data import get_train_datasets, load_data, make_dataset
-from mscn.model import SetConv
-
-from scipy import stats
-
 # min_max_file = '/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv'
 parser = argparse.ArgumentParser(description='MSCN.')
-parser.add_argument('--min-max-file', type=str, help='Min Max', default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
+parser.add_argument('--min-max-file', type=str, help='Min Max',
+                    default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
 parser.add_argument("--queries", help="number of training queries (default: 10000)", type=int, default=10000)
 parser.add_argument("--epochs", help="number of epochs (default: 10)", type=int, default=10)
 parser.add_argument("--batch", help="batch size (default: 1024)", type=int, default=1024)
@@ -21,10 +21,12 @@ parser.add_argument("--hid", help="number of hidden units (default: 256)", type=
 parser.add_argument("--train", help="need train", action='store_true')
 parser.add_argument("--cuda", help="use CUDA", action="store_true")
 parser.add_argument("--version", help="version", type=str, default='cols_4_distinct_1000_corr_5_skew_5')
-parser.add_argument("--train-query-file", help="train queries (no suffix)", default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/train-2-num.sql')
-parser.add_argument("--test-query-file", help="train queries (no suffix)", default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/test-2-num.sql')
+parser.add_argument("--train-query-file", help="train queries (no suffix)",
+                    default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/train-2-num.sql')
+parser.add_argument("--test-query-file", help="train queries (no suffix)",
+                    default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/2/test-2-num.sql')
 args = parser.parse_args()
-print (args.queries, args.epochs, args.batch, args.hid, args.cuda, args.train, args.min_max_file)
+print(args.queries, args.epochs, args.batch, args.hid, args.cuda, args.train, args.min_max_file)
 # global min_max_file  # quanju
 min_max_file = args.min_max_file
 
@@ -84,9 +86,11 @@ def print_qerror(preds_unnorm, labels_unnorm):
         else:
             qerror.append(float(labels_unnorm[i]) / float(preds_unnorm[i]))
 
-    fmetric.write("Median: {}".format(np.median(qerror))+ '\n'+ "90th percentile: {}".format(np.percentile(qerror, 90))+ '\n'+ "95th percentile: {}".format(np.percentile(qerror, 95))+\
-            '\n'+ "99th percentile: {}".format(np.percentile(qerror, 99))+ '\n'+ "99th percentile: {}".format(np.percentile(qerror, 99))+ '\n'+ "Max: {}".format(np.max(qerror))+ '\n'+\
-            "Mean: {}".format(np.mean(qerror))+ '\n')
+    fmetric.write("Median: {}".format(np.median(qerror)) + '\n' + "90th percentile: {}".format(
+        np.percentile(qerror, 90)) + '\n' + "95th percentile: {}".format(np.percentile(qerror, 95)) + \
+                  '\n' + "99th percentile: {}".format(np.percentile(qerror, 99)) + '\n' + "99th percentile: {}".format(
+        np.percentile(qerror, 99)) + '\n' + "Max: {}".format(np.max(qerror)) + '\n' + \
+                  "Mean: {}".format(np.mean(qerror)) + '\n')
 
     print("Median: {}".format(np.median(qerror)))
     print("90th percentile: {}".format(np.percentile(qerror, 90)))
@@ -95,18 +99,22 @@ def print_qerror(preds_unnorm, labels_unnorm):
     print("Max: {}".format(np.max(qerror)))
     print("Mean: {}".format(np.mean(qerror)))
 
+
 def print_mse(preds_unnorm, labels_unnorm):
-    fmetric.write("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean())+ '\n')
+    fmetric.write("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()) + '\n')
     print("MSE: {}".format(((preds_unnorm - labels_unnorm) ** 2).mean()))
 
+
 def print_mape(preds_unnorm, labels_unnorm):
-    fmetric.write("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100)+ '\n')
+    fmetric.write("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100) + '\n')
     print("MAPE: {}".format(((np.abs(preds_unnorm - labels_unnorm) / labels_unnorm)).mean() * 100))
 
+
 def print_pearson_correlation(x, y):
-    PCCs=stats.pearsonr(x, y)
-    fmetric.write("Pearson Correlation: {}".format(PCCs)+ '\n\n')
+    PCCs = stats.pearsonr(x, y)
+    fmetric.write("Pearson Correlation: {}".format(PCCs) + '\n\n')
     print("Pearson Correlation: {}".format(PCCs))
+
 
 def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size, hid_units, cuda, need_train=True):
     # Load training and validation data
@@ -115,9 +123,9 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
     dicts, column_min_max_vals, min_val, max_val, labels_train, labels_test, max_num_joins, max_num_predicates, train_data, test_data = get_train_datasets(
         num_queries, num_materialized_samples, train_file, min_max_file)
     table2vec, column2vec, op2vec, join2vec = dicts
-    print ('need_train: ', need_train)
-    print ('train_file: ', train_file)
-    print ('test_file: ', train_file)
+    print('need_train: ', need_train)
+    print('train_file: ', train_file)
+    print('test_file: ', train_file)
     sample_feats = len(table2vec) + num_materialized_samples
     predicate_feats = len(column2vec) + len(op2vec) + 1
     join_feats = len(join2vec)
@@ -146,7 +154,8 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
                 if cuda:
                     samples, predicates, joins, targets = samples.cuda(), predicates.cuda(), joins.cuda(), targets.cuda()
                     sample_masks, predicate_masks, join_masks = sample_masks.cuda(), predicate_masks.cuda(), join_masks.cuda()
-                samples, predicates, joins, targets = Variable(samples), Variable(predicates), Variable(joins), Variable(
+                samples, predicates, joins, targets = Variable(samples), Variable(predicates), Variable(
+                    joins), Variable(
                     targets)
                 sample_masks, predicate_masks, join_masks = Variable(sample_masks), Variable(predicate_masks), Variable(
                     join_masks)
@@ -162,7 +171,7 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         train_end = time.time()
 
         print("Training Time: {}s".format(train_end - train_start))
-        fmetric.write("Training Time: {}s".format(train_end - train_start)+ '\n')  # Write training time
+        fmetric.write("Training Time: {}s".format(train_end - train_start) + '\n')  # Write training time
         path = train_file + '.mscn.model'
         torch.save(model.state_dict(), path)
         '''
@@ -205,7 +214,7 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         '''
     else:
         model = SetConv(sample_feats, predicate_feats, join_feats, hid_units)
-        path = train_file+'.mscn.model'
+        path = train_file + '.mscn.model'
         model.load_state_dict(torch.load(path))
         model.eval()
 
@@ -224,11 +233,12 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         max_num_joins = max([len(j) for j in joins_test])
 
         # Get test set predictions
-        test_data = make_dataset(samples_test, predicates_test, joins_test, labels_test, max_num_joins, max_num_predicates)
+        test_data = make_dataset(samples_test, predicates_test, joins_test, labels_test, max_num_joins,
+                                 max_num_predicates)
         test_data_loader = DataLoader(test_data, batch_size=batch_size)
 
         preds_test, t_total = predict(model, test_data_loader, cuda)
-        fmetric.write("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000)+ '\n')
+        fmetric.write("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000) + '\n')
         # fmetric.close()
         print("Prediction time per test sample: {}ms".format(t_total / len(labels_test) * 1000))
 
@@ -245,7 +255,6 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
         print("\nPearson Correlation validation set:")
         print_pearson_correlation(preds_test_unnorm, np.array(label, dtype=np.float64))
 
-
         # Write predictions
         file_name = test_file + ".mscn.result.csv"
         os.makedirs(os.path.dirname(file_name), exist_ok=True)
@@ -256,7 +265,9 @@ def train_and_predict(train_file, test_file, num_queries, num_epochs, batch_size
 
 
 def main():
-    train_and_predict(args.train_query_file, args.test_query_file, args.queries, args.epochs, args.batch, args.hid, args.cuda, args.train)
+    train_and_predict(args.train_query_file, args.test_query_file, args.queries, args.epochs, args.batch, args.hid,
+                      args.cuda, args.train)
+
 
 if __name__ == "__main__":
     main()

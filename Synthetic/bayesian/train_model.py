@@ -1,19 +1,17 @@
 """Model training."""
 import argparse
 import os
+import re
 import time
-
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 import common
 import datasets
 import made
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 import transformer
-
-import re
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Device', DEVICE)
@@ -40,8 +38,8 @@ parser.add_argument('--constant-lr',
 parser.add_argument(
     '--column-masking',
     action='store_true',
-    help='Column masking training, which permits wildcard skipping'\
-    ' at querying time.')
+    help='Column masking training, which permits wildcard skipping' \
+         ' at querying time.')
 
 # MADE.
 parser.add_argument('--fc-hiddens',
@@ -54,11 +52,11 @@ parser.add_argument('--direct-io', action='store_true', help='Do direct IO?')
 parser.add_argument(
     '--inv-order',
     action='store_true',
-    help='Set this flag iff using MADE and specifying --order. Flag --order '\
-    'lists natural indices, e.g., [0 2 1] means variable 2 appears second.'\
-    'MADE, however, is implemented to take in an argument the inverse '\
-    'semantics (element i indicates the position of variable i).  Transformer'\
-    ' does not have this issue and thus should not have this flag on.')
+    help='Set this flag iff using MADE and specifying --order. Flag --order ' \
+         'lists natural indices, e.g., [0 2 1] means variable 2 appears second.' \
+         'MADE, however, is implemented to take in an argument the inverse ' \
+         'semantics (element i indicates the position of variable i).  Transformer' \
+         ' does not have this issue and thus should not have this flag on.')
 parser.add_argument(
     '--input-encoding',
     type=str,
@@ -69,15 +67,15 @@ parser.add_argument(
     type=str,
     default='one_hot',
     help='Iutput encoding for MADE/ResMADE, {one_hot, embed}.  If embed, '
-    'then input encoding should be set to embed as well.')
+         'then input encoding should be set to embed as well.')
 
 # Transformer.
 parser.add_argument(
     '--heads',
     type=int,
     default=0,
-    help='Transformer: num heads.  A non-zero value turns on Transformer'\
-    ' (otherwise MADE/ResMADE).'
+    help='Transformer: num heads.  A non-zero value turns on Transformer' \
+         ' (otherwise MADE/ResMADE).'
 )
 parser.add_argument('--blocks',
                     type=int,
@@ -104,7 +102,7 @@ parser.add_argument(
     type=int,
     required=False,
     help=
-    'Use a specific ordering.  '\
+    'Use a specific ordering.  ' \
     'Format: e.g., [0 2 1] means variable 2 appears second.'
 )
 
@@ -161,8 +159,8 @@ def RunEpoch(split,
                     t = args.warmups
                     d_model = model.embed_size
                     global_steps = len(loader) * epoch_num + step + 1
-                    lr = (d_model**-0.5) * min(
-                        (global_steps**-.5), global_steps * (t**-1.5))
+                    lr = (d_model ** -0.5) * min(
+                        (global_steps ** -.5), global_steps * (t ** -1.5))
                 else:
                     lr = 1e-2
 
@@ -205,7 +203,7 @@ def RunEpoch(split,
                 xbhat = xbhat.view(-1, model.nout // model.nin, model.nin)
                 # Equivalent to:
                 loss = F.cross_entropy(xbhat, xb.long(), reduction='none') \
-                        .sum(-1).mean()
+                    .sum(-1).mean()
             else:
                 if num_orders_to_forward == 1:
                     loss = model.nll(xbhat, xb).mean()
@@ -235,9 +233,9 @@ def RunEpoch(split,
             if split == 'train':
                 print(
                     'Epoch {} Iter {}, {} entropy gap {:.4f} bits (loss {:.3f}, data {:.3f}) {:.5f} lr'
-                    .format(epoch_num, step, split,
-                            loss.item() / np.log(2) - table_bits,
-                            loss.item() / np.log(2), table_bits, lr))
+                        .format(epoch_num, step, split,
+                                loss.item() / np.log(2) - table_bits,
+                                loss.item() / np.log(2), table_bits, lr))
             else:
                 print('Epoch {} Iter {}, {} loss {:.4f} nats / {:.4f} bits'.
                       format(epoch_num, step, split, loss.item(),
@@ -288,7 +286,7 @@ def MakeMade(scale, cols_to_train, seed, fixed_ordering=None):
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
+                     args.layers if args.layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         input_bins=[c.DistributionSize() for c in cols_to_train],
         input_encoding=args.input_encoding,
@@ -341,7 +339,7 @@ def TrainTask(seed=0):
     elif args.dataset == 'store_sales':
         table = datasets.LoadStoreSales()
     else:
-        matchObj = re.match( r'cols_(\d+)_distinct_(\d+)_corr_(\d+)_skew_(\d+)', args.dataset) 
+        matchObj = re.match(r'cols_(\d+)_distinct_(\d+)_corr_(\d+)_skew_(\d+)', args.dataset)
         flag = False
         paras = []
         for i in range(1, 5):
@@ -356,7 +354,7 @@ def TrainTask(seed=0):
     table_bits = Entropy(
         table,
         table.data.fillna(value=0).groupby([c.name for c in table.columns
-                                           ]).size(), [2])[0]
+                                            ]).size(), [2])[0]
     fixed_ordering = None
 
     if args.order is not None:

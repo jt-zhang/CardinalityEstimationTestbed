@@ -1,15 +1,12 @@
 import logging
+import os
 from enum import Enum
 from time import perf_counter
 
 import numpy as np
+from aqp_spn.aqp_leaves import Categorical, IdentityNumericLeaf, Sum
 from spn.structure.Base import assign_ids, Product, get_number_of_nodes
 from spn.structure.StatisticalTypes import MetaType
-
-from aqp_spn.aqp_leaves import Categorical, IdentityNumericLeaf, Sum
-from ensemble_compilation.spn_ensemble import read_ensemble
-
-import os
 
 logger = logging.getLogger(__name__)
 

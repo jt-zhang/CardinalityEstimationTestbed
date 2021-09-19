@@ -1,9 +1,11 @@
 # The 1-norm regularized least-squares example of section 8.7 (Exploiting
 # structure).
 
-from cvxopt import matrix, spdiag, mul, div, sqrt, normal, setseed
-from cvxopt import blas, lapack, solvers 
 import math
+
+from cvxopt import blas, lapack, solvers
+from cvxopt import matrix, spdiag, mul, div, sqrt, normal, setseed
+
 
 def l1regls(A, y):
     """
@@ -15,16 +17,15 @@ def l1regls(A, y):
     """
 
     m, n = A.size
-    q = matrix(1.0, (2*n,1))
+    q = matrix(1.0, (2 * n, 1))
     q[:n] = -2.0 * A.T * y
 
-    def P(u, v, alpha = 1.0, beta = 0.0 ):
+    def P(u, v, alpha=1.0, beta=0.0):
         """
             v := alpha * 2.0 * [ A'*A, 0; 0, 0 ] * u + beta * v 
         """
         v *= beta
         v[:n] += alpha * 2.0 * A.T * (A * u[:n])
-
 
     def G(u, v, alpha=1.0, beta=0.0, trans='N'):
         """
@@ -32,13 +33,12 @@ def l1regls(A, y):
         """
 
         v *= beta
-        v[:n] += alpha*(u[:n] - u[n:])
-        v[n:] += alpha*(-u[:n] - u[n:])
+        v[:n] += alpha * (u[:n] - u[n:])
+        v[n:] += alpha * (-u[:n] - u[n:])
 
-    h = matrix(0.0, (2*n,1))
+    h = matrix(0.0, (2 * n, 1))
 
-
-    # Customized solver for the KKT system 
+    # Customized solver for the KKT system
     #
     #     [  2.0*A'*A  0    I      -I     ] [x[:n] ]     [bx[:n] ]
     #     [  0         0   -I      -I     ] [x[n:] ]  =  [bx[n:] ].
@@ -74,39 +74,37 @@ def l1regls(A, y):
     #     ( A*D^-1*A' + I ) * v = A * D^-1 * rhs
     #     x[:n] = D^-1 * ( rhs - A'*v ).
 
-    S = matrix(0.0, (m,m))
-    Asc = matrix(0.0, (m,n))
-    v = matrix(0.0, (m,1))
+    S = matrix(0.0, (m, m))
+    Asc = matrix(0.0, (m, n))
+    v = matrix(0.0, (m, 1))
 
     def Fkkt(W):
-
-        # Factor 
+        # Factor
         #
         #     S = A*D^-1*A' + I 
         #
         # where D = 2*D1*D2*(D1+D2)^-1, D1 = d[:n]**-2, D2 = d[n:]**-2.
 
-        d1, d2 = W['di'][:n]**2, W['di'][n:]**2
+        d1, d2 = W['di'][:n] ** 2, W['di'][n:] ** 2
 
         # ds is square root of diagonal of D
-        ds = math.sqrt(2.0) * div( mul( W['di'][:n], W['di'][n:]), 
-            sqrt(d1+d2) )
-        d3 =  div(d2 - d1, d1 + d2)
-     
+        ds = math.sqrt(2.0) * div(mul(W['di'][:n], W['di'][n:]),
+                                  sqrt(d1 + d2))
+        d3 = div(d2 - d1, d1 + d2)
+
         # Asc = A*diag(d)^-1/2
-        Asc = A * spdiag(ds**-1)
+        Asc = A * spdiag(ds ** -1)
 
         # S = I + A * D^-1 * A'
         blas.syrk(Asc, S)
-        S[::m+1] += 1.0 
+        S[::m + 1] += 1.0
         lapack.potrf(S)
 
         def g(x, y, z):
-
-            x[:n] = 0.5 * ( x[:n] - mul(d3, x[n:]) + 
-                mul(d1, z[:n] + mul(d3, z[:n])) - mul(d2, z[n:] - 
-                mul(d3, z[n:])) )
-            x[:n] = div( x[:n], ds) 
+            x[:n] = 0.5 * (x[:n] - mul(d3, x[n:]) +
+                           mul(d1, z[:n] + mul(d3, z[:n])) - mul(d2, z[n:] -
+                                                                 mul(d3, z[n:])))
+            x[:n] = div(x[:n], ds)
 
             # Solve
             #
@@ -114,30 +112,31 @@ def l1regls(A, y):
             #         (D2-D1)*(D1+D2)^-1 * bx[n:] + 
             #         D1 * ( I + (D2-D1)*(D1+D2)^-1 ) * bzl[:n] - 
             #         D2 * ( I - (D2-D1)*(D1+D2)^-1 ) * bzl[n:] )
-                
+
             blas.gemv(Asc, x, v)
             lapack.potrs(S, v)
-            
+
             # x[:n] = D^-1 * ( rhs - A'*v ).
             blas.gemv(Asc, v, x, alpha=-1.0, beta=1.0, trans='T')
             x[:n] = div(x[:n], ds)
 
             # x[n:] = (D1+D2)^-1 * ( bx[n:] - D1*bzl[:n]  - D2*bzl[n:] ) 
             #         - (D2-D1)*(D1+D2)^-1 * x[:n]         
-            x[n:] = div( x[n:] - mul(d1, z[:n]) - mul(d2, z[n:]), d1+d2 )\
-                - mul( d3, x[:n] )
-                
+            x[n:] = div(x[n:] - mul(d1, z[:n]) - mul(d2, z[n:]), d1 + d2) \
+                    - mul(d3, x[:n])
+
             # zl[:n] = D1^1/2 * (  x[:n] - x[n:] - bzl[:n] )
             # zl[n:] = D2^1/2 * ( -x[:n] - x[n:] - bzl[n:] ).
-            z[:n] = mul( W['di'][:n],  x[:n] - x[n:] - z[:n] ) 
-            z[n:] = mul( W['di'][n:], -x[:n] - x[n:] - z[n:] ) 
+            z[:n] = mul(W['di'][:n], x[:n] - x[n:] - z[:n])
+            z[n:] = mul(W['di'][n:], -x[:n] - x[n:] - z[n:])
 
         return g
 
-    return solvers.coneqp(P, q, G, h, kktsolver = Fkkt)['x'][:n]
+    return solvers.coneqp(P, q, G, h, kktsolver=Fkkt)['x'][:n]
+
 
 m, n = 100, 1000
 setseed()
-A = normal(m,n)
+A = normal(m, n)
 b = normal(m)
 x = l1regls(A, b)

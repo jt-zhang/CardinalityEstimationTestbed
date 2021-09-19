@@ -7,19 +7,11 @@ In parcticular,
   + FactorizedProgressiveSampling: subclass that additionally handles column
     factorization.
 """
-import collections
 import functools
-import json
-import random
+import os
 import re
 import shutil
 import time
-import os
-
-import networkx as nx
-import numpy as np
-import pandas as pd
-import torch
 
 import common
 import datasets
@@ -28,6 +20,10 @@ import factorized_sampler
 import join_utils
 import made
 import make_job_queries as query_lib
+import networkx as nx
+import numpy as np
+import pandas as pd
+import torch
 import transformer
 import utils
 
@@ -406,8 +402,8 @@ class ProgressiveSampling(CardEst):
         self.model.eval()
         self.table = table
         self.all_tables = set(join_spec.join_tables
-                             ) if join_spec is not None else _infer_table_names(
-                                 table.columns)
+                              ) if join_spec is not None else _infer_table_names(
+            table.columns)
         self.join_graph = join_spec.join_graph
         self.shortcircuit = shortcircuit
         self.do_fanout_scaling = do_fanout_scaling
@@ -540,7 +536,7 @@ class ProgressiveSampling(CardEst):
     def get_probs_for_col(self, logits, natural_idx, num_classes):
         """Returns probabilities for column i given model and logits."""
         num_samples = logits.size()[0]
-        if False:  #self.model.UseDMoL(natural_idx):
+        if False:  # self.model.UseDMoL(natural_idx):
             dmol_params = self.model.logits_for_col(
                 natural_idx, logits)  # (num_samples, num_mixtures*3)
             logits_i = torch.zeros((num_samples, num_classes),
@@ -588,8 +584,8 @@ class ProgressiveSampling(CardEst):
         """
         table, key = fanout_col
         for col_name in [
-                '__fanout_{}__{}'.format(table, key),
-                '__fanout_{}'.format(table)
+            '__fanout_{}__{}'.format(table, key),
+            '__fanout_{}'.format(table)
         ]:
             if col_name in self.table.name_to_index:
                 return self.table.ColumnIndex(col_name)
@@ -811,7 +807,7 @@ class ProgressiveSampling(CardEst):
                 probs_i = probs_i.masked_fill_(paths_vanished, 0.0)
                 # Only Factorized PS should go down this path.
                 if has_mask:
-                    self.update_factor_mask(samples_i.view(-1,),
+                    self.update_factor_mask(samples_i.view(-1, ),
                                             vals[natural_idx], natural_idx)
 
                 data_to_encode = samples_i.view(-1, 1)
@@ -1053,7 +1049,7 @@ class FactorizedProgressiveSampling(ProgressiveSampling):
                                                                copy=False)
                 assert valid.shape == (num_samples,
                                        len(distinct_values)) or valid.shape == (
-                                           len(distinct_values),), valid.shape
+                           len(distinct_values),), valid.shape
         else:
             # This column is unqueried.  All values are valid.
             valid = 1.0
@@ -1062,7 +1058,7 @@ class FactorizedProgressiveSampling(ProgressiveSampling):
         # or if this col is the first subvar
         # or if we don't need to maintain a mask for this predicate.
         if self.fact_table.columns[natural_idx].factor_id in [None, 0
-                                                             ] or not has_mask:
+                                                              ] or not has_mask:
             self.factor_mask = None
 
         return valid, has_mask

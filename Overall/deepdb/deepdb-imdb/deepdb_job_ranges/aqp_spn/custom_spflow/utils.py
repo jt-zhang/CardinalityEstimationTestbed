@@ -51,4 +51,3 @@ def compute_cartesian_product_completeness(col1, col2, ds_context, data, min_sam
             f"Computed unique combination set for scope ({col1}, {col2}) in "
             f"{unique_tuples_end_t - unique_tuples_start_t} sec.")
     return cartesian_product_completeness, value_combinations_sample, len_cartesian_product
-

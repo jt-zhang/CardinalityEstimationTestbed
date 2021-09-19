@@ -3,14 +3,12 @@ from time import perf_counter
 
 import numpy as np
 import pandas as pd
-
+import scipy as sc
 from ensemble_compilation.graph_representation import QueryType
 from ensemble_compilation.physical_db import DBConnection, TrueCardinalityEstimator
 from ensemble_compilation.spn_ensemble import read_ensemble
 from evaluation.utils import parse_query, save_csv
-from math import sqrt
 from sklearn.metrics import mean_squared_error
-import scipy as sc
 
 logger = logging.getLogger(__name__)
 
@@ -49,10 +47,11 @@ class GenCodeStats:
         self.calls = 0
         self.total_time = 0.0
 
+
 def evaluate_cardinalities(version, ensemble_location, physical_db_name, query_filename, target_csv_path, schema,
                            rdc_spn_selection, pairwise_rdc_path, use_generated_code=False,
                            true_cardinalities_path='./benchmarks/job-light/sql/job_light_true_cardinalities.csv',
-                           max_variants=1, merge_indicator_exp=False, exploit_overlapping=False,  min_sample_ratio=0):
+                           max_variants=1, merge_indicator_exp=False, exploit_overlapping=False, min_sample_ratio=0):
     """
     Loads ensemble and evaluates cardinality for every query in query_filename
     :param exploit_overlapping:
@@ -68,7 +67,7 @@ def evaluate_cardinalities(version, ensemble_location, physical_db_name, query_f
     :return:
     """
     if true_cardinalities_path is not None:
-        df_true_card = pd.read_csv(true_cardinalities_path)  #真实基数
+        df_true_card = pd.read_csv(true_cardinalities_path)  # 真实基数
     else:
         # True cardinality via DB
         db_connection = DBConnection(db=physical_db_name)
@@ -95,14 +94,14 @@ def evaluate_cardinalities(version, ensemble_location, physical_db_name, query_f
         query_str = query_str.strip()
         logger.debug(f"Predicting cardinality for query {query_no}: {query_str}")
 
-        query = parse_query(query_str.strip(), schema)  #解析
-        #print('query:\n')  #重要
-        #print(query)  #重要
+        query = parse_query(query_str.strip(), schema)  # 解析
+        # print('query:\n')  #重要
+        # print(query)  #重要
         assert query.query_type == QueryType.CARDINALITY
 
         if df_true_card is None:
             assert true_estimator is not None
-            _, cardinality_true = true_estimator.true_cardinality(query) 
+            _, cardinality_true = true_estimator.true_cardinality(query)
         else:
             print('df_tcard:\n', df_true_card.loc[df_true_card['query_no'] == query_no, ['cardinality_true']].values)
             cardinality_true = df_true_card.loc[df_true_card['query_no'] == query_no, ['cardinality_true']].values[0][0]
@@ -142,14 +141,14 @@ def evaluate_cardinalities(version, ensemble_location, physical_db_name, query_f
         latencies.append(latency_ms)
 
     # fmetric = open('/home/zhangjintao/Benchmark3/metric_result/' + version + '.deepdb.txt', 'a')
-    mse = mean_squared_error(mee,met)
+    mse = mean_squared_error(mee, met)
     mee = np.array(mee)
     met = np.array(met)
-    PCCs=sc.stats.pearsonr(mee,met) #皮尔逊相关系数
+    PCCs = sc.stats.pearsonr(mee, met)  # 皮尔逊相关系数
     # fmetric.write('PCCs:'+str(PCCs[0])+'\n')
-    print('PCCs:',PCCs[0])
+    print('PCCs:', PCCs[0])
     # mse = sum(np.square(met - mee))/len(met)
-    mape = sum(np.abs((met - mee)/met))/len(met)*100
+    mape = sum(np.abs((met - mee) / met)) / len(met) * 100
     # fmetric.write('MSE: '+ str(mse)+'\n')
     # fmetric.write('MAPE: '+ str(mape)+'\n')
     print('MSE: ', mse)

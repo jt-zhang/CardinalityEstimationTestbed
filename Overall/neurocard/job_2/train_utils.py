@@ -1,10 +1,9 @@
 """Utility functions for training."""
 
+import made
 import numpy as np
 import torch
 import torch.nn as nn
-
-import made
 
 
 def get_device():
@@ -94,12 +93,12 @@ def get_cosine_learning_rate_fn(training_steps, learning_rate,
         step = x - constant_steps
 
         constant_and_decay = (learning_rate - min_learning_rate) * (
-            torch.cos(step * np.pi /
-                      (float_training_steps - constant_steps)) / 2.0 +
-            0.5) + min_learning_rate
+                torch.cos(step * np.pi /
+                          (float_training_steps - constant_steps)) / 2.0 +
+                0.5) + min_learning_rate
 
         new_learning_rate = constant_and_decay * (
-            1.0 - is_warmup) + is_warmup * (warmup_lr)
+                1.0 - is_warmup) + is_warmup * (warmup_lr)
         return new_learning_rate
 
     return fn

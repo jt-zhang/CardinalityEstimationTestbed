@@ -260,6 +260,7 @@ def gen_imdb_schema(csv_path):
 
     return schema
 
+
 def cols4(csv_path):
     """
     Just like the full IMDB schema but without tables that are not used in the job-light benchmark.
@@ -274,8 +275,8 @@ def cols4(csv_path):
                                                 'phonetic_code', 'episode_of_id', 'season_nr', 'episode_nr',
                                                 'series_years', 'md5sum'],
                            irrelevant_attributes=['title', 'imdb_index', 'kind_id', 'imdb_id',
-                                                 'episode_of_id', 'season_nr', 'episode_nr',
-                                                 'md5sum'],
+                                                  'episode_of_id', 'season_nr', 'episode_nr',
+                                                  'md5sum'],
                            no_compression=['kind_id'],
                            csv_file_location=csv_path.format('title'),
                            table_size=3486660))  # 无用列增加了title
@@ -293,6 +294,7 @@ def cols4(csv_path):
     schema.add_relationship('cast_info', 'movie_id', 'title', 'id')
 
     return schema
+
 
 def cols6(csv_path):
     """
@@ -308,12 +310,11 @@ def cols6(csv_path):
                                                 'phonetic_code', 'episode_of_id', 'season_nr', 'episode_nr',
                                                 'series_years', 'md5sum'],
                            irrelevant_attributes=['title', 'imdb_index', 'imdb_id',
-                                                 'episode_of_id', 'season_nr', 'episode_nr',
-                                                 'md5sum'],
+                                                  'episode_of_id', 'season_nr', 'episode_nr',
+                                                  'md5sum'],
                            no_compression=['kind_id'],
                            csv_file_location=csv_path.format('title'),
                            table_size=3486660))  # 无用列增加了title
-
 
     # movie_info
     schema.add_table(Table('movie_info', attributes=['id', 'movie_id', 'info_type_id', 'info', 'note'],
@@ -327,16 +328,17 @@ def cols6(csv_path):
                                                     'role_id'],
                            csv_file_location=csv_path.format('cast_info'),
                            irrelevant_attributes=['person_id', 'person_role_id', 'note', 'nr_order'
-                                                    ],
+                                                  ],
                            no_compression=['role_id'],
                            table_size=63475800))
 
     # relationships
- 
+
     schema.add_relationship('movie_info', 'movie_id', 'title', 'id')
     schema.add_relationship('cast_info', 'movie_id', 'title', 'id')
 
     return schema
+
 
 def cols2(csv_path):
     """
@@ -352,8 +354,8 @@ def cols2(csv_path):
                                                 'phonetic_code', 'episode_of_id', 'season_nr', 'episode_nr',
                                                 'series_years', 'md5sum'],
                            irrelevant_attributes=['title', 'imdb_index', 'kind_id', 'imdb_id',
-                                                 'episode_of_id', 'season_nr', 'episode_nr',
-                                                 'series_years','md5sum'],
+                                                  'episode_of_id', 'season_nr', 'episode_nr',
+                                                  'series_years', 'md5sum'],
                            no_compression=['kind_id'],
                            csv_file_location=csv_path.format('title'),
                            table_size=3486660))  # 无用列增加了title
@@ -372,6 +374,7 @@ def cols2(csv_path):
 
     return schema
 
+
 def cols8(csv_path):
     """
     Just like the full IMDB schema but without tables that are not used in the job-light benchmark.
@@ -386,12 +389,11 @@ def cols8(csv_path):
                                                 'phonetic_code', 'episode_of_id', 'season_nr', 'episode_nr',
                                                 'series_years', 'md5sum'],
                            irrelevant_attributes=['title', 'imdb_index', 'imdb_id',
-                                                 'episode_of_id', 'season_nr', 
-                                                 'md5sum'],
+                                                  'episode_of_id', 'season_nr',
+                                                  'md5sum'],
                            no_compression=['kind_id'],
                            csv_file_location=csv_path.format('title'),
                            table_size=3486660))  # 无用列增加了title
-
 
     # movie_info
     schema.add_table(Table('movie_info', attributes=['id', 'movie_id', 'info_type_id', 'info', 'note'],
@@ -405,16 +407,17 @@ def cols8(csv_path):
                                                     'role_id'],
                            csv_file_location=csv_path.format('cast_info'),
                            irrelevant_attributes=['person_id', 'person_role_id', 'note'
-                                                    ],
+                                                  ],
                            no_compression=['role_id'],
                            table_size=63475800))
 
     # relationships
- 
+
     schema.add_relationship('movie_info', 'movie_id', 'title', 'id')
     schema.add_relationship('cast_info', 'movie_id', 'title', 'id')
 
     return schema
+
 
 def gen10(csv_path):
     """
@@ -426,32 +429,33 @@ def gen10(csv_path):
     # tables
     # id, title, imdb_index, kind_id, production_year, imdb_id,phonetic_code, episode_of_id, season_nr, episode_nr,series_years, md5sum
     # title
-    schema.add_table(Table('auth_user', attributes=['id_copy','id', 'is_active'],
+    schema.add_table(Table('auth_user', attributes=['id_copy', 'id', 'is_active'],
                            csv_file_location=csv_path.format('auth_user'),
                            table_size=91889))  # 无用列增加了title
 
-
     # movie_info
-    schema.add_table(Table('student_courseenrollment', attributes=['id_copy','id','user_id', 'is_active'],
+    schema.add_table(Table('student_courseenrollment', attributes=['id_copy', 'id', 'user_id', 'is_active'],
                            csv_file_location=csv_path.format('student_courseenrollment'),
                            table_size=85637))  # 无用列增加了info
 
     # cast_info
-    schema.add_table(Table('organization_account_userorgprofile', attributes=['id', 'org_id','user_id','origin','role','_first_level_id'],
+    schema.add_table(Table('organization_account_userorgprofile',
+                           attributes=['id', 'org_id', 'user_id', 'origin', 'role', '_first_level_id'],
                            csv_file_location=csv_path.format('organization_account_userorgprofile'),
                            table_size=99832))
 
-    schema.add_table(Table('auth_userprofile', attributes=['id','user_id','level_of_education','host'],
+    schema.add_table(Table('auth_userprofile', attributes=['id', 'user_id', 'level_of_education', 'host'],
                            csv_file_location=csv_path.format('auth_userprofile'),
 
                            table_size=99349))
     # relationships
- 
-    schema.add_relationship('student_courseenrollment','user_id','auth_user', 'id')
-    schema.add_relationship('organization_account_userorgprofile', 'user_id','auth_user', 'id')
-    schema.add_relationship( 'auth_userprofile','user_id','auth_user',  'id')
+
+    schema.add_relationship('student_courseenrollment', 'user_id', 'auth_user', 'id')
+    schema.add_relationship('organization_account_userorgprofile', 'user_id', 'auth_user', 'id')
+    schema.add_relationship('auth_userprofile', 'user_id', 'auth_user', 'id')
 
     return schema
+
 
 def gen8(csv_path):
     """
@@ -463,27 +467,28 @@ def gen8(csv_path):
     # tables
     # id, title, imdb_index, kind_id, production_year, imdb_id,phonetic_code, episode_of_id, season_nr, episode_nr,series_years, md5sum
     # title
-    schema.add_table(Table('auth_user', attributes=['id_copy','id', 'is_active'],
+    schema.add_table(Table('auth_user', attributes=['id_copy', 'id', 'is_active'],
                            csv_file_location=csv_path.format('auth_user'),
                            table_size=91889))  # 无用列增加了title
 
-
     # movie_info
-    schema.add_table(Table('student_courseenrollment', attributes=['id_copy','id','user_id', 'is_active'],
+    schema.add_table(Table('student_courseenrollment', attributes=['id_copy', 'id', 'user_id', 'is_active'],
                            csv_file_location=csv_path.format('student_courseenrollment'),
                            table_size=85637))  # 无用列增加了info
 
     # cast_info
-    schema.add_table(Table('organization_account_userorgprofile', attributes=['id', 'org_id','user_id','origin','role','_first_level_id'],
+    schema.add_table(Table('organization_account_userorgprofile',
+                           attributes=['id', 'org_id', 'user_id', 'origin', 'role', '_first_level_id'],
                            csv_file_location=csv_path.format('organization_account_userorgprofile'),
                            table_size=99832))
 
     # relationships
- 
-    schema.add_relationship('student_courseenrollment','user_id','auth_user', 'id')
-    schema.add_relationship('organization_account_userorgprofile', 'user_id','auth_user', 'id')
+
+    schema.add_relationship('student_courseenrollment', 'user_id', 'auth_user', 'id')
+    schema.add_relationship('organization_account_userorgprofile', 'user_id', 'auth_user', 'id')
 
     return schema
+
 
 def gen6(csv_path):
     """
@@ -495,27 +500,28 @@ def gen6(csv_path):
     # tables
     # id, title, imdb_index, kind_id, production_year, imdb_id,phonetic_code, episode_of_id, season_nr, episode_nr,series_years, md5sum
     # title
-    schema.add_table(Table('auth_user', attributes=['id_copy','id', 'is_active'],
+    schema.add_table(Table('auth_user', attributes=['id_copy', 'id', 'is_active'],
                            csv_file_location=csv_path.format('auth_user'),
                            table_size=91889))  # 无用列增加了title
 
-
     # movie_info
-    schema.add_table(Table('student_courseenrollment', attributes=['id_copy','id','user_id' ,'is_active'],
+    schema.add_table(Table('student_courseenrollment', attributes=['id_copy', 'id', 'user_id', 'is_active'],
                            csv_file_location=csv_path.format('student_courseenrollment'),
                            table_size=85637))  # 无用列增加了info
 
     # cast_info
-    schema.add_table(Table('organization_account_userorgprofile', attributes=['id', 'org_id','user_id','origin','role','_first_level_id'],
-                            irrelevant_attributes=['origin', '_first_level_id'],
+    schema.add_table(Table('organization_account_userorgprofile',
+                           attributes=['id', 'org_id', 'user_id', 'origin', 'role', '_first_level_id'],
+                           irrelevant_attributes=['origin', '_first_level_id'],
                            csv_file_location=csv_path.format('organization_account_userorgprofile'),
                            table_size=99832))
 
     # relationships
-    schema.add_relationship('student_courseenrollment','user_id','auth_user', 'id')
-    schema.add_relationship('organization_account_userorgprofile', 'user_id','auth_user', 'id')
+    schema.add_relationship('student_courseenrollment', 'user_id', 'auth_user', 'id')
+    schema.add_relationship('organization_account_userorgprofile', 'user_id', 'auth_user', 'id')
 
     return schema
+
 
 def gen4(csv_path):
     """
@@ -527,22 +533,21 @@ def gen4(csv_path):
     # tables
     # id, title, imdb_index, kind_id, production_year, imdb_id,phonetic_code, episode_of_id, season_nr, episode_nr,series_years, md5sum
     # title
-    schema.add_table(Table('auth_user', attributes=['id_copy','id', 'is_active'],
+    schema.add_table(Table('auth_user', attributes=['id_copy', 'id', 'is_active'],
                            csv_file_location=csv_path.format('auth_user'),
                            table_size=91889))  # 无用列增加了title
 
-
     # movie_info
-    schema.add_table(Table('student_courseenrollment', attributes=['id_copy','id','user_id', 'is_active'],
+    schema.add_table(Table('student_courseenrollment', attributes=['id_copy', 'id', 'user_id', 'is_active'],
                            csv_file_location=csv_path.format('student_courseenrollment'),
                            table_size=85637))  # 无用列增加了info
 
-
     # relationships
- 
-    schema.add_relationship('student_courseenrollment','user_id','auth_user', 'id')
+
+    schema.add_relationship('student_courseenrollment', 'user_id', 'auth_user', 'id')
 
     return schema
+
 
 def gen2(csv_path):
     """
@@ -554,21 +559,19 @@ def gen2(csv_path):
     # tables
     # id, title, imdb_index, kind_id, production_year, imdb_id,phonetic_code, episode_of_id, season_nr, episode_nr,series_years, md5sum
     # title
-    schema.add_table(Table('auth_user', attributes=['id_copy','id', 'is_active'],
-                        irrelevant_attributes=['is_active'],
+    schema.add_table(Table('auth_user', attributes=['id_copy', 'id', 'is_active'],
+                           irrelevant_attributes=['is_active'],
                            csv_file_location=csv_path.format('auth_user'),
                            table_size=91889))  # 无用列增加了title
 
-
     # movie_info
-    schema.add_table(Table('student_courseenrollment', attributes=['id_copy','id','user_id', 'is_active'],
-                            irrelevant_attributes=['id_copy'],
+    schema.add_table(Table('student_courseenrollment', attributes=['id_copy', 'id', 'user_id', 'is_active'],
+                           irrelevant_attributes=['id_copy'],
                            csv_file_location=csv_path.format('student_courseenrollment'),
                            table_size=85637))  # 无用列增加了info
 
-
     # relationships
- 
-    schema.add_relationship('student_courseenrollment','user_id','auth_user', 'id')
+
+    schema.add_relationship('student_courseenrollment', 'user_id', 'auth_user', 'id')
 
     return schema

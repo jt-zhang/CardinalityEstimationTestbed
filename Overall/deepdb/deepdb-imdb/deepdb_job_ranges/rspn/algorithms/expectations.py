@@ -2,11 +2,10 @@ import logging
 from time import perf_counter
 
 import numpy as np
-from spn.algorithms.Inference import likelihood
-from spn.structure.Base import Product
-
 from rspn.code_generation.convert_conditions import convert_range
 from rspn.structure.base import Sum
+from spn.algorithms.Inference import likelihood
+from spn.structure.Base import Product
 
 logger = logging.getLogger(__name__)
 

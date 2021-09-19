@@ -14,13 +14,12 @@ def gen_job_light_imdb_schema(csv_path):
     schema.add_table(Table('title', attributes=['id', 'title', 'imdb_index', 'kind_id', 'production_year', 'imdb_id',
                                                 'phonetic_code', 'episode_of_id', 'season_nr', 'episode_nr',
                                                 'series_years', 'md5sum'],
-                           irrelevant_attributes=['title', 'imdb_index',  'imdb_id',
-                                                 'episode_of_id', 'season_nr', 'episode_nr',
-                                                 'md5sum'],
+                           irrelevant_attributes=['title', 'imdb_index', 'imdb_id',
+                                                  'episode_of_id', 'season_nr', 'episode_nr',
+                                                  'md5sum'],
                            no_compression=['kind_id'],
                            csv_file_location=csv_path.format('title'),
                            table_size=3486660))
-
 
     # cast_info
     schema.add_table(Table('cast_info', attributes=['id', 'person_id', 'movie_id', 'person_role_id', 'note', 'nr_order',
@@ -30,12 +29,9 @@ def gen_job_light_imdb_schema(csv_path):
                            no_compression=['role_id'],
                            table_size=63475800))
 
-
-
     # relationships
 
     schema.add_relationship('cast_info', 'movie_id', 'title', 'id')
-
 
     return schema
 
@@ -235,7 +231,10 @@ def gen_imdb_schema(csv_path):
 
     return schema
 
+
 import pandas as pd
+
+
 def gen_job_ranges_imdb_schema(csv_path, version):
     """
     Just like the full IMDB schema but without tables that are not used in the job-light benchmark.
@@ -247,9 +246,9 @@ def gen_job_ranges_imdb_schema(csv_path, version):
     attributes = []
 
     tablenamecsv = version
-    table_head = pd.read_csv( '../../../train-test-data/forest_power-data-sql/' + version + '.csv', 
-                            sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
-    schema.add_table(Table(tablename, attributes = list(table_head.columns),
+    table_head = pd.read_csv('../../../train-test-data/forest_power-data-sql/' + version + '.csv',
+                             sep=',', escapechar='\\', encoding='utf-8', low_memory=False, quotechar='"')
+    schema.add_table(Table(tablename, attributes=list(table_head.columns),
                            csv_file_location=csv_path.format(tablenamecsv),  # debug的思路要正确 范围
                            table_size=table_head.shape[0]))
 

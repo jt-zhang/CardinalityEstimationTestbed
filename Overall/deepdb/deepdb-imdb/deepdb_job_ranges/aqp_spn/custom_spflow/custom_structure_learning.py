@@ -11,13 +11,12 @@ from enum import Enum
 from itertools import combinations
 
 import numpy as np
-from spn.structure.Base import assign_ids, Product
-
 from aqp_spn.aqp_leaves import Sum
 from aqp_spn.custom_spflow.custom_transform_structure import Prune
 from aqp_spn.custom_spflow.custom_validity import is_valid
 from aqp_spn.custom_spflow.utils import compute_cartesian_product_completeness, default_slicer
 from aqp_spn.util.bloom_filter import BloomFilter
+from spn.structure.Base import assign_ids, Product
 
 logger = logging.getLogger(__name__)
 

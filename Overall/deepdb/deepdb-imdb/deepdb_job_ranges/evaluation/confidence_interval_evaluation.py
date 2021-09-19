@@ -1,11 +1,9 @@
-import csv
 import logging
+import math
 import pickle
 from time import perf_counter
 
-import math
 import scipy
-
 from ensemble_compilation.graph_representation import AggregationType
 from ensemble_compilation.spn_ensemble import read_ensemble, logger
 from evaluation.utils import parse_query, all_operations_of_type, save_csv

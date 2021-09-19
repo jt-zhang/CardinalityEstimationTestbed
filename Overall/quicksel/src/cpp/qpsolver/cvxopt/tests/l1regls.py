@@ -1,12 +1,15 @@
-from cvxopt import matrix, spdiag, mul, div, sqrt, normal, setseed
-from cvxopt import blas, lapack, solvers, sparse, spmatrix
 import math
+
+from cvxopt import blas, lapack, solvers
+from cvxopt import matrix, spdiag, mul, div, sqrt
 
 try:
     import mosek
     import sys
+
     __MOSEK = True
-except: __MOSEK = False
+except:
+    __MOSEK = False
 
 if __MOSEK:
 
@@ -23,51 +26,52 @@ if __MOSEK:
 
         m, n = A.size
 
-        env  = mosek.Env()
-        task = env.Task(0,0)
+        env = mosek.Env()
+        task = env.Task(0, 0)
         task.set_Stream(mosek.streamtype.log, lambda x: sys.stdout.write(x))
 
-        task.appendvars( 2*n)            # number of variables
-        task.appendcons( 2*n)            # number of constraints
+        task.appendvars(2 * n)  # number of variables
+        task.appendcons(2 * n)  # number of constraints
 
         # input quadratic objective
-        Q = matrix(0.0, (n,n)) 
-        blas.syrk(A, Q, alpha = 2.0, trans='T')
+        Q = matrix(0.0, (n, n))
+        blas.syrk(A, Q, alpha=2.0, trans='T')
 
         I = []
         for i in range(n):
-            I.extend(range(i,n))
+            I.extend(range(i, n))
 
         J = []
         for i in range(n):
-            J.extend((n-i)*[i])
+            J.extend((n - i) * [i])
 
-        task.putqobj(I, J, list(Q[matrix(I) + matrix(J)*n]))
-        task.putclist(range(2*n), list(-2*A.T*b) + n*[1.0])  # setup linear objective
+        task.putqobj(I, J, list(Q[matrix(I) + matrix(J) * n]))
+        task.putclist(range(2 * n), list(-2 * A.T * b) + n * [1.0])  # setup linear objective
 
         # input constraint matrix row by row
         for i in range(n):
-            task.putarow(   i, [i, n+i], [1.0, -1.0])
-            task.putarow( n+i, [i, n+i], [1.0,  1.0])
+            task.putarow(i, [i, n + i], [1.0, -1.0])
+            task.putarow(n + i, [i, n + i], [1.0, 1.0])
 
         # setup bounds on constraints
         task.putboundslice(mosek.accmode.con,
-                           0, n, n*[mosek.boundkey.up], n*[0.0], n*[0.0])
+                           0, n, n * [mosek.boundkey.up], n * [0.0], n * [0.0])
         task.putboundslice(mosek.accmode.con,
-                           n, 2*n, n*[mosek.boundkey.lo], n*[0.0], n*[0.0])
+                           n, 2 * n, n * [mosek.boundkey.lo], n * [0.0], n * [0.0])
 
         # setup variable bounds
         task.putboundslice(mosek.accmode.var,
-                           0, 2*n, 2*n*[mosek.boundkey.fr], 2*n*[0.0], 2*n*[0.0])
+                           0, 2 * n, 2 * n * [mosek.boundkey.fr], 2 * n * [0.0], 2 * n * [0.0])
 
         # optimize the task
         task.putobjsense(mosek.objsense.minimize)
         task.optimize()
         task.solutionsummary(mosek.streamtype.log)
-        x = n*[0.0]
+        x = n * [0.0]
         task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, n, x)
 
         return matrix(x)
+
 
     def l1regls_mosek2(A, b):
         """
@@ -84,46 +88,47 @@ if __MOSEK:
 
         m, n = A.size
 
-        env  = mosek.Env()
-        task = env.Task(0,0)
+        env = mosek.Env()
+        task = env.Task(0, 0)
         task.set_Stream(mosek.streamtype.log, lambda x: sys.stdout.write(x))
 
-        task.appendvars(2*n + m)     # number of variables
-        task.appendcons(2*n + m)     # number of constraints
+        task.appendvars(2 * n + m)  # number of variables
+        task.appendcons(2 * n + m)  # number of constraints
 
         # input quadratic objective
-        task.putqobj(range(2*n,2*n+m), range(2*n,2*n+m), m*[2.0])
+        task.putqobj(range(2 * n, 2 * n + m), range(2 * n, 2 * n + m), m * [2.0])
 
-        task.putclist(range(2*n+m), n*[0.0] + n*[1.0] + m*[0.0])  # setup linear objective
+        task.putclist(range(2 * n + m), n * [0.0] + n * [1.0] + m * [0.0])  # setup linear objective
 
         # input constraint matrix row by row
         for i in range(n):
-            task.putarow(   i, [i, n+i], [1.0, -1.0])
-            task.putarow( n+i, [i, n+i], [1.0,  1.0])
+            task.putarow(i, [i, n + i], [1.0, -1.0])
+            task.putarow(n + i, [i, n + i], [1.0, 1.0])
 
         for i in range(m):
-            task.putarow( 2*n+i, range(n) + [2*n+i], list(A[i,:]) + [-1.0])
+            task.putarow(2 * n + i, range(n) + [2 * n + i], list(A[i, :]) + [-1.0])
 
         # setup bounds on constraints
         task.putboundslice(mosek.accmode.con,
-                           0, n, n*[mosek.boundkey.up], n*[0.0], n*[0.0])
+                           0, n, n * [mosek.boundkey.up], n * [0.0], n * [0.0])
         task.putboundslice(mosek.accmode.con,
-                           n, 2*n, n*[mosek.boundkey.lo], n*[0.0], n*[0.0])
+                           n, 2 * n, n * [mosek.boundkey.lo], n * [0.0], n * [0.0])
         task.putboundslice(mosek.accmode.con,
-                           2*n, 2*n+m, m*[mosek.boundkey.fx], list(b), list(b))
+                           2 * n, 2 * n + m, m * [mosek.boundkey.fx], list(b), list(b))
 
         # setup variable bounds
-        task.putboundslice(mosek.accmode.var, 0, 2*n+m, (2*n+m)*[mosek.boundkey.fr], 
-                           (2*n+m)*[0.0], (2*n+m)*[0.0])
+        task.putboundslice(mosek.accmode.var, 0, 2 * n + m, (2 * n + m) * [mosek.boundkey.fr],
+                           (2 * n + m) * [0.0], (2 * n + m) * [0.0])
 
         # optimize the task
         task.putobjsense(mosek.objsense.minimize)
         task.optimize()
         task.solutionsummary(mosek.streamtype.log)
-        x = n*[0.0]
+        x = n * [0.0]
         task.getsolutionslice(mosek.soltype.itr, mosek.solitem.xx, 0, n, x)
 
         return matrix(x)
+
 
 def l1regls(A, b):
     """
@@ -135,16 +140,15 @@ def l1regls(A, b):
     """
 
     m, n = A.size
-    q = matrix(1.0, (2*n,1))
+    q = matrix(1.0, (2 * n, 1))
     q[:n] = -2.0 * A.T * b
 
-    def P(u, v, alpha = 1.0, beta = 0.0 ):
+    def P(u, v, alpha=1.0, beta=0.0):
         """
             v := alpha * 2.0 * [ A'*A, 0; 0, 0 ] * u + beta * v 
         """
         v *= beta
         v[:n] += alpha * 2.0 * A.T * (A * u[:n])
-
 
     def G(u, v, alpha=1.0, beta=0.0, trans='N'):
         """
@@ -152,13 +156,12 @@ def l1regls(A, b):
         """
 
         v *= beta
-        v[:n] += alpha*(u[:n] - u[n:])
-        v[n:] += alpha*(-u[:n] - u[n:])
+        v[:n] += alpha * (u[:n] - u[n:])
+        v[n:] += alpha * (-u[:n] - u[n:])
 
-    h = matrix(0.0, (2*n,1))
+    h = matrix(0.0, (2 * n, 1))
 
-
-    # Customized solver for the KKT system 
+    # Customized solver for the KKT system
     #
     #     [  2.0*A'*A  0    I      -I     ] [x[:n] ]     [bx[:n] ]
     #     [  0         0   -I      -I     ] [x[n:] ]  =  [bx[n:] ].
@@ -194,39 +197,37 @@ def l1regls(A, b):
     #     ( A*D^-1*A' + I ) * v = A * D^-1 * rhs
     #     x[:n] = D^-1 * ( rhs - A'*v ).
 
-    S = matrix(0.0, (m,m))
-    Asc = matrix(0.0, (m,n))
-    v = matrix(0.0, (m,1))
+    S = matrix(0.0, (m, m))
+    Asc = matrix(0.0, (m, n))
+    v = matrix(0.0, (m, 1))
 
     def Fkkt(W):
-
-        # Factor 
+        # Factor
         #
         #     S = A*D^-1*A' + I 
         #
         # where D = 2*D1*D2*(D1+D2)^-1, D1 = d[:n]**-2, D2 = d[n:]**-2.
 
-        d1, d2 = W['di'][:n]**2, W['di'][n:]**2
+        d1, d2 = W['di'][:n] ** 2, W['di'][n:] ** 2
 
         # ds is square root of diagonal of D
-        ds = math.sqrt(2.0) * div( mul( W['di'][:n], W['di'][n:]), 
-            sqrt(d1+d2) )
-        d3 =  div(d2 - d1, d1 + d2)
-     
+        ds = math.sqrt(2.0) * div(mul(W['di'][:n], W['di'][n:]),
+                                  sqrt(d1 + d2))
+        d3 = div(d2 - d1, d1 + d2)
+
         # Asc = A*diag(d)^-1/2
-        Asc = A * spdiag(ds**-1)
+        Asc = A * spdiag(ds ** -1)
 
         # S = I + A * D^-1 * A'
         blas.syrk(Asc, S)
-        S[::m+1] += 1.0 
+        S[::m + 1] += 1.0
         lapack.potrf(S)
 
         def g(x, y, z):
-
-            x[:n] = 0.5 * ( x[:n] - mul(d3, x[n:]) + 
-                mul(d1, z[:n] + mul(d3, z[:n])) - mul(d2, z[n:] - 
-                mul(d3, z[n:])) )
-            x[:n] = div( x[:n], ds) 
+            x[:n] = 0.5 * (x[:n] - mul(d3, x[n:]) +
+                           mul(d1, z[:n] + mul(d3, z[:n])) - mul(d2, z[n:] -
+                                                                 mul(d3, z[n:])))
+            x[:n] = div(x[:n], ds)
 
             # Solve
             #
@@ -234,25 +235,24 @@ def l1regls(A, b):
             #         (D2-D1)*(D1+D2)^-1 * bx[n:] + 
             #         D1 * ( I + (D2-D1)*(D1+D2)^-1 ) * bzl[:n] - 
             #         D2 * ( I - (D2-D1)*(D1+D2)^-1 ) * bzl[n:] )
-                
+
             blas.gemv(Asc, x, v)
             lapack.potrs(S, v)
-            
+
             # x[:n] = D^-1 * ( rhs - A'*v ).
             blas.gemv(Asc, v, x, alpha=-1.0, beta=1.0, trans='T')
             x[:n] = div(x[:n], ds)
 
             # x[n:] = (D1+D2)^-1 * ( bx[n:] - D1*bzl[:n]  - D2*bzl[n:] ) 
             #         - (D2-D1)*(D1+D2)^-1 * x[:n]         
-            x[n:] = div( x[n:] - mul(d1, z[:n]) - mul(d2, z[n:]), d1+d2 )\
-                - mul( d3, x[:n] )
-                
+            x[n:] = div(x[n:] - mul(d1, z[:n]) - mul(d2, z[n:]), d1 + d2) \
+                    - mul(d3, x[:n])
+
             # zl[:n] = D1^1/2 * (  x[:n] - x[n:] - bzl[:n] )
             # zl[n:] = D2^1/2 * ( -x[:n] - x[n:] - bzl[n:] ).
-            z[:n] = mul( W['di'][:n],  x[:n] - x[n:] - z[:n] ) 
-            z[n:] = mul( W['di'][n:], -x[:n] - x[n:] - z[n:] ) 
+            z[:n] = mul(W['di'][:n], x[:n] - x[n:] - z[:n])
+            z[n:] = mul(W['di'][n:], -x[:n] - x[n:] - z[n:])
 
         return g
 
-    return solvers.coneqp(P, q, G, h, kktsolver = Fkkt)['x'][:n]
-
+    return solvers.coneqp(P, q, G, h, kktsolver=Fkkt)['x'][:n]

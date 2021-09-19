@@ -8,26 +8,25 @@ factorized_sampler module.
 
 Using this class is not recommended.
 """
-import argparse
 import collections
 import hashlib
 import os
-import re
 import pickle
+import re
 
+import datasets
+import experiments
 import glog as log
+import join_utils
 import networkx as nx
 import numpy as np
 import pandas as pd
 import ray
-
 from common import time_this, JoinTableAndColumnNames, SamplerBasedIterDataset
-import datasets
-import experiments
-import join_utils
 
 PRIMARY_RELATION = "title"
 CACHE_DIR = "./cache_fair/"
+
 
 # ----------------------------------------------------------------
 #      Creating the join count table
@@ -347,7 +346,7 @@ class FairSampler(object):
         if self.all_columns is None:
             content_columns = [c for c in df.columns if not c.startswith("_")]
             indicator_columns = ["__in_{}".format(t) for t in self.table_names
-                                ] if self.add_full_join_indicators else []
+                                 ] if self.add_full_join_indicators else []
             fanout_columns = _get_fanout_columns(
                 self.table_info) if self.add_full_join_fanouts else []
             self.all_columns = content_columns + indicator_columns + fanout_columns

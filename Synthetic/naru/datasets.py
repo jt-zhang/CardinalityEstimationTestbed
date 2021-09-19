@@ -1,9 +1,7 @@
 """Dataset registrations."""
-import os
-
-import numpy as np
 
 import common
+import numpy as np
 
 '''
 def LoadDmv(filename='Vehicle__Snowmobile__and_Boat_Registrations.csv'):
@@ -19,7 +17,9 @@ def LoadDmv(filename='Vehicle__Snowmobile__and_Boat_Registrations.csv'):
     type_casts = {'Reg Valid Date': np.datetime64}
     return common.CsvTable('DMV', csv_file, cols, type_casts)
 '''
-def LoadDmv(filename='low.csv'): 
+
+
+def LoadDmv(filename='low.csv'):
     csv_file = '../csvdata_sql/{}'.format(filename)
     cols = []
     colss = int(filename[5])

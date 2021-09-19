@@ -7,37 +7,36 @@ import os
 import pprint
 import time
 
-import numpy as np
-import pandas as pd
-import ray
-from ray import tune
-from ray.tune import logger as tune_logger
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils import data
-import wandb
-
 import common
-import datasets_xt4
 import estimators as estimators_lib
 import experiments
 import factorized_sampler
 import fair_sampler
 import join_utils
 import made
+import numpy as np
+import pandas as pd
+import ray
+import scipy as sc
+import torch
+import torch.nn as nn
 import train_utils
 import transformer
 import utils
-import os 
+import wandb
+from ray import tune
+from ray.tune import logger as tune_logger
 from sklearn.metrics import mean_squared_error
-import scipy as sc
+from torch.utils import data
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '1,2'
 
-timest1 = time.time()  #开始时间
+timest1 = time.time()  # 开始时间
+
 
 def gettimest1():
     return timest1
+
 
 parser = argparse.ArgumentParser()
 
@@ -84,8 +83,8 @@ def TotalGradNorm(parameters, norm_type=2):
         if p.grad is None:
             continue
         param_norm = p.grad.data.norm(norm_type)
-        total_norm += param_norm.item()**norm_type
-    total_norm = total_norm**(1. / norm_type)
+        total_norm += param_norm.item() ** norm_type
+    total_norm = total_norm ** (1. / norm_type)
     return total_norm
 
 
@@ -176,8 +175,8 @@ def run_epoch(split,
                     t = int(warmups * upto * epochs)
 
                 d_model = model.embed_size
-                lr = (d_model**-0.5) * min(
-                    (global_steps**-.5), global_steps * (t**-1.5))
+                lr = (d_model ** -0.5) * min(
+                    (global_steps ** -.5), global_steps * (t ** -1.5))
                 for param_group in opt.param_groups:
                     param_group['lr'] = lr
             else:
@@ -284,7 +283,7 @@ def run_epoch(split,
                 if table_bits:
                     print(
                         'Epoch {} Iter {}, {} entropy gap {:.4f} bits (loss {:.3f}, data {:.3f}) {:.5f} lr, {} tuples seen ({} tup/s)'
-                        .format(
+                            .format(
                             epoch_num, step, split,
                             loss.item() / np.log(2) - table_bits,
                             loss.item() / np.log(2), table_bits, lr,
@@ -294,8 +293,8 @@ def run_epoch(split,
                 elif not use_meters:
                     print(
                         'Epoch {} Iter {}, {} loss {:.3f} bits/tuple, {:.5f} lr'
-                        .format(epoch_num, step, split,
-                                loss.item() / np.log(2), lr))
+                            .format(epoch_num, step, split,
+                                    loss.item() / np.log(2), lr))
 
         if verbose:
             print('%s epoch average loss: %f' % (split, np.mean(losses)))
@@ -354,7 +353,7 @@ def MakeMade(
     model = made.MADE(
         nin=len(cols_to_train),
         hidden_sizes=[scale] *
-        layers if layers > 0 else [512, 256, 512, 128, 1024],
+                     layers if layers > 0 else [512, 256, 512, 128, 1024],
         nout=sum([c.DistributionSize() for c in cols_to_train]),
         num_masks=max(1, special_orders),
         natural_ordering=True,
@@ -415,12 +414,12 @@ def MakeMade(
                     # Model: { indicators }, { content }, { fanouts },
                     # permute each bracket independently.
                     order = np.concatenate(
-                        (inds, content, fanouts)).reshape(-1,)
+                        (inds, content, fanouts)).reshape(-1, )
                 else:
                     # Model: { content }, { indicators }, { fanouts }.
                     # permute each bracket independently.
                     order = np.concatenate(
-                        (content, inds, fanouts)).reshape(-1,)
+                        (content, inds, fanouts)).reshape(-1, )
                 assert len(np.unique(order)) == len(cols_to_train), order
                 orders.append(order)
         else:
@@ -463,6 +462,7 @@ def MakeMade(
 
     return model
 
+
 class NeuroCard(tune.Trainable):
 
     def _setup(self, config):
@@ -483,9 +483,9 @@ class NeuroCard(tune.Trainable):
         wandb_project = config['__run']
         wandb.init(name=os.path.basename(
             self.logdir if self.logdir[-1] != '/' else self.logdir[:-1]),
-                   sync_tensorboard=True,
-                   config=config,
-                   project=wandb_project)
+            sync_tensorboard=True,
+            config=config,
+            project=wandb_project)
 
         self.epoch = 0
 
@@ -494,7 +494,6 @@ class NeuroCard(tune.Trainable):
             sorted_table_names = sorted(
                 list(datasets.JoinOrderBenchmark.GetJobLightJoinKeys().keys()))
             self.join_tables = [sorted_table_names[self.join_tables]]
-
 
         # Try to make all the runs the same, except for input orderings.
         torch.manual_seed(0)
@@ -525,7 +524,7 @@ class NeuroCard(tune.Trainable):
                 self.loader = loader
 
                 table_primary_index = [t.name for t in loaded_tables
-                                      ].index('auth_user')
+                                       ].index('auth_user')
 
                 table.cardinality = datasets.JoinOrderBenchmark.GetFullOuterCardinalityOrFail(
                     self.join_tables)
@@ -630,9 +629,9 @@ class NeuroCard(tune.Trainable):
         if self.dataset == 'imdb' and len(self.join_tables) > 1:
             queries_job_format = utils.JobToQuery(self.queries_csv)
             self.loaded_queries, self.oracle_cards = utils.UnpackQueries(
-                self.table, queries_job_format)  #解析过程，需要替换
+                self.table, queries_job_format)  # 解析过程，需要替换
         timepre1 = time.time()
-        print('Pretime:\n', "{:.2f}".format(timepre1-gettimest1()))
+        print('Pretime:\n', "{:.2f}".format(timepre1 - gettimest1()))
         if config['__gpu'] == 0:
             print('CUDA not available, using # cpu cores for intra-op:',
                   torch.get_num_threads(), '; inter-op:',
@@ -870,7 +869,6 @@ class NeuroCard(tune.Trainable):
                 'results': results,
             }
 
-
         for _ in range(min(self.epochs - self.epoch,
                            self.epochs_per_iteration)):
             mean_epoch_train_loss = run_epoch(
@@ -899,13 +897,13 @@ class NeuroCard(tune.Trainable):
             self._simple_save()
 
         done = self.epoch >= self.epochs
-        teststart = time.time() # time 
+        teststart = time.time()  # time
         results = self.evaluate(
             max(self.num_eval_queries_at_end,
                 self.num_eval_queries_per_iteration)
             if done else self.num_eval_queries_per_iteration, done)
-        testend = time.time() # time
-        print('testtime:',testend-teststart) # testtime
+        testend = time.time()  # time
+        print('testtime:', testend - teststart)  # testtime
         returns = {
             'epochs': self.epoch,
             'done': done,
@@ -1040,21 +1038,21 @@ class NeuroCard(tune.Trainable):
             est.AddError(err, est_card, card)
             print('{} {} (err={:.3f}) '.format(str(est), est_card, err), end='')
             # MSE, MAPE
-            if(estimators[0]==est):
+            if (estimators[0] == est):
                 met0.append(card)
                 mee0.append(est_card)  # 可以两个估计器
-            if(len(estimators)==2):
-                if(estimators[1]==est):  
-                    met1.append(card)   # 要再次判断，典型没有思考清楚逻辑的BUG
+            if (len(estimators) == 2):
+                if (estimators[1] == est):
+                    met1.append(card)  # 要再次判断，典型没有思考清楚逻辑的BUG
                     mee1.append(est_card)
         print()
 
     def evaluate(self, num_queries, done, estimators=None):
-        global met0,mee0,met1,mee1
-        met0 = []  
+        global met0, mee0, met1, mee1
+        met0 = []
         mee0 = []
-        met1=[]
-        mee1=[]
+        met1 = []
+        mee1 = []
         model = self.model
         if isinstance(model, DataParallelPassthrough):
             model = model.module
@@ -1092,34 +1090,34 @@ class NeuroCard(tune.Trainable):
                         est.report()
 
             # for est in estimators:  # 暂时注释
-                # MSE, MAPE, PCCs
-            print('len0: ',len(mee0))
-            print('len1: ',len(mee1))
-            mse0 = mean_squared_error(mee0,met0)
-            if(len(mee1)!=0):
-                mse1=mean_squared_error(mee1,met1)
+            # MSE, MAPE, PCCs
+            print('len0: ', len(mee0))
+            print('len1: ', len(mee1))
+            mse0 = mean_squared_error(mee0, met0)
+            if (len(mee1) != 0):
+                mse1 = mean_squared_error(mee1, met1)
             met0 = np.array(met0)
             mee0 = np.array(mee0)
             met1 = np.array(met1)
             mee1 = np.array(mee1)
-            PCCs0=sc.stats.pearsonr(mee0,met0) #皮尔逊相关系数
-            print('PCCs0:',PCCs0[0])
-            if(len(mee1)!=0):
-                PCCs1=sc.stats.pearsonr(mee1,met1) #皮尔逊相关系数
-                print('PCCs1:',PCCs1[0])
+            PCCs0 = sc.stats.pearsonr(mee0, met0)  # 皮尔逊相关系数
+            print('PCCs0:', PCCs0[0])
+            if (len(mee1) != 0):
+                PCCs1 = sc.stats.pearsonr(mee1, met1)  # 皮尔逊相关系数
+                print('PCCs1:', PCCs1[0])
             # mse = sum(np.square(met - mee))/len(met)
-            mape0 = sum(np.abs((met0 - mee0)/met0))/len(met0)*100
-            if(len(mee1)!=0):
-                mape1 = sum(np.abs((met1 - mee1)/met1))/len(met1)*100
+            mape0 = sum(np.abs((met0 - mee0) / met0)) / len(met0) * 100
+            if (len(mee1) != 0):
+                mape1 = sum(np.abs((met1 - mee1) / met1)) / len(met1) * 100
             print('MSE0: ', mse0)
             print('MAPE0: ', mape0)
-            if(len(mee1)!=0):
+            if (len(mee1) != 0):
                 print('MSE1: ', mse1)
                 print('MAPE1: ', mape1)
 
-            dictest = {'est': mee0, 'tr': met0} 
-            dfest = pd.DataFrame(dictest) 
-            dfest.to_csv('result.csv',index=False, header = False)
+            dictest = {'est': mee0, 'tr': met0}
+            dfest = pd.DataFrame(dictest)
+            dfest.to_csv('result.csv', index=False, header=False)
 
             for est in estimators:
                 results[str(est) + '_max'] = np.max(est.errs)
@@ -1138,17 +1136,20 @@ class NeuroCard(tune.Trainable):
 
 if __name__ == '__main__':
     import re
+
     cols = set([])
-    sqlpath=args.sqlpath
+    sqlpath = args.sqlpath
     output = []
     with open(sqlpath, 'r') as f:
         for line in f.readlines():
             # print (line)
             sql = ','.join(line.split(',')[:-1])
-            cardinality  = line.split(',')[-1].strip('\n')
+            cardinality = line.split(',')[-1].strip('\n')
             tables = [x.strip() for x in re.search('FROM(.*)WHERE', sql, re.IGNORECASE).group(1).split(',')]
-            joins = [x.strip() for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[0:len(tables)-1]]
-            conditions = [x.strip(' ;\n') for x in re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[len(tables)-1:]]
+            joins = [x.strip() for x in
+                     re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[0:len(tables) - 1]]
+            conditions = [x.strip(' ;\n') for x in
+                          re.search('WHERE(.*)', sql, re.IGNORECASE).group(1).split('AND')[len(tables) - 1:]]
             conds = []
             for cond in conditions:
                 operator = re.search('([<>=])', cond, re.IGNORECASE).group(1)
@@ -1159,8 +1160,8 @@ if __name__ == '__main__':
                 conds.append(operator)
                 conds.append(right)
             # print (tables, joins, conds, cardinality)
-            output.append(','.join(tables)+'#'+','.join(joins)+'#'+','.join(conds)+'#'+cardinality)
-    with open(sqlpath+'.csv', 'w') as f:
+            output.append(','.join(tables) + '#' + ','.join(joins) + '#' + ','.join(conds) + '#' + cardinality)
+    with open(sqlpath + '.csv', 'w') as f:
         for line in output:
             f.write(line)
             f.write('\n')
