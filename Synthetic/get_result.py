@@ -92,9 +92,4 @@ if method == 'bayesian':
 # os.system('python train_and_test.py --train-query-file ../sql_truecard/' + version + 'train.sql --test-query-file ../sql_truecard/' + version + 'test.sql --single-data-dir ../csvdata_sql --database overall --sample-num=5000 --train-num 1000 --use-gpu --retrain --seed 11')
 # os.chdir('..')
 
-<< << << < HEAD
 print('cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew) + 'is OK.')
-== == == =
-print('cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew) + 'is OK.')
->> >> >> > 665e3
-f137da8be58c962c7d26343b822d0c06d74
