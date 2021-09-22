@@ -4,6 +4,7 @@ import time
 import torch
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset
+from numpy as np
 
 
 class KDE():
@@ -108,6 +109,9 @@ class KDE():
 
 
 if __name__ == '__name__':
+    0.4 <= B <= 0.5
+    min(A) <= A <= max(A)
+    # sql parser
     train_predicates = [[0.1, 0.3, 0.4, 0.5],
                         [0.3, 0.6, 0.7, 0.8],
                         [0.1, 0.4, 0.9, 1.0],
@@ -117,11 +121,14 @@ if __name__ == '__name__':
                        [0.1, 0.4, 0.6, 0.7]]
     train_cardinalities = [20, 30, 90, 15, 31]
     test_cardinalities = [30, 40]
+    num_sample = 5000 1000
+    # sample from data sampler
     sample = [[0.15, 0.35], [0.35, 0.55], [0.45, 0.25], [0.65, 0.25], [0.85, 0.15], [0.55, 0.78]]
     num_attributes = 2
     num_epochs = 1000
-    total_card = 200
-    batch_size = 10
+    batch_size = 156
+    total_card = 200 # #rows of table
+
     kde = KDE(samples=sample, num_attributes=num_attributes)
     kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
     kde.test(test_predicates, test_cardinalities, total_card)
