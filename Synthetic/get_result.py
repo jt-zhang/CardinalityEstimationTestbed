@@ -54,8 +54,9 @@ if method == 'bayesian':
     os.chdir('..')
 
 # kde
-# os.chdir('./kde')
-# os.system('python train_and_test.py --train-query-file ../sql_truecard/' + version + 'train.sql --test-query-file ../sql_truecard/' + version + 'test.sql --single-data-dir ../csvdata_sql --database overall --sample-num=5000 --train-num 1000 --use-gpu --retrain --seed 11')
-# os.chdir('..')
+if method == 'kde':
+    os.chdir('./kde_python')
+    os.system('python kde.py --train-file ../sql_truecard/' + version +'train.sql --test-file ../sql_truecard/' + version +'test.sql --min-max-file ../learnedcardinalities-master/data/' + version +'_min_max_vals.csv --version ' + version)
+    os.chdir('..')
 
 print('cols_' + str(cols) + '_distinct_' + str(distinct) + '_corr_' + str(corr) + '_skew_' + str(skew) + 'is OK.')

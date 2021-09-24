@@ -5,6 +5,7 @@ import torch
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset
 import numpy as np
+import pandas as pd
 
 import argparse
 
@@ -15,12 +16,13 @@ parser.add_argument('--test-file', type=str, help='sqls to be parsed',
                     default='/home/jintao/CardinalityEstimationBenchmark/train-test-data/cols-sql/4/test-only4-num.sql')
 parser.add_argument('--min-max-file', type=str, help='Min Max',
                     default='/home/jintao/CardinalityEstimationBenchmark/learnedcardinalities-master/data/column_min_max_vals.csv')
-# parser.add_argument("--version", help="version", type=str, default='cols_4_distinct_1000_corr_5_skew_5')
+parser.add_argument("--version", help="version", type=str, default='imdb4')
 
 args = parser.parse_args()
 min_max_file = args.min_max_file
 trainpath = args.train_file
 testpath = args.test_file
+version = args.version
 
 class KDE():
     def __init__(self, samples, num_attributes):
@@ -29,11 +31,11 @@ class KDE():
         self.sample = samples
         self.num_attributes = num_attributes
 
-    def train(self, train_predicates, cardinalities, min_card, max_card, batch_size, num_epochs):
+    def train(self, train_predicates, cardinalities, total_card, batch_size, num_epochs):
         num_sample = len(self.sample)
         predicates_lower = torch.FloatTensor([[pre[i] for i in range(0, len(pre), 2)] for pre in train_predicates])
         predicates_upper = torch.FloatTensor([[pre[i] for i in range(1, len(pre), 2)] for pre in train_predicates])
-        cardinalities = (torch.FloatTensor(cardinalities)-min_card) / (max_card-min_card)
+        cardinalities = (torch.FloatTensor(cardinalities)) / total_card
         samples = torch.FloatTensor(self.sample)
         optimizer = torch.optim.Adam([self.H], lr=0.001)
         total_size = len(train_predicates)
@@ -46,6 +48,7 @@ class KDE():
         validate_loader = torch.utils.data.DataLoader(validate_dataset, batch_size=batch_size, shuffle=True)
         train_start_time = time.time()
         for epoch in range(num_epochs):
+            print('Epoch:', epoch)
             for i, (lower, upper, targets) in enumerate(train_loader, 0):
                 optimizer.zero_grad()
                 ress = 0.0
@@ -55,8 +58,11 @@ class KDE():
                         res *= (torch.erf((upper[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])) - torch.erf(
                             (lower[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])))
                     ress += res / (2 ** num_attributes)
+                # print('ress:', ress)
+                # print('targets:', targets)
+                ress = ress / (total_card/num_sample)  # modify
                 loss = torch.nn.functional.mse_loss(ress, targets)
-                print(f'Training Loss: {loss}')
+                print(f'Training Loss: {loss*(total_card/num_sample)}')
                 loss.backward()
                 optimizer.step()
         train_end_time = time.time()
@@ -72,25 +78,27 @@ class KDE():
                     res *= (torch.erf((upper[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])) - torch.erf(
                         (lower[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])))
                 ress += res / (2 ** num_attributes)
+                ress = ress / (total_card/num_sample)
             mse = (ress - targets) ** 2
             qerror = torch.max(ress, targets) / torch.max(torch.zeros_like(ress) + 1e-5,
                                                           (torch.min(ress, targets) + 1e-5))
             mses.append(mse)
             qerrors.append(qerror)
         qerrors = torch.cat(qerrors).detach().numpy()
-        mses = torch.cat(mses).detach().numpy()
+        # mses = torch.cat(mses).detach().numpy()
         print(f'Validate Mean Q-error: {qerrors.mean()}')
-        print(f'Validate Median Q-error: {np.median(qerrors)}')
-        print(f'Validate Max Q-error: {qerrors.max()}')
+        print(f'Validate 50th Q-error: {np.median(qerrors)}')
         print(f'Validate 90th Q-error: {np.percentile(qerrors, 90)}')
         print(f'Validate 95th Q-error: {np.percentile(qerrors, 95)}')
         print(f'Validate 99th Q-error: {np.percentile(qerrors, 99)}')
-        print(f'Validate MSE: {mses.mean()}')
+        print(f'Validate 100th Q-error: {qerrors.max()}')
+        # print(f'Validate MSE: {mses.mean()}')
 
-    def test(self, test_predicates, cardinalities, min_card, max_card):
+    def test(self, test_predicates, cardinalities, total_card):
+        num_sample = len(self.sample)
         predicates_lower = torch.FloatTensor([[pre[i] for i in range(0, len(pre), 2)] for pre in test_predicates])
         predicates_upper = torch.FloatTensor([[pre[i] for i in range(1, len(pre), 2)] for pre in test_predicates])
-        cardinalities = (torch.FloatTensor(cardinalities)-min_card) / (max_card-min_card)
+        cardinalities = (torch.FloatTensor(cardinalities)) / total_card
         samples = torch.FloatTensor(self.sample)
         test_dataset = TensorDataset(predicates_lower, predicates_upper, cardinalities)
         test_loader = torch.utils.data.DataLoader(test_dataset)
@@ -99,12 +107,14 @@ class KDE():
         qerrors = []
         for i, (lower, upper, targets) in enumerate(test_loader, 0):
             ress = 0.0
+            print(i)
             for sample in samples:
                 res = 1.0
                 for j in range(self.H.shape[0]):
                     res *= (torch.erf((upper[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])) - torch.erf(
                         (lower[:, j] - sample[j]) / (math.sqrt(2) * self.H[j])))
                 ress += res / (2 ** num_attributes)
+                ress = ress / (total_card/num_sample)
             mse = (ress - targets) ** 2
             qerror = torch.max(ress, targets) / torch.max(torch.zeros_like(ress) + 1e-5,
                                                           (torch.min(ress, targets) + 1e-5))
@@ -113,14 +123,13 @@ class KDE():
         end_time = time.time()
         print(f'Test Time: {end_time - start_time}')
         qerrors = torch.cat(qerrors).detach().numpy()
-        mses = torch.cat(mses).detach().numpy()
-        print(f'Mean Q-error: {qerrors.mean()}')
-        print(f'Median Q-error: {np.median(qerrors)}')
-        print(f'Max Q-error: {qerrors.max()}')
-        print(f'90th Q-error: {np.percentile(qerrors, 90)}')
-        print(f'95th Q-error: {np.percentile(qerrors, 95)}')
-        print(f'99th Q-error: {np.percentile(qerrors, 99)}')
-        print(f'MSE: {mses.mean()}')
+        # mses = torch.cat(mses).detach().numpy()
+        print(f'Test Mean Q-error: {qerrors.mean()}')
+        print(f'Test 50th Q-error: {np.median(qerrors)}')
+        print(f'Test 90th Q-error: {np.percentile(qerrors, 90)}')
+        print(f'Test 95th Q-error: {np.percentile(qerrors, 95)}')
+        print(f'Test 99th Q-error: {np.percentile(qerrors, 99)}')
+        # print(f'MSE: {mses.mean()}')
 
 def prepare_pattern_workload(path):
     Embed = []
@@ -169,48 +178,52 @@ def prepare_pattern_workload(path):
             card = float(line.split('#')[-1])
             Embed.append(vecs)
             truecard.append(card)
+            '''
             if card < min_card:
                 min_card = math.log(card)
             if card > max_card:
                 max_card = math.log(card)
-    num_attributes = len(vecs)/2
-    return Embed, truecard, min_card, max_card, num_attributes
+            '''
+    num_attributes = int(len(vecs)/2)
+    return Embed, truecard, num_attributes
 
 
-if __name__ == '__name__':
-    # 0.4 <= B <= 0.5
-    # min(A) <= A <= max(A)
-    # sql parser
-    batch_size = 128
-    num_epochs = 100
-    train_predicates, train_cardinalities, min_card, max_card, num_attributes = prepare_pattern_workload(trainpath)
-    sample = 
-    kde = KDE(samples=sample, num_attributes = num_attributes)
-    kde.train(train_predicates, train_cardinalities, min_card, max_card, batch_size, num_epochs)
-    # kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
-    
-    test_predicates, test_cardinalities, min_card, max_card, num_attributes = prepare_pattern_workload(testpath)
-    kde.test(test_predicates, test_cardinalities, min_card, max_card)
+# if __name__ == '__name__':
+# 0.4 <= B <= 0.5
+# min(A) <= A <= max(A)
+# sql parser
 
-    '''train_predicates = [[0.1, 0.3, 0.4, 0.5],
-                        [0.3, 0.6, 0.7, 0.8],
-                        [0.1, 0.4, 0.9, 1.0],
-                        [0.2, 0.3, 0.7, 0.8],
-                        [0.4, 0.6, 0.5, 0.6]]
-    test_predicates = [[0.1, 0.3, 0.5, 0.7],
-                       [0.1, 0.4, 0.6, 0.7]]
-    train_cardinalities = [20, 30, 90, 15, 31]
-    test_cardinalities = [30, 40]
-    num_sample = 6
-    # sample from data sampler
-    sample = [[0.15, 0.35], [0.35, 0.55], [0.45, 0.25], [0.65, 0.25], [0.85, 0.15], [0.55, 0.78]]
-    num_attributes = 2
-    num_epochs = 1000
-    batch_size = 156
-    total_card = 200
-    # #rows of table
+batch_size = 256
+num_epochs = 10
+total_card = 10000
+train_predicates, train_cardinalities, num_attributes = prepare_pattern_workload(trainpath)
+table = pd.read_csv('../train-test-data/join_samples/cols' + version[-1] + '.csv').apply(lambda x: (x - np.min(x)) / (np.max(x) - np.min(x)))
+sample = table.sample(n=2000).values.tolist()
+kde = KDE(samples=sample, num_attributes = num_attributes)
+kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
+# kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
 
-    kde = KDE(samples=sample, num_attributes=num_attributes)
-    kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
-    kde.test(test_predicates, test_cardinalities, total_card)
+test_predicates, test_cardinalities, num_attributes = prepare_pattern_workload(testpath)
+kde.test(test_predicates, test_cardinalities, total_card)
+
+'''train_predicates = [[0.1, 0.3, 0.4, 0.5],
+                    [0.3, 0.6, 0.7, 0.8],
+                    [0.1, 0.4, 0.9, 1.0],
+                    [0.2, 0.3, 0.7, 0.8],
+                    [0.4, 0.6, 0.5, 0.6]]
+test_predicates = [[0.1, 0.3, 0.5, 0.7],
+                    [0.1, 0.4, 0.6, 0.7]]
+train_cardinalities = [20, 30, 90, 15, 31]
+test_cardinalities = [30, 40]
+num_sample = 6
+# sample from data sampler
+sample = [[0.15, 0.35], [0.35, 0.55], [0.45, 0.25], [0.65, 0.25], [0.85, 0.15], [0.55, 0.78]]
+num_attributes = 2
+num_epochs = 1000
+batch_size = 156
+total_card = 200  # rows of table
+
+kde = KDE(samples=sample, num_attributes=num_attributes)
+kde.train(train_predicates, train_cardinalities, total_card, batch_size, num_epochs)
+kde.test(test_predicates, test_cardinalities, total_card)
     '''
