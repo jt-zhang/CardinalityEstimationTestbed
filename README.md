@@ -73,9 +73,11 @@ AND
 - Refer to `update.sh` in each method folder to execute the code to get the result.
 
 ## Citation
+```
 @article{DBLP:journals/pvldb/benchmark,
 	author    = {Ji Sun and Jintao Zhang and Zhaoyan Sun and Guoliang Li and Nan Tang},
 	title     = {Learned Cardinality Estimation: A Design Space Exploration and A Comparative Evaluation},
 	journal   = {VLDB},
 	year      = {2021},
 }
+```
