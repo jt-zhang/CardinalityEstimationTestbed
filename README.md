@@ -1,6 +1,5 @@
 # CardinalityEstimationTestbed
-CardinalityEstimationTestbed
-
+The source code of Paper [`Learned Cardinality Estimation: A Design Space Exploration and A Comparative Evaluation`](https://dbgroup.cs.tsinghua.edu.cn/ligl/papers/vldb22-card-exp.pdf)  
 ## Experiment of synthetic
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed/Synthetic`\
@@ -72,3 +71,11 @@ AND
 ### Update
 - Select 10% of the number of rows in each table and add them to the end of the table.
 - Refer to `update.sh` in each method folder to execute the code to get the result.
+
+## Citation
+@article{DBLP:journals/pvldb/benchmark,
+	author    = {Ji Sun and Jintao Zhang and Zhaoyan Sun and Guoliang Li and Nan Tang},
+	title     = {Learned Cardinality Estimation: A Design Space Exploration and A Comparative Evaluation},
+	journal   = {VLDB},
+	year      = {2021},
+}
