@@ -3,11 +3,11 @@ The source code of Paper [`Learned Cardinality Estimation: A Design Space Explor
 ## Experiment of synthetic
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed/Synthetic`\
-`python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS]`
+`python generate_data_sql.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKEWNESS]`
 #### Get_sql_truecard
 `python get_truecard.py --version cols_[COLUMNS_NUM]_distinct_[DOMAIN_SIZE]_corr_[CORRELATION]_skew_[SKEWNESS]`
 #### Get_result
-`python get_result.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKERNESS] --method [METHOD]`
+`python get_result.py --cols [COLUMNS_NUM] --distinct [DOMAIN_SIZE] --corr [CORRELATION] --skew [SKEWNESS] --method [METHOD]`
 - Then experimental results of all methods can be obtained.
 #### Parameters
 - `[COLUMNS_NUM]` should be an integer between 1 and 9.
