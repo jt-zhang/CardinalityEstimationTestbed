@@ -30,7 +30,7 @@ Begin by doing a simple job on the table, removing some unused columns. For Fore
 - Remember to put the tables in their respective folders that do not contain table headers, for example: `forest_power-data-sql/no_head`, `imdbdata-num/no_head`, `xtzx-data-sql/no_head`.
 
 
-### forest&power
+### Forest & Power
 - Run the `forest.sh, power.sh` in each method folder to execute the code to get the result.
 
 
