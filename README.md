@@ -1,5 +1,5 @@
 # CardinalityEstimationTestbed
-The source code of Paper [`Learned Cardinality Estimation: A Design Space Exploration and A Comparative Evaluation`](https://dbgroup.cs.tsinghua.edu.cn/ligl/papers/vldb22-card-exp.pdf)  
+The source code of Paper [`Learned Cardinality Estimation: A Design Space Exploration and A Comparative Evaluation`](https://dbgroup.cs.tsinghua.edu.cn/ligl/papers/vldb22-card-exp.pdf).
 ## Experiment of synthetic
 #### Generate_data_sql
 `cd CardinalityEstimationTestbed/Synthetic`\
