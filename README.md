@@ -25,7 +25,7 @@ skew in [2, 4, 6, 8]; `
 ### Real Datasets prepare
 - Download the [IMDB](http://homepages.cwi.nl/~boncz/job/imdb.tgz) data tables to: `../train-test-data/imdbdataset-str`
 - Download the [forest, power](http://archive.ics.uci.edu/) data tables to: `../train-test-data/forest_power-data-sql`
-- We open source [XTZX](https://cloud.tsinghua.edu.cn/f/544d200e2081484bab34/). We have put the data and workload for the experiment into the repositorie.
+- We open source [XTZX]. We have put the data and workload for the experiment into the repositorie.
 Begin by doing a simple job on the table, removing some unused columns. For Forest We use ﬁrst 10 numeric attributes; For Power We used the 7 numeric attributes after the ﬁrst two attributes (date and time).
 - Remember to put the tables in their respective folders that do not contain table headers, for example: `forest_power-data-sql/no_head`, `imdbdata-num/no_head`, `xtzx-data-sql/no_head`.
 
