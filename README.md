@@ -69,7 +69,6 @@ AND
 `python run_exp.py --xt 4 --model [nn OR xgb]`
 
 ### Update
-***
 - Select 10% of the number of rows in each table and add them to the end of the table.
 - Refer to `update.sh` in each method folder to execute the code to get the result.
 
