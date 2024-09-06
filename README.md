@@ -85,3 +85,13 @@ AND
   publisher={VLDB Endowment}
 }
 ```
+```
+@inproceedings{zhang2023autoce,
+  title={Autoce: An accurate and efficient model advisor for learned cardinality estimation},
+  author={Zhang, Jintao and Zhang, Chao and Li, Guoliang and Chai, Chengliang},
+  booktitle={2023 IEEE 39th International Conference on Data Engineering (ICDE)},
+  pages={2621--2633},
+  year={2023},
+  organization={IEEE}
+}
+```
