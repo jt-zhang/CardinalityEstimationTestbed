@@ -84,8 +84,6 @@ AND
   year={2021},
   publisher={VLDB Endowment}
 }
-```
-```
 @inproceedings{zhang2023autoce,
   title={Autoce: An accurate and efficient model advisor for learned cardinality estimation},
   author={Zhang, Jintao and Zhang, Chao and Li, Guoliang and Chai, Chengliang},
